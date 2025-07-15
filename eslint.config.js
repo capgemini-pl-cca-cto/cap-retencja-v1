@@ -42,27 +42,37 @@ export default tseslint.config([
               target: './src/features/mapa',
               from: './src/features',
               except: ['./mapa'],
+              message:
+                'Importing from other features is not allowed. Please use shared components or libraries.',
             },
             {
               target: './src/features/kalkulator',
               from: './src/features',
               except: ['./kalkulator'],
+              message:
+                'Importing from other features is not allowed. Please use shared components or libraries.',
             },
             {
               target: './src/features/raport',
               from: './src/features',
               except: ['./raport'],
+              message:
+                'Importing from other features is not allowed. Please use shared components or libraries.',
             },
             // enforce unidirectional codebase:
             // e.g. src/app can import from src/features but not the other way around
             {
               target: './src/features',
               from: './src/app',
+              message:
+                'App can import from features, but features should not import from app.',
             },
             // e.g src/features and src/app can import from these shared modules but not the other way around
             {
               target: ['./src/components', './src/lib'],
               from: ['./src/features', './src/app'],
+              message:
+                'Shared components and libraries can be imported by features and app, but not the other way around.',
             },
           ],
         },
