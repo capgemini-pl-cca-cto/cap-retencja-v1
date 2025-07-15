@@ -30,6 +30,7 @@
     "eslint": "^9.29.0",
     "eslint-plugin-react-dom": "^1.52.2",
     "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react-refresh": "^0.4.20",
     "eslint-plugin-react-x": "^1.52.2",
     "globals": "^16.2.0",

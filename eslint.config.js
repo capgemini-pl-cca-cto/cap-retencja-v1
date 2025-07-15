@@ -3,6 +3,7 @@ import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import reactX from 'eslint-plugin-react-x';
+import pluginImport from 'eslint-plugin-import';
 import reactDom from 'eslint-plugin-react-dom';
 import tseslint from 'typescript-eslint';
 import { globalIgnores } from 'eslint/config';
@@ -23,10 +24,48 @@ export default tseslint.config([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    plugins: {
+      import: pluginImport,
+    },
     rules: {
       'react-refresh/only-export-components': [
         'warn',
         { allowExportNames: ['loader'] },
+      ],
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            // disables cross-feature imports:
+            // eg. src/features/mapa should not import from src/features/kalkulator, etc.
+            {
+              target: './src/features/mapa',
+              from: './src/features',
+              except: ['./mapa'],
+            },
+            {
+              target: './src/features/kalkulator',
+              from: './src/features',
+              except: ['./kalkulator'],
+            },
+            {
+              target: './src/features/raport',
+              from: './src/features',
+              except: ['./raport'],
+            },
+            // enforce unidirectional codebase:
+            // e.g. src/app can import from src/features but not the other way around
+            {
+              target: './src/features',
+              from: './src/app',
+            },
+            // e.g src/features and src/app can import from these shared modules but not the other way around
+            {
+              target: ['./src/components', './src/lib'],
+              from: ['./src/features', './src/app'],
+            },
+          ],
+        },
       ],
     },
   },
