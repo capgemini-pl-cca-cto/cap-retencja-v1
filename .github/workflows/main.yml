@@ -4,6 +4,7 @@ on:
 
 jobs:
   cache-and-install:
+    name: Cache and install
     runs-on: ubuntu-latest
 
     steps:
@@ -24,3 +25,10 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          auto_fix: true
+          eslint: true
+          prettier: true
