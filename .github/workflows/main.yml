@@ -2,6 +2,11 @@ on:
   - push
   - pull_request
 
+# Down scope as necessary via https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+permissions:
+  checks: write
+  contents: write
+
 jobs:
   cache-and-install:
     name: Cache and install
