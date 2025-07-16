@@ -12,6 +12,7 @@ on:
 permissions:
   checks: write
   contents: write
+  packages: write
 
 jobs:
   lint:

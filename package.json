@@ -1,8 +1,12 @@
 {
-  "name": "liczydeszcz-v1",
+  "name": "@capgemini-pl-cca-cto/liczydeszcz-v1",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/capgemini-pl-cca-cto/cap-retencja-v1.git"
+  },
   "scripts": {
     "dev": "vite",
     "generate": "plop",
