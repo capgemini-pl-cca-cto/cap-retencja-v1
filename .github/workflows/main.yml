@@ -1,0 +1,45 @@
+# .github/workflows/main.yml
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  checks: write
+  contents: write
+  packages: write
+
+jobs:
+  lint:
+    name: Run linters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Setup project
+        uses: ./.github/actions/setup-project
+        with:
+          node-version: '22'
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          auto_fix: false
+          eslint: true
+          prettier: true
+
+  # Build job
+  build:
+    name: Build project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Setup project
+        uses: ./.github/actions/setup-project
+        with:
+          node-version: '22'
+      - name: Run Build
+        run: pnpm build

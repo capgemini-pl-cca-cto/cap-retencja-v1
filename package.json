@@ -1,8 +1,13 @@
 {
-  "name": "liczydeszcz-v1",
+  "name": "@capgemini-pl-cca-cto/liczydeszcz-v1",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/capgemini-pl-cca-cto/cap-retencja-v1.git"
+  },
+  "author": "Capgemini Polska CCA CTO",
   "scripts": {
     "dev": "vite",
     "generate": "plop",
@@ -28,13 +33,14 @@
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react-swc": "^3.10.2",
     "eslint": "^9.29.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react-dom": "^1.52.2",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react-refresh": "^0.4.20",
     "eslint-plugin-react-x": "^1.52.2",
     "globals": "^16.2.0",
     "plop": "^4.0.1",
+    "prettier": "^3.6.2",
     "tw-animate-css": "^1.3.5",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.34.1",
