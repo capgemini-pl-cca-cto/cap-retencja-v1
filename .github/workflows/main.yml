@@ -2,9 +2,6 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -46,23 +43,3 @@ jobs:
           node-version: '22'
       - name: Run Build
         run: pnpm build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist/
-
-  # Deployment job
-  deploy:
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{steps.deployment.outputs.page_url}}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
