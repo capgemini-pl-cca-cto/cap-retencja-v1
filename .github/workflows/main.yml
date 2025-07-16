@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
       - name: Setup project
-        uses: ./actions/setup-project
+        uses: ./.github/actions/setup-project
         with:
           node-version: '22'
 
@@ -35,7 +35,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
       - name: Setup project
-        uses: ./actions/setup-project
+        uses: ./.github/actions/setup-project
         with:
           node-version: '22'
 
