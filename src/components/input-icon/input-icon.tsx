@@ -7,11 +7,7 @@ export type InputIconProps = {
   onIconClick?: () => void;
 } & React.ComponentProps<typeof Input>;
 
-export const InputIcon = ({
-  icon,
-  onIconClick,
-  ...inputProps
-}: InputIconProps) => {
+export const InputIcon = ({ ...inputProps }: InputIconProps) => {
   return (
     <div>
       <Input {...inputProps} />
