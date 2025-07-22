@@ -75,7 +75,7 @@ src/
 │   └── ui/                # Base UI components
 ├── features/              # Feature-based modules
 │   ├── kalkulator/        # Calculator feature
-│   ├── mapa/              # Map feature
+│   ├── inwestycja/        # Map feature
 │   └── raport/            # Report feature
 └── lib/                   # Utility functions and shared code
 ```

@@ -37,11 +37,11 @@ export default tseslint.config([
         {
           zones: [
             // disables cross-feature imports:
-            // eg. src/features/mapa should not import from src/features/kalkulator, etc.
+            // eg. src/features/inwestycja should not import from src/features/kalkulator, etc.
             {
-              target: './src/features/mapa',
+              target: './src/features/inwestycja',
               from: './src/features',
-              except: ['./mapa'],
+              except: ['./inwestycja'],
               message:
                 'Importing from other features is not allowed. Please use shared components or libraries.',
             },
