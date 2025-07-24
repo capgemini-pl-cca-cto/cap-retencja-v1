@@ -11,6 +11,7 @@ import {
   InwestycjaFormSchema,
   type InwestycjaModel,
 } from '../../types/inwestycja-schema';
+import { LucideMapPinned } from 'lucide-react';
 
 export type InwestycjaFormProps = {
   onSubmit: (data: InwestycjaModel) => void;
@@ -34,7 +35,11 @@ export function InwestycjaForm({ onSubmit }: InwestycjaFormProps) {
             <FormInput
               label="Identyfikator działki inwestycyjnej"
               description="Wpisz identyfikator w formacie WWPPGG_R.OOOO.AR_NR.DZ lub wskaż miejsce na mapie"
-              field={field}
+              field={{
+                ...field,
+                icon: LucideMapPinned,
+                onIconClick: () => alert('Test icon clicked!'),
+              }}
             />
           )}
         />
