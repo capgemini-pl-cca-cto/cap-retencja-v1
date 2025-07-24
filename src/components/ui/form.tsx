@@ -13,6 +13,7 @@ import {
 
 import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
+import { LucideCircleAlert } from 'lucide-react';
 
 const Form = FormProvider;
 
@@ -128,7 +129,7 @@ function FormDescription({ className, ...props }: React.ComponentProps<'p'>) {
     <p
       data-slot="form-description"
       id={formDescriptionId}
-      className={cn('text-muted-foreground text-sm', className)}
+      className={className}
       {...props}
     />
   );
@@ -146,9 +147,13 @@ function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
     <p
       data-slot="form-message"
       id={formMessageId}
-      className={cn('text-destructive text-sm', className)}
+      className={cn(
+        'text-error font-medium flex gap-2 items-center',
+        className,
+      )}
       {...props}
     >
+      <LucideCircleAlert size={20} />
       {body}
     </p>
   );
