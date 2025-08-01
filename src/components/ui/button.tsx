@@ -15,6 +15,7 @@ const buttonVariants = cva(
           'border border-2 border-primary-blue bg-background text-primary-blue shadow-xs hover:bg-primary-blue hover:text-background',
         tertiary:
           ' bg-background text-primary-blue  hover:bg-primary-blue hover:text-background',
+        quaternary: 'text-base-blue',
       },
       size: {
         default: 'h-[56px] px-[16px] py-[14px] has-[>svg]:px-3',

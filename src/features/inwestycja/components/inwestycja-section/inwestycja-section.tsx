@@ -12,7 +12,7 @@ export type InwestycjaSectionProps = {
 
 export const InwestycjaSection = ({ onSubmit }: InwestycjaSectionProps) => {
   return (
-    <AccordionItem value="iwestycja-section">
+    <AccordionItem value="inwestycja-section">
       <AccordionTrigger className="text-2xl justify-normal items-center gap-4 border-2 border-primary-blue text-primary-blue">
         1. Szczegóły inwestycji
       </AccordionTrigger>
