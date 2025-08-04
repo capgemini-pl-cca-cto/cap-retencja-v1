@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import { FormInput } from '@/components/form-input';
 import { Button } from '@/components/ui/button';
-import { Form, FormField } from '@/components/ui/form';
+import { Form, FormField, FormLabel } from '@/components/ui/form';
 import {
   InwestycjaFormSchema,
   type InwestycjaModel,
@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/collapsible';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Alert, AlertTitle } from '@/components/ui/alert';
+import { RadioGroupWithLabel } from '@/components/radio-group-with-label';
 
 export type InwestycjaFormProps = {
   onSubmit: (data: InwestycjaModel) => void;
@@ -71,19 +71,11 @@ export function InwestycjaForm({ onSubmit }: InwestycjaFormProps) {
             </div>
           </CollapsibleContent>
         </Collapsible>
-        <label>Typ planowanej zabudowy:</label>
-        <RadioGroup>
-          <div className="flex items-center space-x-2 pt-4 text-base font-normal">
-            <RadioGroupItem value="option-one" id="option-one" />
-            <Label htmlFor="option-one">jednorodzinna</Label>
-          </div>
-          <div className="flex items-center space-x-2 text-base font-normal">
-            <RadioGroupItem value="option-two" id="option-two" />
-            <Label htmlFor="option-two">
-              wielorodzinna / usługowa / przemysłowa
-            </Label>
-          </div>
-        </RadioGroup>
+        <RadioGroupWithLabel
+          label="Typ planowanej zabudowy:"
+          optionOne="jednorodzinna"
+          optionTwo="wielorodzinna / usługowa / przemysłowa"
+        ></RadioGroupWithLabel>
 
         <div className="p-2 flex">
           <div className="w-1/2"></div>

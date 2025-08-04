@@ -14,7 +14,7 @@ function App() {
         type="single"
         collapsible
         className="w-full"
-        defaultValue="iwestycja-section"
+        defaultValue="inwestycja-section"
       >
         <InwestycjaSection onSubmit={onInwestycjaSubmit} />
       </Accordion>
