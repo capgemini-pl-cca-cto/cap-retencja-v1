@@ -17,9 +17,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { TextWithLinks } from '@/components/text-with-links';
 import { RadioGroupWithLabel } from '@/components/radio-group-with-label';
+import { Alert } from '@/components/ui/alert';
+import { InfoBox } from '@/components/info-box';
 
 export type InwestycjaFormProps = {
   onSubmit: (data: InwestycjaModel) => void;
@@ -52,7 +53,6 @@ export function InwestycjaForm({ onSubmit }: InwestycjaFormProps) {
             />
           )}
         />
-
         <Collapsible className="flex w-2/3 flex-col">
           <div className="flex items-center justify-start gap-4">
             <CollapsibleTrigger asChild>
@@ -76,14 +76,11 @@ export function InwestycjaForm({ onSubmit }: InwestycjaFormProps) {
           optionOne="jednorodzinna"
           optionTwo="wielorodzinna / usługowa / przemysłowa"
         ></RadioGroupWithLabel>
-
+        <InfoBox description="W przypadku zabudowy jednorodzinnej nie ma możliwości podłączenia się do kanalizacji deszczowej."></InfoBox>
         <div className="p-2 flex">
           <div className="w-1/2"></div>
-          <div className="w-1/2 flex justify-end">
-            <Button
-              className="float-right border-black bg-white text-primary-blue shadow-xs hover:bg-gray-200/90"
-              type="submit"
-            >
+          <div className="w-1/2 grid grid-cols-2 gap-3 justify-end">
+            <Button variant="secondary" className="float-right">
               Wyczyść dane
             </Button>
             <Button className="float-right" type="submit">

@@ -15,7 +15,7 @@ export const RadioGroupWithLabel = ({
   return (
     <div>
       <Label>{label}</Label>
-      <RadioGroup>
+      <RadioGroup defaultValue="option-one">
         <div className="flex items-center space-x-2 pt-4 text-base font-normal">
           <RadioGroupItem value="option-one" id="option-one" />
           <Label htmlFor="option-one">{optionOne}</Label>

@@ -5,17 +5,16 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap  text-xl font-bold transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:cursor-pointer",
+  "inline-flex items-center justify-center uppercase gap-2 whitespace-nowrap  text-xl font-bold transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:cursor-pointer",
   {
     variants: {
       variant: {
         default:
           'bg-primary-blue text-primary-foreground shadow-xs hover:bg-primary-blue/90',
         secondary:
-          'border border-2 border-primary-blue bg-background text-primary-blue shadow-xs hover:bg-primary-blue hover:text-background',
+          'border border-2 border-black bg-white text-primary-blue shadow-xs hover:bg-primary-blue hover:text-background hover:bg-gray-200/90',
         tertiary:
-          ' bg-background text-primary-blue  hover:bg-primary-blue hover:text-background',
-        quaternary: 'text-base-blue',
+          ' bg-background text-primary-blue hover:bg-primary-blue hover:text-background',
       },
       size: {
         default: 'h-[56px] px-[16px] py-[14px] has-[>svg]:px-3',
