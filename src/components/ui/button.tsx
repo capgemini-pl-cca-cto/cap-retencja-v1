@@ -12,9 +12,8 @@ const buttonVariants = cva(
         default:
           'bg-primary-blue text-primary-foreground shadow-xs hover:bg-primary-blue/90',
         secondary:
-          'border border-2 border-black bg-white text-primary-blue shadow-xs hover:bg-primary-blue hover:text-background hover:bg-gray-200/90',
-        tertiary:
-          ' bg-background text-primary-blue hover:bg-primary-blue hover:text-background',
+          'border border-2 border-primary-blue bg-white text-primary-blue hover:bg-primary-blue/90 hover:bg-white hover:text-primary-blue/80 hover:border-primary-blue/80',
+        tertiary: 'text-primary-blue',
       },
       size: {
         default: 'h-[56px] px-[16px] py-[14px] has-[>svg]:px-3',

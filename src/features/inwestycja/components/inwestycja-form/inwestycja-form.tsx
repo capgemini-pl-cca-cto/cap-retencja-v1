@@ -56,7 +56,7 @@ export function InwestycjaForm({ onSubmit }: InwestycjaFormProps) {
         <Collapsible className="flex w-2/3 flex-col">
           <div className="flex items-center justify-start gap-4">
             <CollapsibleTrigger asChild>
-              <Button variant="quaternary" size="icon" className="size-8">
+              <Button variant="tertiary" size="icon" className="size-8">
                 <ChevronRightIcon className="text-primary-blue pointer-events-none size-4 translate-y-0.5 transition-transform duration-200" />
                 <span className="sr-only">Toggle</span>
               </Button>
