@@ -6,7 +6,14 @@ import { z } from 'zod';
 
 import { FormInput } from '@/components/form-input';
 import { Button } from '@/components/ui/button';
-import { Form, FormField, FormLabel } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import {
   InwestycjaFormSchema,
   type InwestycjaModel,
@@ -17,10 +24,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { TextWithLinks } from '@/components/text-with-links';
-import { RadioGroupWithLabel } from '@/components/radio-group-with-label';
-import { Alert } from '@/components/ui/alert';
 import { InfoBox } from '@/components/info-box';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 export type InwestycjaFormProps = {
   onSubmit: (data: InwestycjaModel) => void;
@@ -37,7 +42,11 @@ export function InwestycjaForm({ onSubmit }: InwestycjaFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <FormInput label="Nazwa inwestycji" field={{}} />
+        <FormField
+          control={form.control}
+          name="nazwaInwestycji"
+          render={() => <FormInput label="Nazwa inwestycji" field={{}} />}
+        />
         <FormField
           control={form.control}
           name="identyfikatorInwestycji"
@@ -53,8 +62,8 @@ export function InwestycjaForm({ onSubmit }: InwestycjaFormProps) {
             />
           )}
         />
-        <Collapsible className="flex w-2/3 flex-col">
-          <div className="flex items-center justify-start gap-4">
+        <Collapsible className="flex full flex-col">
+          <div className="flex items-center justify-start gap-2">
             <CollapsibleTrigger asChild>
               <Button variant="tertiary" size="icon" className="size-8">
                 <ChevronRightIcon className="text-primary-blue pointer-events-none size-4 translate-y-0.5 transition-transform duration-200" />
@@ -65,17 +74,64 @@ export function InwestycjaForm({ onSubmit }: InwestycjaFormProps) {
               Co składa się na <strong>identyfikator działki</strong>?
             </h4>
           </div>
-          <CollapsibleContent className="flex gap-2">
-            <div className="pl-12">
-              Tutaj należy wyjaśnić części składowe identyfikatora działki.
+          <CollapsibleContent className="">
+            <div className="px-10 py-4">
+              <p>
+                Format identyfikatora działki to: "
+                <strong>WWWPPGG_R.OOOO.AR_NR.NDZ</strong>":
+                <ul className="px-4 py-2 list-disc">
+                  <li>
+                    WWPPGG_R - (WW - województwo, PP - powiat, GG - gmina, R -
+                    typ gminy),
+                  </li>
+                  <li>OOOO - oznaczenie obrębu ewidencyjnego,</li>
+                  <li>
+                    AR_NR - oznaczenie arkusza mapy, o ile występuje (NR numer
+                    arkusza)
+                  </li>
+                  <li>NDZ - numer działki</li>
+                </ul>
+                Identyfikator w takim formacie można znaleźć na platformie&nbsp;
+                <a className="font-bold underline" href="geoportalKrajowy">
+                  Geoportal Krajowy
+                </a>
+                .
+              </p>
             </div>
           </CollapsibleContent>
         </Collapsible>
-        <RadioGroupWithLabel
-          label="Typ planowanej zabudowy:"
-          optionOne="jednorodzinna"
-          optionTwo="wielorodzinna / usługowa / przemysłowa"
-        ></RadioGroupWithLabel>
+        <FormField
+          control={form.control}
+          name="typZabudowy"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Typ planowanej zabudowy:</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={'jedno'}
+                  className="flex flex-col"
+                >
+                  <FormItem className="flex items-center gap-3">
+                    <FormControl>
+                      <RadioGroupItem value="jedno" />
+                    </FormControl>
+                    <FormLabel className="font-normal">jednorodzinna</FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center gap-3">
+                    <FormControl>
+                      <RadioGroupItem value="wielo" />
+                    </FormControl>
+                    <FormLabel className="font-normal">
+                      wielorodzinna / usługowa / przemysłowa
+                    </FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <InfoBox description="W przypadku zabudowy jednorodzinnej nie ma możliwości podłączenia się do kanalizacji deszczowej."></InfoBox>
         <div className="p-2 flex">
           <div className="w-1/2"></div>

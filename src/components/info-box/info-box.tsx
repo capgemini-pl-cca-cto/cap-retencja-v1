@@ -10,7 +10,7 @@ export const InfoBox = ({ description }: InfoBoxProps) => {
     <div>
       <Alert variant="default">
         <LucideInfo size={20} color="#0C4F7B" />
-        <AlertDescription> {description} </AlertDescription>
+        <AlertDescription className="flex"> {description} </AlertDescription>
       </Alert>
     </div>
   );

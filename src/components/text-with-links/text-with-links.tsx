@@ -1,4 +1,4 @@
-import { FormLabel } from '../ui/form';
+import { Label } from '../ui/label';
 
 export type TextWithLinksProps = {
   description: string;
@@ -17,12 +17,20 @@ export const TextWithLinks = ({
 }: TextWithLinksProps) => {
   return (
     <div>
-      <FormLabel className="text-base font-normal"> {description} </FormLabel>
-      <a className="text-decoration-line: underline font-bold" href={linkOne}>
+      <Label className="text-base font-normal text-primary-blue">
+        {description}
+      </Label>
+      <a
+        className="text-decoration-line: underline font-bold text-primary-blue"
+        href={linkOne}
+      >
         {linkOneLabel}
       </a>
       <br />
-      <a className="text-decoration-line: underline font-bold" href={linkTwo}>
+      <a
+        className="text-decoration-line: underline font-bold text-primary-blue"
+        href={linkTwo}
+      >
         {linkTwoLabel}
       </a>
     </div>

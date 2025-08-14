@@ -11,7 +11,7 @@ function RadioGroup({
   return (
     <RadioGroupPrimitive.Root
       data-slot="radio-group"
-      className={cn('grid gap-3', className)}
+      className={cn('grid gap-2', className)}
       {...props}
     />
   );
@@ -34,7 +34,10 @@ function RadioGroupItem({
         data-slot="radio-group-indicator"
         className="relative flex items-center justify-center"
       >
-        <CircleIcon className="fill-primary absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2" />
+        <CircleIcon
+          color="#0C4F7B"
+          className="fill-primary-blue absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2"
+        />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   );
