@@ -1,24 +1,33 @@
 import { Accordion } from '@/components/ui/accordion';
-import './App.css';
 import { InwestycjaSection } from '@/features/inwestycja/components/inwestycja-section';
-import type { InwestycjaModel } from '@/features/inwestycja/types/inwestycja-schema';
+import './App.css';
+import Introduction from './Introduction';
+import { BilansSection } from '@/features/kalkulator/components/bilans-section';
 
 function App() {
-  function onInwestycjaSubmit(data: InwestycjaModel) {
-    alert(`Form submitted successfully! \n ${JSON.stringify(data, null, 2)}`);
-  }
-
   return (
-    <div className="w-full min-h-screen flex justify-center p-4 sm:px-6 md:px-8">
-      <Accordion
-        type="single"
-        collapsible
-        className="w-full"
-        defaultValue="iwestycja-section"
-      >
-        <InwestycjaSection onSubmit={onInwestycjaSubmit} />
-      </Accordion>
-    </div>
+    <main className="text-primary-blue flex flex-col justify-start my-15">
+      <Introduction />
+
+      <div className="w-full flex flex-col justify-center py-4 font-medium gap-8">
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full"
+          defaultValue="iwestycja-section"
+        >
+          <InwestycjaSection />
+        </Accordion>
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full"
+          defaultValue="bilans-section"
+        >
+          <BilansSection />
+        </Accordion>
+      </div>
+    </main>
   );
 }
 
