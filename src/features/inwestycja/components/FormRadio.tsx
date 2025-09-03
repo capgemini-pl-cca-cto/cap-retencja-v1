@@ -29,20 +29,20 @@ export default function FormRadio({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{mainLabel}</FormLabel>
+          <FormLabel className="font-light">{mainLabel}</FormLabel>
           <FormControl>
             <RadioGroup onValueChange={field.onChange} value={field.value}>
               <FormItem className="flex items-center gap-3">
                 <FormControl>
                   <RadioGroupItem value={values[0]} />
                 </FormControl>
-                <FormLabel>{inputLabels[0]}</FormLabel>
+                <FormLabel className="font-light">{inputLabels[0]}</FormLabel>
               </FormItem>
               <FormItem className="flex items-center gap-3">
                 <FormControl>
                   <RadioGroupItem value={values[1]} />
                 </FormControl>
-                <FormLabel>{inputLabels[1]}</FormLabel>
+                <FormLabel className="font-light">{inputLabels[1]}</FormLabel>
               </FormItem>
             </RadioGroup>
           </FormControl>
