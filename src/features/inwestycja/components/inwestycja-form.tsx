@@ -1,28 +1,38 @@
+import FormCollapsible from '@/components/shared/FormCollapsible';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { InwestycjaFormSchema, type InwestycjaModel } from '../schemas';
 import FormInput from './FormInput';
-import FormCollapsible from '@/components/shared/FormCollapsible';
-import FormRadio from './FormRadio';
-import InfoBox from '@/components/shared/InfoBox';
+import KanalizacjaDeszczowa from './KanalizacjaDeszczowa';
+import TypZabudowy from './TypZabudowy';
 
-export function InwestycjaForm() {
+interface InwestycjaFormProps {
+  isInwestycjaSubmitted: boolean;
+  onFormSubmit: () => void;
+}
+
+export function InwestycjaForm({
+  isInwestycjaSubmitted,
+  onFormSubmit,
+}: InwestycjaFormProps) {
   const form = useForm<InwestycjaModel>({
     resolver: zodResolver(InwestycjaFormSchema),
     defaultValues: {
       nazwaInwestycji: '',
       identyfikatorInwestycji: '',
       typZabudowy: 'jednorodzinna',
-      isPodłączony: 'tak',
+      isPodłączony: 'nie',
     },
   });
 
   const typZabudowy = form.watch('typZabudowy');
+  const isPodłączony = form.watch('isPodłączony');
 
   function onSubmit(data: InwestycjaModel) {
     alert(`Form submitted successfully! \n ${JSON.stringify(data, null, 2)}`);
+    onFormSubmit();
   }
 
   return (
@@ -35,11 +45,13 @@ export function InwestycjaForm() {
           control={form.control}
           name="nazwaInwestycji"
           label="Nazwa inwestycji"
+          isInwestycjaSubmitted={isInwestycjaSubmitted}
         />
         <FormInput
           control={form.control}
           name="identyfikatorInwestycji"
           label="Identyfikator działki inwestycyjnej"
+          isInwestycjaSubmitted={isInwestycjaSubmitted}
           description="Wpisz identyfikator w formacie WWPPGG_R.OOOO.AR_NR.DZ lub wskaż
                 miejsce na mapie"
           showMapIcon={true}
@@ -86,40 +98,29 @@ export function InwestycjaForm() {
             </span>
           </div>
         </FormCollapsible>
-        <FormRadio
+        <TypZabudowy
+          isInwestycjaSubmitted={isInwestycjaSubmitted}
           control={form.control}
-          name="typZabudowy"
-          mainLabel="Typ planowanej zabudowy"
-          values={['jednorodzinna', 'wielorodzinna']}
-          inputLabels={[
-            'jednorodzinna',
-            'wielorodzinna / usługowa / przemysłowa',
-          ]}
+          typZabudowy={typZabudowy}
         />
-        {typZabudowy === 'jednorodzinna' ? (
-          <InfoBox
-            label="W przypadku zabudowy jednorodzinnej nie ma możliwości podłączenia
-              się do kanalizacji deszczowej."
-          />
-        ) : (
-          <FormRadio
-            control={form.control}
-            name="isPodłączony"
-            mainLabel="Czy chcesz podłączyć się do sieci kanalizacji deszczowej lub, gdy masz już przyłącze, chcesz pozostać podłączony?"
-            values={['tak', 'nie']}
-            inputLabels={['tak', 'nie']}
-          />
+        <KanalizacjaDeszczowa
+          isInwestycjaSubmitted={isInwestycjaSubmitted}
+          control={form.control}
+          typZabudowy={typZabudowy}
+          isPodłączony={isPodłączony}
+        />
+        {isInwestycjaSubmitted === false && (
+          <div className="flex justify-end gap-4">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => form.reset()}
+            >
+              Wyczyść dane
+            </Button>
+            <Button type="submit">Zatwierdź</Button>
+          </div>
         )}
-        <div className="flex justify-end gap-4">
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => form.reset()}
-          >
-            Wyczyść dane
-          </Button>
-          <Button type="submit">Zatwierdź</Button>
-        </div>
       </form>
     </Form>
   );

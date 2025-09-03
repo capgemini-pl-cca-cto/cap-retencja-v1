@@ -3,10 +3,21 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { BilansFormSchema, type BilansModel } from '../schemas';
 import InfoBox from '@/components/shared/InfoBox';
+import ErrorInfoBox from '@/components/shared/ErrorInfoBox';
 import FormCollapsible from '@/components/shared/FormCollapsible';
 import BilansInput from './BilansFormInput';
+import { Button } from '@/components/ui/button';
+import BilansSumDisplay from './BilansSumDisplay';
 
-export default function BilansForm() {
+interface BilansFormProps {
+  onFormSubmit: () => void;
+  isBilansSubmitted: boolean;
+}
+
+export default function BilansForm({
+  onFormSubmit,
+  isBilansSubmitted,
+}: BilansFormProps) {
   const form = useForm<BilansModel>({
     resolver: zodResolver(BilansFormSchema),
     defaultValues: {
@@ -21,7 +32,16 @@ export default function BilansForm() {
 
   function onSubmit(data: BilansModel) {
     alert(`Form submitted successfully! \n ${JSON.stringify(data, null, 2)}`);
+    onFormSubmit();
   }
+
+  // Get the global validation error from refine
+  // When path: [] is used, the error is stored under an empty string key
+  const errors = form.formState.errors;
+  const globalError =
+    errors && '' in errors
+      ? (errors as Record<string, { message: string }>)[''].message
+      : undefined;
 
   return (
     <Form {...form}>
@@ -33,30 +53,46 @@ export default function BilansForm() {
         <p className="font-light">
           Zastanawiasz się, jak przypisać odpowiednie powierzchnie? <br />
           Sprawdź nasz{' '}
-          <strong className="font-medium underline">załącznik graficzny</strong>
+          <a
+            href="/załącznikgraficzny.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <strong className="font-medium underline">
+              załącznik graficzny
+            </strong>
+          </a>
           .
         </p>
         <BilansInput
           control={form.control}
           name="powDzialki"
           label="P0. Powierzchnia działki inwestycyjnej zgodnie z Planem Zagospodarowania Terenu [m2]"
+          hasGlobalError={!!globalError}
+          isBilansSubmitted={isBilansSubmitted}
         />
         <BilansInput
           control={form.control}
           name="powDachow"
           label="P1. Powierzchnia dachów [m2]"
           subLabel="Bez powierzchni dachów/stropów nad halą garażową."
+          hasGlobalError={!!globalError}
+          isBilansSubmitted={isBilansSubmitted}
         />
         <BilansInput
           control={form.control}
           name="powDachowPozaObrysem"
           label="P2. Powierzchnia dachów/stropów nad halą garażową zlokalizowaną poza obrysem budynku [m2]"
+          hasGlobalError={!!globalError}
+          isBilansSubmitted={isBilansSubmitted}
         />
         <div className="flex flex-col gap-4">
           <BilansInput
             control={form.control}
             name="powUszczelnione"
             label="P3. Powierzchnie uszczelnione zlokalizowane poza powierzchnią P2 i P5 [m2]"
+            hasGlobalError={!!globalError}
+            isBilansSubmitted={isBilansSubmitted}
           />
           <FormCollapsible
             title="Co zalicza się do "
@@ -86,6 +122,8 @@ export default function BilansForm() {
             control={form.control}
             name="powPrzepuszczalne"
             label="P4. Powierzchnie przepuszczalne zlokalizowane poza powierzchnią P2 i P5 [m2]"
+            hasGlobalError={!!globalError}
+            isBilansSubmitted={isBilansSubmitted}
           />
           <FormCollapsible
             title="Czym są "
@@ -105,6 +143,8 @@ export default function BilansForm() {
             control={form.control}
             name="powTerenyInne"
             label="P5. Powierzchnia terenów innych, w tym zieleni nieurządzonej [m2]"
+            hasGlobalError={!!globalError}
+            isBilansSubmitted={isBilansSubmitted}
           />
           <FormCollapsible
             title="Czym są "
@@ -123,6 +163,27 @@ export default function BilansForm() {
             </p>
           </FormCollapsible>
         </div>
+        {globalError && <ErrorInfoBox label={globalError} />}
+        {!isBilansSubmitted && (
+          <div className="flex justify-end gap-4">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => form.reset()}
+            >
+              Zmień działkę
+            </Button>
+            <Button type="submit">Przelicz</Button>
+          </div>
+        )}
+        {isBilansSubmitted && (
+          <BilansSumDisplay
+            p1={form.getValues('powDachow')}
+            p2={form.getValues('powDachowPozaObrysem')}
+            p3={form.getValues('powUszczelnione')}
+            p4={form.getValues('powPrzepuszczalne')}
+          />
+        )}
       </form>
     </Form>
   );

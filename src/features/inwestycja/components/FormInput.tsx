@@ -15,6 +15,7 @@ interface FormInputProps {
   control: Control<InwestycjaModel>;
   name: keyof InwestycjaModel;
   label: string;
+  isInwestycjaSubmitted: boolean;
   description?: string;
   showMapIcon?: boolean;
 }
@@ -23,6 +24,7 @@ export default function FormInput({
   control,
   name,
   label,
+  isInwestycjaSubmitted,
   description,
   showMapIcon,
 }: FormInputProps) {
@@ -30,13 +32,19 @@ export default function FormInput({
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel className="data-[error=true]:text-current">
+            {label}
+          </FormLabel>
           <FormControl>
             <div className="relative">
-              <Input {...field} />
-              {showMapIcon && (
+              <Input
+                {...field}
+                disabled={isInwestycjaSubmitted === true}
+                aria-invalid={!!fieldState.error}
+              />
+              {showMapIcon && isInwestycjaSubmitted === false && (
                 <MapPinned
                   className="absolute right-0 inset-y-0 my-auto mx-4 hover:cursor-pointer"
                   onClick={() => alert('Icon Test icon clicked!')}
@@ -44,7 +52,7 @@ export default function FormInput({
               )}
             </div>
           </FormControl>
-          {description && (
+          {description && isInwestycjaSubmitted === false && (
             <FormDescription className="font-light">
               {description}
             </FormDescription>
