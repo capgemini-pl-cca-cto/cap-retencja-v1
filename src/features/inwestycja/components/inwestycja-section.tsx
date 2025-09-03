@@ -5,14 +5,25 @@ import {
 } from '@/components/ui/accordion';
 import { InwestycjaForm } from './inwestycja-form';
 
-export const InwestycjaSection = () => {
+interface InwestycjaSectionProps {
+  isInwestycjaSubmitted: boolean;
+  onFormSubmit: () => void;
+}
+
+export const InwestycjaSection = ({
+  isInwestycjaSubmitted,
+  onFormSubmit,
+}: InwestycjaSectionProps) => {
   return (
     <AccordionItem value="iwestycja-section">
       <AccordionTrigger className="text-2xl justify-normal items-center gap-4 border-2 border-primary-blue text-primary-blue">
         1. Szczegóły inwestycji
       </AccordionTrigger>
       <AccordionContent className="flex flex-col gap-4 text-balance items-center">
-        <InwestycjaForm />
+        <InwestycjaForm
+          onFormSubmit={onFormSubmit}
+          isInwestycjaSubmitted={isInwestycjaSubmitted}
+        />
       </AccordionContent>
     </AccordionItem>
   );
