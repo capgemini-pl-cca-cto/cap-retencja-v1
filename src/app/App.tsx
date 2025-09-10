@@ -3,38 +3,35 @@ import { Accordion } from '@/components/ui/accordion';
 import { InwestycjaSection } from '@/features/inwestycja/components/inwestycja-section';
 import './App.css';
 import Introduction from './Introduction';
-import { BilansSection } from '@/features/kalkulator/components/bilans-section';
 import RaportForm from '@/features/raport/components/raport-form';
+import { useSubmissionStore } from '@/store/submissionStore';
+import { KalkulatorSection } from '@/features/kalkulator/components/kalkulator-section';
 
 function App() {
-  const [isInwestycjaSubmitted, setIsInwestycjaSubmitted] = useState(false);
-  const [isBilansSubmitted, setIsBilansSubmitted] = useState(false);
+  const {
+    isInwestycjaSubmitted,
+    isKalkulatorSubmitted,
+    submitInwestycja,
+    submitKalkulator,
+  } = useSubmissionStore();
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
-    undefined,
+    isKalkulatorSubmitted ? 'kalkulator-section' : undefined,
   );
 
-  function handleInwestycjaSubmit() {
-    setIsInwestycjaSubmitted(true);
-  }
-
-  function handleBilansSubmit() {
-    setIsBilansSubmitted(true);
-  }
-
   return (
-    <main className="text-primary-blue flex flex-col justify-start my-15">
+    <main className="text-primary-blue flex flex-col justify-start gap-8 my-15">
       <Introduction />
 
-      <div className="w-full flex flex-col justify-center py-4 font-medium gap-8">
+      <div className="w-full flex flex-col justify-center font-medium gap-8">
         {/* INWESTYCJA MODULE */}
         <Accordion
           type="single"
           collapsible
-          className="w-full"
-          defaultValue="iwestycja-section"
+          className="w-full group"
+          defaultValue="inwestycja-section"
         >
           <InwestycjaSection
-            onFormSubmit={handleInwestycjaSubmit}
+            onFormSubmit={submitInwestycja}
             isInwestycjaSubmitted={isInwestycjaSubmitted}
           />
         </Accordion>
@@ -44,21 +41,23 @@ function App() {
           type="single"
           collapsible
           className="w-full"
-          defaultValue={isInwestycjaSubmitted ? 'bilans-section' : undefined}
+          defaultValue={
+            isInwestycjaSubmitted ? 'kalkulator-section' : undefined
+          }
           value={openAccordion}
           onValueChange={setOpenAccordion}
         >
-          <BilansSection
+          <KalkulatorSection
             disabled={!isInwestycjaSubmitted}
-            onFormSubmit={handleBilansSubmit}
-            isBilansSubmitted={isBilansSubmitted}
+            onFormSubmit={submitKalkulator}
+            isKalkulatorSubmitted={isKalkulatorSubmitted}
           />
         </Accordion>
 
         {/* RAPORT MODULE */}
-        {isBilansSubmitted && (
+        {isKalkulatorSubmitted && (
           <RaportForm
-            isBilansAccordionOpen={openAccordion === 'bilans-section'}
+            isKalkulatorAccordionOpen={openAccordion === 'kalkulator-section'}
           />
         )}
       </div>

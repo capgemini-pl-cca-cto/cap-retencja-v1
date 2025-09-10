@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import InfoBox from '@/components/shared/InfoBox';
 import { Button } from '@/components/ui/button';
+import { resetAllStores } from '@/store/appStore';
 
 type RaportFormModel = {
   pole1: number;
@@ -10,10 +11,12 @@ type RaportFormModel = {
 };
 
 interface RaportFormProps {
-  isBilansAccordionOpen: boolean;
+  isKalkulatorAccordionOpen: boolean;
 }
 
-export default function RaportForm({ isBilansAccordionOpen }: RaportFormProps) {
+export default function RaportForm({
+  isKalkulatorAccordionOpen,
+}: RaportFormProps) {
   const form = useForm<RaportFormModel>({
     defaultValues: {
       pole1: 123.45,
@@ -23,7 +26,7 @@ export default function RaportForm({ isBilansAccordionOpen }: RaportFormProps) {
 
   return (
     <Form {...form}>
-      {isBilansAccordionOpen && (
+      {isKalkulatorAccordionOpen && (
         <div
           style={{ height: '1px', backgroundColor: 'var(--primary-blue)' }}
           className="w-[794px] mx-auto"
@@ -69,11 +72,14 @@ export default function RaportForm({ isBilansAccordionOpen }: RaportFormProps) {
             katalogi metod zagospodarowania wód opadowych.
           </a>
         </p>
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-4 mt-8">
           <Button
             type="button"
             variant="secondary"
-            onClick={() => form.reset()}
+            onClick={() => {
+              form.reset();
+              resetAllStores();
+            }}
           >
             Zacznij od nowa
           </Button>

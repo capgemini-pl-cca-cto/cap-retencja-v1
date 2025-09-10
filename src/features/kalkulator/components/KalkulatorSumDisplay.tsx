@@ -1,18 +1,18 @@
 import { FormItem, FormLabel } from '@/components/ui/form';
 
-interface BilansSumDisplayProps {
+interface KalkulatorSumDisplayProps {
   p1: number;
   p2: number;
   p3: number;
   p4: number;
 }
 
-export default function BilansSumDisplay({
+export default function KalkulatorSumDisplay({
   p1,
   p2,
   p3,
   p4,
-}: BilansSumDisplayProps) {
+}: KalkulatorSumDisplayProps) {
   const sum = p1 + p2 + p3 + p4;
   const formatNumber = (value: number): string => {
     if (value === 0) return '0,00';
@@ -20,7 +20,7 @@ export default function BilansSumDisplay({
   };
 
   return (
-    <FormItem className="flex justify-between gap-13">
+    <FormItem className="flex justify-between">
       <FormLabel className="font-bold">
         Suma powierzchni P1, P2, P3, P4 [m2]
       </FormLabel>
