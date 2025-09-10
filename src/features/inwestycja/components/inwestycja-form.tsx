@@ -1,11 +1,15 @@
 import FormCollapsible from '@/components/shared/FormCollapsible';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { useInwestycjaStore } from '@/features/inwestycja/stores/inwestycjaStore';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { InwestycjaFormSchema, type InwestycjaModel } from '../schemas';
+import { fetchDzialkaData } from '../utils/dzialkaParser';
 import FormInput from './FormInput';
 import KanalizacjaDeszczowa from './KanalizacjaDeszczowa';
+import PodgladLokalizacji from './PodgladLokalizacji';
 import TypZabudowy from './TypZabudowy';
 
 interface InwestycjaFormProps {
@@ -17,22 +21,52 @@ export function InwestycjaForm({
   isInwestycjaSubmitted,
   onFormSubmit,
 }: InwestycjaFormProps) {
+  const {
+    nazwaInwestycji,
+    identyfikatorInwestycji,
+    typZabudowy,
+    isPodłączony,
+    setForm,
+    daneDzialki,
+    setDaneDzialki,
+    reset,
+  } = useInwestycjaStore();
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<InwestycjaModel>({
     resolver: zodResolver(InwestycjaFormSchema),
     defaultValues: {
-      nazwaInwestycji: '',
-      identyfikatorInwestycji: '',
-      typZabudowy: 'jednorodzinna',
-      isPodłączony: 'nie',
+      nazwaInwestycji,
+      identyfikatorInwestycji,
+      typZabudowy,
+      isPodłączony,
     },
   });
 
-  const typZabudowy = form.watch('typZabudowy');
-  const isPodłączony = form.watch('isPodłączony');
+  // Callback to set identyfikatorInwestycji from Map
+  function setIdentyfikatorFromMap(value: string) {
+    form.setValue('identyfikatorInwestycji', value);
+  }
 
-  function onSubmit(data: InwestycjaModel) {
-    alert(`Form submitted successfully! \n ${JSON.stringify(data, null, 2)}`);
-    onFormSubmit();
+  const watchedTypZabudowy = form.watch('typZabudowy');
+  const watchedIsPodłączony = form.watch('isPodłączony');
+
+  async function onSubmit(data: InwestycjaModel) {
+    setIsLoading(true);
+    try {
+      const fetchedData = await fetchDzialkaData(data.identyfikatorInwestycji);
+      setDaneDzialki(fetchedData);
+      setForm(data);
+      alert(`Form submitted successfully! \n ${JSON.stringify(data, null, 2)}`);
+      onFormSubmit();
+      setIsLoading(false);
+    } catch (error) {
+      form.setError('identyfikatorInwestycji', {
+        type: 'manual',
+        message: error instanceof Error ? error.message : 'Unknown error',
+      });
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -47,78 +81,90 @@ export function InwestycjaForm({
           label="Nazwa inwestycji"
           isInwestycjaSubmitted={isInwestycjaSubmitted}
         />
-        <FormInput
-          control={form.control}
-          name="identyfikatorInwestycji"
-          label="Identyfikator działki inwestycyjnej"
-          isInwestycjaSubmitted={isInwestycjaSubmitted}
-          description="Wpisz identyfikator w formacie WWPPGG_R.OOOO.AR_NR.DZ lub wskaż
+        <div className="flex flex-col gap-4">
+          <FormInput
+            control={form.control}
+            name="identyfikatorInwestycji"
+            label="Identyfikator działki inwestycyjnej"
+            isInwestycjaSubmitted={isInwestycjaSubmitted}
+            description="Wpisz identyfikator w formacie WWPPGG_R.OOOO.AR_NR.DZ lub wskaż
                 miejsce na mapie"
-          showMapIcon={true}
-        />
-        <FormCollapsible
-          title="Co składa się na "
-          titleBold="identyfikator działki"
-        >
-          <div className="flex flex-col gap-2">
-            <div>
-              <span>
-                Format identyfikatora działki to{' '}
-                <strong className="font-medium">
-                  “WWPPGG_R.OOOO.AR_NR.NDZ”
-                </strong>
-                :
-              </span>
-              <ul className="list-disc list-inside pl-4 font-light">
-                <li className="[&::marker]:text-xs">
-                  WWPPGG_R - (WW - województwo, PP - powiat, GG - gmina, R - typ
-                  gminy)
-                </li>
-                <li className="[&::marker]:text-xs">
-                  OOOO - oznaczenie obrębu ewidencyjnego
-                </li>
-                <li className="[&::marker]:text-xs">
-                  AR_NR - oznaczenie arkusza mapy, o ile występuje (NR numer
-                  arkusza)
-                </li>
-                <li className="[&::marker]:text-xs">NDZ - numer działki</li>
-              </ul>
-            </div>
+            showMapIcon={true}
+            setIdentyfikatorFromMap={setIdentyfikatorFromMap}
+          />
+          <FormCollapsible
+            title="Co składa się na "
+            titleBold="identyfikator działki"
+          >
+            <div className="flex flex-col gap-2">
+              <div>
+                <span>
+                  Format identyfikatora działki to{' '}
+                  <strong className="font-medium">
+                    “WWPPGG_R.OOOO.AR_NR.NDZ”
+                  </strong>
+                  :
+                </span>
+                <ul className="list-disc list-inside pl-4 font-light">
+                  <li className="[&::marker]:text-xs">
+                    WWPPGG_R - (WW - województwo, PP - powiat, GG - gmina, R -
+                    typ gminy)
+                  </li>
+                  <li className="[&::marker]:text-xs">
+                    OOOO - oznaczenie obrębu ewidencyjnego
+                  </li>
+                  <li className="[&::marker]:text-xs">
+                    AR_NR - oznaczenie arkusza mapy, o ile występuje (NR numer
+                    arkusza)
+                  </li>
+                  <li className="[&::marker]:text-xs">NDZ - numer działki</li>
+                </ul>
+              </div>
 
-            <span className="font-light">
-              Identyfikator w takim formacie można znaleźć na platformie{' '}
-              <a
-                href="https://mapy.geoportal.gov.pl/imap/Imgp_2.html?gpmap=gp0"
-                className="font-medium underline"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Geoportal krajowy.
-              </a>
-            </span>
-          </div>
-        </FormCollapsible>
+              <span className="font-light">
+                Identyfikator w takim formacie można znaleźć na platformie{' '}
+                <a
+                  href="https://mapy.geoportal.gov.pl/imap/Imgp_2.html?gpmap=gp0"
+                  className="font-medium underline"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Geoportal krajowy.
+                </a>
+              </span>
+            </div>
+          </FormCollapsible>
+          {isInwestycjaSubmitted && (
+            <PodgladLokalizacji daneDzialki={daneDzialki!} />
+          )}
+        </div>
+
         <TypZabudowy
           isInwestycjaSubmitted={isInwestycjaSubmitted}
           control={form.control}
-          typZabudowy={typZabudowy}
+          typZabudowy={watchedTypZabudowy}
         />
         <KanalizacjaDeszczowa
           isInwestycjaSubmitted={isInwestycjaSubmitted}
           control={form.control}
-          typZabudowy={typZabudowy}
-          isPodłączony={isPodłączony}
+          typZabudowy={watchedTypZabudowy}
+          isPodłączony={watchedIsPodłączony}
         />
         {isInwestycjaSubmitted === false && (
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-4 mt-8">
             <Button
               type="button"
               variant="secondary"
-              onClick={() => form.reset()}
+              onClick={() => {
+                reset();
+                form.reset();
+              }}
             >
               Wyczyść dane
             </Button>
-            <Button type="submit">Zatwierdź</Button>
+            <Button type="submit">
+              {isLoading ? 'Wyszukiwanie działki...' : 'Zatwierdź'}
+            </Button>
           </div>
         )}
       </form>

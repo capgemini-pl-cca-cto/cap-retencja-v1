@@ -3,21 +3,21 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import BilansForm from './bilans-form';
+import KalkulatorForm from './kalkulator-form';
 
-interface BilansSectionProps {
+interface KalkulatorSectionProps {
   disabled: boolean;
   onFormSubmit: () => void;
-  isBilansSubmitted: boolean;
+  isKalkulatorSubmitted: boolean;
 }
 
-export const BilansSection = ({
+export const KalkulatorSection = ({
   disabled,
   onFormSubmit,
-  isBilansSubmitted,
-}: BilansSectionProps) => {
+  isKalkulatorSubmitted,
+}: KalkulatorSectionProps) => {
   return (
-    <AccordionItem value="bilans-section" disabled={disabled}>
+    <AccordionItem value="kalkulator-section" disabled={disabled}>
       <AccordionTrigger
         className={`text-2xl justify-normal items-center gap-4 border-2 border-primary-blue text-primary-blue ${
           disabled ? 'opacity-50 cursor-not-allowed' : ''
@@ -25,11 +25,11 @@ export const BilansSection = ({
       >
         2. Dane do bilansu objętości wody opadowej
       </AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-4 text-balance items-center">
+      <AccordionContent className="flex flex-col text-balance items-center pb-0">
         {!disabled && (
-          <BilansForm
+          <KalkulatorForm
             onFormSubmit={onFormSubmit}
-            isBilansSubmitted={isBilansSubmitted}
+            isKalkulatorSubmitted={isKalkulatorSubmitted}
           />
         )}
       </AccordionContent>

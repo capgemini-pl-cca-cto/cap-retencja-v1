@@ -2,3 +2,8 @@
   max-width: 1280px;
   margin: 0 auto;
 }
+
+/* in case we want the content not to be shifted to the left when the scrollbar appears
+/* html {
+  scrollbar-gutter: stable;
+} */

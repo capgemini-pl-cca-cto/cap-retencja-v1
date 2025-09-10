@@ -3,7 +3,12 @@ import InfoBox from '@/components/shared/InfoBox';
 export default function Introduction() {
   return (
     <div className="flex flex-col gap-4 w-[825px]">
-      <h2 className=" font-black text-[42px] px-3">Kalkulator</h2>
+      <div className="relative w-[263px] flex justify-center">
+        <h2 className="font-black text-[42px] z-10 relative leading-[50px]">
+          Kalkulator
+        </h2>
+        <div className="absolute left-0 top-[77%] -translate-y-1/2 w-[264px] h-[11px] bg-[#A2D089] z-0"></div>
+      </div>
       <p className="font-bold">
         Sprawdź, ile deszczu gromadzisz na terenie swojej nieruchomości.
       </p>
