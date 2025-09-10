@@ -15,11 +15,11 @@ export const InwestycjaSection = ({
   onFormSubmit,
 }: InwestycjaSectionProps) => {
   return (
-    <AccordionItem value="iwestycja-section">
+    <AccordionItem value="inwestycja-section">
       <AccordionTrigger className="text-2xl justify-normal items-center gap-4 border-2 border-primary-blue text-primary-blue">
         1. Szczegóły inwestycji
       </AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-4 text-balance items-center">
+      <AccordionContent className="flex flex-col text-balance items-center">
         <InwestycjaForm
           onFormSubmit={onFormSubmit}
           isInwestycjaSubmitted={isInwestycjaSubmitted}

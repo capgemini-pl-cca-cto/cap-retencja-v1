@@ -1,0 +1,64 @@
+.leaflet-container {
+  border-radius: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  background: none !important;
+}
+
+/* Hide the Leaflet attribution link */
+.leaflet-control-attribution {
+  display: none !important;
+}
+
+/* Hide default zoom controls that might still appear */
+.leaflet-top.leaflet-left .leaflet-control-zoom {
+  display: none !important;
+}
+
+/* Style zoom control buttons with primary blue color */
+.leaflet-control-zoom a {
+  color: var(--primary-blue) !important;
+  background-color: white !important;
+  border-color: var(--primary-blue) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  color: white !important;
+  background-color: var(--primary-blue) !important;
+}
+
+/* Custom popup styles - hide default popup styling */
+.custom-popup .leaflet-popup-content-wrapper {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  font-family: 'Poppins' !important;
+}
+
+.custom-popup .leaflet-popup-tip-container {
+  display: none !important;
+}
+
+.custom-popup .leaflet-popup-close-button {
+  display: none !important;
+}
+
+/* Ensure font weights for Tailwind classes inside popup */
+.custom-popup .font-light {
+  font-weight: 300 !important;
+}
+.custom-popup .font-medium {
+  font-weight: 500 !important;
+}
+
+.custom-popup p {
+  margin: 0 !important;
+}

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const BilansFormSchema = z
+export const KalkulatorFormSchema = z
   .object({
     powDzialki: z.number().min(0, 'Wartość nie może być mniejsza niż 0'),
     powDachow: z.number().min(0, 'Wartość nie może być mniejsza niż 0'),
@@ -29,4 +29,4 @@ export const BilansFormSchema = z
     },
   );
 
-export type BilansModel = z.infer<typeof BilansFormSchema>;
+export type KalkulatorModel = z.infer<typeof KalkulatorFormSchema>;

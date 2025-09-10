@@ -6,26 +6,26 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import type { Control } from 'react-hook-form';
-import type { BilansModel } from '../schemas';
 import { useState } from 'react';
+import type { KalkulatorModel } from '../schemas';
 
-interface BalansInputProps {
-  control: Control<BilansModel>;
-  name: keyof BilansModel;
+interface KalkulatorInputProps {
+  control: Control<KalkulatorModel>;
+  name: keyof KalkulatorModel;
   label: string;
   subLabel?: string;
   hasGlobalError: boolean;
-  isBilansSubmitted: boolean;
+  isKalkulatorSubmitted: boolean;
 }
 
-export default function BilansInput({
+export default function KalkulatorInput({
   control,
   name,
   label,
   subLabel,
   hasGlobalError,
-  isBilansSubmitted,
-}: BalansInputProps) {
+  isKalkulatorSubmitted,
+}: KalkulatorInputProps) {
   const [displayValue, setDisplayValue] = useState<string>('0,00');
 
   const formatNumber = (value: number): string => {
@@ -104,7 +104,7 @@ export default function BilansInput({
                   onBlur={() => handleBlur(field)}
                   placeholder="0,00"
                   aria-invalid={!!fieldState.error || hasGlobalError}
-                  disabled={isBilansSubmitted === true}
+                  disabled={isKalkulatorSubmitted === true}
                 />
               </div>
             </FormControl>
