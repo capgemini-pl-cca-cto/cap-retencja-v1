@@ -60,6 +60,7 @@ function App() {
             isKalkulatorAccordionOpen={openAccordion === 'kalkulator-section'}
           />
         )}
+
       </div>
     </main>
   );
