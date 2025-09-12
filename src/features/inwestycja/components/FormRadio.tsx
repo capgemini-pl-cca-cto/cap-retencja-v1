@@ -30,7 +30,6 @@ export default function FormRadio({
       render={({ field }) => (
         <FormItem>
           <FormLabel className="font-light">{mainLabel}</FormLabel>
-          <FormLabel>{mainLabel}</FormLabel>
           <FormControl>
             <RadioGroup onValueChange={field.onChange} value={field.value}>
               <FormItem className="flex items-center gap-3">
