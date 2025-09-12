@@ -1,9 +1,13 @@
-import { Form, FormItem, FormLabel, FormControl } from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
-import { Input } from '@/components/ui/input';
 import InfoBox from '@/components/shared/InfoBox';
 import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { resetAllStores } from '@/store/appStore';
+import { useInwestycjaStore } from '@/store/inwestycjaStore';
+import { useKalkulatorStore } from '@/store/kalkulatorStore';
+import { useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import findZlewnia from '../utils';
 
 type RaportFormModel = {
   pole1: number;
@@ -17,12 +21,84 @@ interface RaportFormProps {
 export default function RaportForm({
   isKalkulatorAccordionOpen,
 }: RaportFormProps) {
+  const { typZabudowy, isPodłączony, daneDzialki } = useInwestycjaStore();
+  const {
+    powDachow,
+    powDachowPozaObrysem,
+    powUszczelnione,
+    powPrzepuszczalne,
+  } = useKalkulatorStore();
+  const sumaPowierzchni =
+    powDachow + powDachowPozaObrysem + powUszczelnione + powPrzepuszczalne;
+  const [isPrzeciazona, setIsPrzeciazona] = useState(false);
+
+  // Calculate values only after isPrzeciazona state is determined
+  const { objBZI, objDetencyjnych } = useMemo(() => {
+    function calculateObjBZI(isPrzeciazona: boolean): number {
+      if (typZabudowy === 'jednorodzinna') {
+        return sumaPowierzchni * 0.06;
+      }
+
+      if (isPodłączony === 'nie') {
+        return sumaPowierzchni * 0.06;
+      }
+
+      // isPodłączony === 'tak'
+      return isPrzeciazona ? sumaPowierzchni * 0.04 : sumaPowierzchni * 0.03;
+    }
+
+    const bzi = calculateObjBZI(isPrzeciazona);
+    return {
+      objBZI: bzi,
+      objDetencyjnych: bzi * 2,
+    };
+  }, [isPrzeciazona, sumaPowierzchni, typZabudowy, isPodłączony]);
+
   const form = useForm<RaportFormModel>({
     defaultValues: {
-      pole1: 123.45,
-      pole2: 678.9,
+      pole1: objBZI,
+      pole2: objDetencyjnych,
     },
   });
+
+  // function onSubmit() {
+  //   const currentDate = new Date().toLocaleDateString('pl-PL');
+
+  //   generatePDFReport({
+  //     currentDate,
+  //     powDzialki,
+  //     powDachow,
+  //     powDachowPozaObrysem,
+  //     powUszczelnione,
+  //     powPrzepuszczalne,
+  //     powTerenyInne,
+  //     objBZI,
+  //     objDetencyjnych,
+  //   });
+  // }
+
+  useEffect(() => {
+    const findAndLogZlewnia = async function () {
+      if (typZabudowy === 'jednorodzinna' || isPodłączony === 'nie') {
+        setIsPrzeciazona(false);
+        return;
+      }
+      // Only call API if typZabudowy !== 'jednorodzinna' and isPodłączony === 'tak'
+      const zlewnia = await findZlewnia(daneDzialki!.coordinates);
+      console.log(zlewnia);
+      if (zlewnia) {
+        if (zlewnia.isPrzeciazona === true) {
+          setIsPrzeciazona(true);
+        } else {
+          setIsPrzeciazona(false);
+        }
+      } else {
+        console.log('Działka nie znajduje się w żadnej zlewni.');
+      }
+    };
+
+    findAndLogZlewnia();
+  }, [daneDzialki, typZabudowy, isPodłączony]);
 
   return (
     <Form {...form}>
@@ -32,7 +108,10 @@ export default function RaportForm({
           className="w-[794px] mx-auto"
         />
       )}
-      <form className="w-[794px] space-y-6 mx-auto">
+      <form
+        className="w-[794px] space-y-6 mx-auto"
+        // onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormItem className="flex justify-between gap-13">
           <FormLabel className="font-bold">
             Wymagana objętość obiektów błękitno-zielonej <br />
@@ -41,7 +120,7 @@ export default function RaportForm({
           <FormControl>
             <Input
               disabled
-              value={form.watch('pole1')}
+              value={objBZI.toFixed(2)}
               className="font-bold text-right w-[285px]"
             />
           </FormControl>
@@ -54,7 +133,7 @@ export default function RaportForm({
           <FormControl>
             <Input
               disabled
-              value={form.watch('pole2')}
+              value={objDetencyjnych.toFixed(2)}
               className="font-bold text-right w-[285px]"
             />
           </FormControl>

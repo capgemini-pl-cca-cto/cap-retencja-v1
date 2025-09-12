@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { KalkulatorModel } from '../schemas';
+import type { KalkulatorModel } from '../features/kalkulator/schemas';
 
 interface KalkulatorStore extends KalkulatorModel {
   setForm: (data: KalkulatorModel) => void;

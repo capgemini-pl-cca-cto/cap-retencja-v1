@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { InwestycjaModel } from '@/features/inwestycja/schemas';
-import type { DzialkaData } from '../types/types';
+import type { DzialkaData } from '../features/inwestycja/types/types';
 
 interface InwestycjaStore extends InwestycjaModel {
   setForm: (data: InwestycjaModel) => void;

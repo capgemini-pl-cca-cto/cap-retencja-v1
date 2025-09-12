@@ -1,7 +1,7 @@
 import FormCollapsible from '@/components/shared/FormCollapsible';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useInwestycjaStore } from '@/features/inwestycja/stores/inwestycjaStore';
+import { useInwestycjaStore } from '@/store/inwestycjaStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -43,6 +43,21 @@ export function InwestycjaForm({
     },
   });
 
+  // useEffect(() => {
+  //   form.reset({
+  //     nazwaInwestycji,
+  //     identyfikatorInwestycji,
+  //     typZabudowy,
+  //     isPodłączony,
+  //   });
+  // }, [
+  //   form,
+  //   nazwaInwestycji,
+  //   identyfikatorInwestycji,
+  //   typZabudowy,
+  //   isPodłączony,
+  // ]);
+
   // Callback to set identyfikatorInwestycji from Map
   function setIdentyfikatorFromMap(value: string) {
     form.setValue('identyfikatorInwestycji', value);
@@ -57,7 +72,6 @@ export function InwestycjaForm({
       const fetchedData = await fetchDzialkaData(data.identyfikatorInwestycji);
       setDaneDzialki(fetchedData);
       setForm(data);
-      alert(`Form submitted successfully! \n ${JSON.stringify(data, null, 2)}`);
       onFormSubmit();
       setIsLoading(false);
     } catch (error) {

@@ -3,7 +3,7 @@ import FormCollapsible from '@/components/shared/FormCollapsible';
 import InfoBox from '@/components/shared/InfoBox';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useKalkulatorStore } from '@/features/kalkulator/stores/kalkulatorStore';
+import { useKalkulatorStore } from '@/store/kalkulatorStore';
 import { resetAllStores } from '@/store/appStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -44,7 +44,6 @@ export default function KalkulatorForm({
 
   function onSubmit(data: KalkulatorModel) {
     setForm(data);
-    alert(`Form submitted successfully! \n ${JSON.stringify(data, null, 2)}`);
     onFormSubmit();
   }
 

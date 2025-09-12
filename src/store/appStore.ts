@@ -1,5 +1,5 @@
-import { useKalkulatorStore } from '../features/kalkulator/stores/kalkulatorStore';
-import { useInwestycjaStore } from '../features/inwestycja/stores/inwestycjaStore';
+import { useKalkulatorStore } from './kalkulatorStore';
+import { useInwestycjaStore } from './inwestycjaStore';
 import { useSubmissionStore } from './submissionStore';
 
 export function resetAllStores() {
