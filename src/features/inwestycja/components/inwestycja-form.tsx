@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useInwestycjaStore } from '@/store/inwestycjaStore';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { InwestycjaFormSchema, type InwestycjaModel } from '../schemas';
 import { fetchDzialkaData } from '../utils/dzialkaParser';
@@ -43,20 +43,20 @@ export function InwestycjaForm({
     },
   });
 
-  // useEffect(() => {
-  //   form.reset({
-  //     nazwaInwestycji,
-  //     identyfikatorInwestycji,
-  //     typZabudowy,
-  //     isPodłączony,
-  //   });
-  // }, [
-  //   form,
-  //   nazwaInwestycji,
-  //   identyfikatorInwestycji,
-  //   typZabudowy,
-  //   isPodłączony,
-  // ]);
+  useEffect(() => {
+    form.reset({
+      nazwaInwestycji,
+      identyfikatorInwestycji,
+      typZabudowy,
+      isPodłączony,
+    });
+  }, [
+    form,
+    nazwaInwestycji,
+    identyfikatorInwestycji,
+    typZabudowy,
+    isPodłączony,
+  ]);
 
   // Callback to set identyfikatorInwestycji from Map
   function setIdentyfikatorFromMap(value: string) {
