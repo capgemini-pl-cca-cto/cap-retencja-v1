@@ -45,7 +45,7 @@ export async function loadCustomFont(
  */
 export const DEFAULT_POLISH_FONT: FontConfig = {
   name: 'Roboto-Regular.ttf',
-  fontPath: '/Roboto-Regular.ttf',
+  fontPath: 'Roboto-Regular.ttf',
   fontFamily: 'Roboto',
   fontStyle: 'normal',
 };
@@ -55,7 +55,7 @@ export const DEFAULT_POLISH_FONT: FontConfig = {
  */
 export const ROBOTO_BOLD_FONT: FontConfig = {
   name: 'Roboto-Bold.ttf',
-  fontPath: '/Roboto-Bold.ttf',
+  fontPath: 'Roboto-Bold.ttf',
   fontFamily: 'Roboto',
   fontStyle: 'bold',
 };
