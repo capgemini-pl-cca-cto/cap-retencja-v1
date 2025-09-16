@@ -14,6 +14,7 @@ interface RaportData {
   powTerenyInne: number;
   objBZI: number;
   objDetencyjnych: number;
+  mapScreenshot?: string;
 }
 
 const currentDate = new Date().toLocaleDateString('pl-PL');
@@ -30,6 +31,7 @@ export default async function generatePDFReport({
   powTerenyInne,
   objBZI,
   objDetencyjnych,
+  mapScreenshot,
 }: RaportData) {
   // Initialize PDF with Polish font support
   const pdf = new jsPDF({
@@ -60,11 +62,11 @@ export default async function generatePDFReport({
   const pageWidth = pdf.internal.pageSize.getWidth();
 
   // LOGO AQUANET
-  pdf.addImage(logoBase, 'PNG', 80, 10, 50, 20); //odleglosc od lewej, odleglosc od gory, dlugosc elementu, wysokosc elementu
+  pdf.addImage(logoBase, 'PNG', 80, 3, 50, 20); //odleglosc od lewej, odleglosc od gory, dlugosc elementu, wysokosc elementu
 
   // DATA
   pdf.setFontSize(10);
-  pdf.text(`Data: ${currentDate}`, 165, 40);
+  pdf.text(`Data: ${currentDate}`, 165, 30);
 
   // TYTUŁ
   pdf.setFontSize(16);
@@ -73,19 +75,48 @@ export default async function generatePDFReport({
   const heading = 'RAPORT BILANSU OBJĘTOŚCI WODY OPADOWEJ';
   const headingWidth = pdf.getTextWidth(heading);
   const headingX = (pageWidth - headingWidth) / 2;
-  pdf.text(heading, headingX, 50);
+  pdf.text(heading, headingX, 40);
 
   // 1. SZCZEGÓŁY INWESTYCJI
   pdf.setFontSize(12);
-  pdf.text('1. Szczegóły inwestycji', 20, 65);
+  pdf.text('1. Szczegóły inwestycji', 20, 55);
 
   // Switch back to regular font
   pdf.setFont('Roboto', 'normal');
 
   pdf.setFontSize(10);
-  pdf.text(`Nazwa inwestycji: ${nazwaInwestycji}`, 15, 77);
-  pdf.text(`Identyfikator działki: ${identyfikatorInwestycji}`, 120, 77);
-  pdf.text(`Zlewnia: ${nazwaZlewni}`, 120, 87);
+  pdf.text(`Nazwa inwestycji: ${nazwaInwestycji}`, 15, 67);
+  pdf.text(`Identyfikator działki: ${identyfikatorInwestycji}`, 120, 67);
+  pdf.text(`Zlewnia: ${nazwaZlewni}`, 120, 77);
+
+  if (mapScreenshot) {
+    // Calculate proper aspect ratio based on typical viewport dimensions
+    // Assuming 95vw x 86vh translates to roughly 16:9 aspect ratio or wider
+    const targetAspectRatio = 16 / 9; // Approximate aspect ratio of the captured div
+
+    // Set maximum dimensions and maintain aspect ratio
+    const maxWidth = 140; // Maximum width in mm
+    const maxHeight = 100; // Maximum height in mm
+
+    let mapImageWidth = maxWidth;
+    let mapImageHeight = maxWidth / targetAspectRatio;
+
+    // If calculated height exceeds max, scale down based on height
+    if (mapImageHeight > maxHeight) {
+      mapImageHeight = maxHeight;
+      mapImageWidth = maxHeight * targetAspectRatio;
+    }
+
+    const mapImageX = (pageWidth - mapImageWidth) / 2; // Center the image
+    pdf.addImage(
+      mapScreenshot,
+      'PNG',
+      mapImageX,
+      80,
+      mapImageWidth,
+      mapImageHeight,
+    );
+  }
 
   // 2. DANE OBLICZENIOWE
   pdf.setFontSize(12);

@@ -28,6 +28,7 @@ export default function RaportForm({
     isPodłączony,
     daneDzialki,
     identyfikatorInwestycji,
+    mapScreenshot,
   } = useInwestycjaStore();
   const {
     powDzialki,
@@ -84,6 +85,7 @@ export default function RaportForm({
       powTerenyInne,
       objBZI,
       objDetencyjnych,
+      mapScreenshot,
     });
   }
 

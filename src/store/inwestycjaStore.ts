@@ -8,14 +8,20 @@ interface InwestycjaStore extends InwestycjaModel {
   reset: () => void;
   daneDzialki: DzialkaData | undefined;
   setDaneDzialki: (data: DzialkaData | undefined) => void;
+  mapScreenshot: string | undefined;
+  setMapScreenshot: (screenshot: string | undefined) => void;
 }
 
-const initialInwestycjaState: InwestycjaModel & { daneDzialki: undefined } = {
+const initialInwestycjaState: InwestycjaModel & {
+  daneDzialki: undefined;
+  mapScreenshot: undefined;
+} = {
   nazwaInwestycji: '',
   identyfikatorInwestycji: '',
   typZabudowy: 'jednorodzinna',
   isPodłączony: 'nie',
   daneDzialki: undefined,
+  mapScreenshot: undefined,
 };
 
 export const useInwestycjaStore = create<InwestycjaStore>()(
@@ -24,6 +30,7 @@ export const useInwestycjaStore = create<InwestycjaStore>()(
       ...initialInwestycjaState,
       setForm: (data) => set({ ...data }),
       setDaneDzialki: (data) => set({ daneDzialki: data }),
+      setMapScreenshot: (screenshot) => set({ mapScreenshot: screenshot }),
       reset: () => set({ ...initialInwestycjaState }),
     }),
     {
