@@ -1,11 +1,11 @@
 import { DialogClose } from '@/components/ui/dialog';
 import { LucideCircleAlert, XIcon } from 'lucide-react';
 import { useState } from 'react';
-import DzialkaInput from './DzialkaInput';
-import Map from './Map';
-import './MapOverride.css';
+import DzialkaInput from './dzialka-input';
+import './map-override.css';
 import type { DzialkaData } from '../types/types';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import Map from './map';
 
 interface MapModalProps {
   setIdentyfikatorFromMap: (value: string) => void;

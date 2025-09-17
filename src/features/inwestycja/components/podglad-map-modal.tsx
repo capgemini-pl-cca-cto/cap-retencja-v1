@@ -2,10 +2,10 @@ import { DialogClose } from '@/components/ui/dialog';
 import { XIcon } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import html2canvas from 'html2canvas-pro';
-import { useInwestycjaStore } from '@/store/inwestycjaStore';
+import { useInwestycjaStore } from '@/store/inwestycja-store';
 import type { DzialkaData } from '../types/types';
-import './MapOverride.css';
-import PodgladMap from './PodgladMap';
+import './map-override.css';
+import PodgladMap from './podglad-map';
 
 interface PodgladMapModalProps {
   daneDzialki: DzialkaData;

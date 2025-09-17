@@ -1,5 +1,5 @@
 import type { Control } from 'react-hook-form';
-import FormRadio from './FormRadio';
+import FormRadio from './form-radio';
 import type { InwestycjaModel } from '../schemas';
 
 interface TypZabudowyProps {

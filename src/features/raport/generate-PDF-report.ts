@@ -1,6 +1,6 @@
 import { jsPDF } from 'jspdf';
-import { setupPolishFonts } from './fontUtils';
-import logoBase from './logoBase.png';
+import { setupPolishFonts } from './font-utils';
+import logoBase from '/logoBase.png';
 
 interface RaportData {
   nazwaInwestycji: string;

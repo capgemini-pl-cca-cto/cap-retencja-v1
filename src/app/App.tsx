@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Accordion } from '@/components/ui/accordion';
 import { InwestycjaSection } from '@/features/inwestycja/components/inwestycja-section';
 import './App.css';
-import Introduction from './Introduction';
 import RaportForm from '@/features/raport/components/raport-form';
-import { useSubmissionStore } from '@/store/submissionStore';
+import { useSubmissionStore } from '@/store/submission-store';
 import { KalkulatorSection } from '@/features/kalkulator/components/kalkulator-section';
+import Introduction from './introduction';
 
 function App() {
   const {

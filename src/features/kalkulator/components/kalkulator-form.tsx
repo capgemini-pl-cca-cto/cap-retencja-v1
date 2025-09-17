@@ -1,15 +1,15 @@
-import ErrorInfoBox from '@/components/shared/ErrorInfoBox';
-import FormCollapsible from '@/components/shared/FormCollapsible';
-import InfoBox from '@/components/shared/InfoBox';
+import ErrorInfoBox from '@/components/shared/error-info-box';
+import FormCollapsible from '@/components/shared/form-collapsible';
+import InfoBox from '@/components/shared/info-box';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useKalkulatorStore } from '@/store/kalkulatorStore';
-import { resetAllStores } from '@/store/appStore';
+import { useKalkulatorStore } from '@/store/kalkulator-store';
+import { resetAllStores } from '@/store/app-store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { KalkulatorFormSchema, type KalkulatorModel } from '../schemas';
-import KalkulatorInput from './KalkulatorFormInput';
-import KalkulatorSumDisplay from './KalkulatorSumDisplay';
+import KalkulatorInput from './kalkulator-form-input';
+import KalkulatorSumDisplay from './kalkulator-sum-display';
 
 interface KalkulatorFormProps {
   onFormSubmit: () => void;

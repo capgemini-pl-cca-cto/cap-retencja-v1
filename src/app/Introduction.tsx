@@ -1,4 +1,4 @@
-import InfoBox from '@/components/shared/InfoBox';
+import InfoBox from '@/components/shared/info-box';
 
 export default function Introduction() {
   return (

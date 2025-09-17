@@ -12,7 +12,7 @@ import { MapPinned } from 'lucide-react';
 import { useState } from 'react';
 import type { Control } from 'react-hook-form';
 import type { InwestycjaModel } from '../schemas';
-import MapModal from './MapModal';
+import MapModal from './map-modal';
 
 interface FormInputProps {
   control: Control<InwestycjaModel>;
