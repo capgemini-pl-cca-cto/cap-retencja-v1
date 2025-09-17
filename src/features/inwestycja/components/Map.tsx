@@ -17,8 +17,8 @@ import {
   markerIcon,
   PLOT_FOUND_ZOOM,
 } from '../utils/constants';
-import CustomPopupContent from './CustomPopupContent';
-import './MapOverride.css';
+import CustomPopupContent from './custom-popup-content';
+import './map-override.css';
 
 // NOTE: Examples
 //306401_1.0021.AR_09.58/3

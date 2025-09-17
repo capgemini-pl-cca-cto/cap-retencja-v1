@@ -1,9 +1,9 @@
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
-import { fetchDzialkaData } from '../utils/dzialkaParser';
+import { fetchDzialkaData } from '../utils/dzialka-parser';
 import type { DzialkaData } from '../types/types';
 import { useState } from 'react';
-import Spinner from '@/components/shared/Spinner';
+import Spinner from '@/components/shared/spinner';
 
 interface DzialkaInputProps {
   identyfikatorDzialki: string;

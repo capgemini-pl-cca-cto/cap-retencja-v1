@@ -1,16 +1,16 @@
-import FormCollapsible from '@/components/shared/FormCollapsible';
+import FormCollapsible from '@/components/shared/form-collapsible';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useInwestycjaStore } from '@/store/inwestycjaStore';
+import { useInwestycjaStore } from '@/store/inwestycja-store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { InwestycjaFormSchema, type InwestycjaModel } from '../schemas';
-import { fetchDzialkaData } from '../utils/dzialkaParser';
-import FormInput from './FormInput';
-import KanalizacjaDeszczowa from './KanalizacjaDeszczowa';
-import PodgladLokalizacji from './PodgladLokalizacji';
-import TypZabudowy from './TypZabudowy';
+import { fetchDzialkaData } from '../utils/dzialka-parser';
+import FormInput from './form-input';
+import KanalizacjaDeszczowa from './kanalizacja-deszczowa';
+import PodgladLokalizacji from './podglad-lokalizacji';
+import TypZabudowy from './typ-zabudowy';
 
 interface InwestycjaFormProps {
   isInwestycjaSubmitted: boolean;

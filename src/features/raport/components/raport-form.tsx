@@ -1,14 +1,14 @@
-import InfoBox from '@/components/shared/InfoBox';
+import InfoBox from '@/components/shared/info-box';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { resetAllStores } from '@/store/appStore';
-import { useInwestycjaStore } from '@/store/inwestycjaStore';
-import { useKalkulatorStore } from '@/store/kalkulatorStore';
+import { resetAllStores } from '@/store/app-store';
+import { useInwestycjaStore } from '@/store/inwestycja-store';
+import { useKalkulatorStore } from '@/store/kalkulator-store';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import findZlewnia from '../utils';
-import generatePDFReport from '../generatePDFReport';
+import generatePDFReport from '../generate-PDF-report';
 
 type RaportFormModel = {
   pole1: number;

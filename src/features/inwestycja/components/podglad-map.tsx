@@ -5,7 +5,7 @@ import {
   TileLayer,
   ZoomControl,
 } from 'react-leaflet';
-import CustomPopupContent from './CustomPopupContent';
+import CustomPopupContent from './custom-popup-content';
 import type { DzialkaData } from '../types/types';
 import { markerIcon, PLOT_FOUND_ZOOM } from '../utils/constants';
 
