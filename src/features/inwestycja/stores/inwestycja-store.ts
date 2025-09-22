@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { InwestycjaModel } from '@/features/inwestycja/schemas';
-import type { DzialkaData } from '../features/inwestycja/types/types';
+import type { DzialkaData } from '../types/types';
 
 interface InwestycjaStore extends InwestycjaModel {
   setForm: (data: InwestycjaModel) => void;
@@ -10,11 +10,14 @@ interface InwestycjaStore extends InwestycjaModel {
   setDaneDzialki: (data: DzialkaData | undefined) => void;
   mapScreenshot: string | undefined;
   setMapScreenshot: (screenshot: string | undefined) => void;
+  isInwestycjaSubmitted: boolean;
+  submitInwestycja: () => void;
 }
 
 const initialInwestycjaState: InwestycjaModel & {
   daneDzialki: undefined;
   mapScreenshot: undefined;
+  isInwestycjaSubmitted: boolean;
 } = {
   nazwaInwestycji: '',
   identyfikatorInwestycji: '',
@@ -22,6 +25,7 @@ const initialInwestycjaState: InwestycjaModel & {
   isPodłączony: 'nie',
   daneDzialki: undefined,
   mapScreenshot: undefined,
+  isInwestycjaSubmitted: false,
 };
 
 export const useInwestycjaStore = create<InwestycjaStore>()(
@@ -31,6 +35,7 @@ export const useInwestycjaStore = create<InwestycjaStore>()(
       setForm: (data) => set({ ...data }),
       setDaneDzialki: (data) => set({ daneDzialki: data }),
       setMapScreenshot: (screenshot) => set({ mapScreenshot: screenshot }),
+      submitInwestycja: () => set({ isInwestycjaSubmitted: true }),
       reset: () => set({ ...initialInwestycjaState }),
     }),
     {

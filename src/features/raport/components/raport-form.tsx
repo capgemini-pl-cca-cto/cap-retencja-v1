@@ -3,12 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { resetAllStores } from '@/store/app-store';
-import { useInwestycjaStore } from '@/store/inwestycja-store';
-import { useKalkulatorStore } from '@/store/kalkulator-store';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import findZlewnia from '../utils';
 import generatePDFReport from '../generate-PDF-report';
+import { useInwestycjaStore } from '@/features/inwestycja/stores/inwestycja-store';
+import { useKalkulatorStore } from '@/features/kalkulator/stores/kalkulator-store';
 
 type RaportFormModel = {
   pole1: number;
