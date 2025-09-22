@@ -7,7 +7,7 @@ import {
 } from 'react-leaflet';
 import CustomPopupContent from './custom-popup-content';
 import type { DzialkaData } from '../types/types';
-import { markerIcon, PLOT_FOUND_ZOOM } from '../utils/constants';
+import { markerIcon, PLOT_FOUND_ZOOM } from '../constants';
 
 interface PodgladMapProps {
   daneDzialki: DzialkaData;

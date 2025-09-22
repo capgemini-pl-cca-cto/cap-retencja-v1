@@ -16,7 +16,7 @@ import {
   DEFAULT_ZOOM,
   markerIcon,
   PLOT_FOUND_ZOOM,
-} from '../utils/constants';
+} from '../constants';
 import CustomPopupContent from './custom-popup-content';
 import './map-override.css';
 

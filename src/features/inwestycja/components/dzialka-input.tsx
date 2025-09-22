@@ -1,6 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
-import { fetchDzialkaData } from '../utils/dzialka-parser';
+import { fetchDzialkaData } from '../services/dzialka-parser';
 import type { DzialkaData } from '../types/types';
 import { useState } from 'react';
 import Spinner from '@/components/shared/spinner';
