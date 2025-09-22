@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { InwestycjaFormSchema, type InwestycjaModel } from '../schemas';
-import { fetchDzialkaData } from '../utils/dzialka-parser';
+import { fetchDzialkaData } from '../services/dzialka-parser';
 import FormInput from './form-input';
 import KanalizacjaDeszczowa from './kanalizacja-deszczowa';
 import PodgladLokalizacji from './podglad-lokalizacji';

@@ -5,8 +5,8 @@ import { Input } from '@/components/ui/input';
 import { resetAllStores } from '@/store/app-store';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import findZlewnia from '../utils';
-import generatePDFReport from '../generate-PDF-report';
+import findZlewnia from '../services/zlewnia-finder';
+import generatePDFReport from '../services/generate-PDF-report';
 import { useInwestycjaStore } from '@/features/inwestycja/stores/inwestycja-store';
 import { useKalkulatorStore } from '@/features/kalkulator/stores/kalkulator-store';
 

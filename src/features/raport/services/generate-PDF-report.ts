@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import { setupPolishFonts } from './font-utils';
+import { setupPolishFonts } from '../helpers/font-setup';
 import logoBase from './logoBase.png';
 
 interface RaportData {
