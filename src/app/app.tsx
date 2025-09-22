@@ -3,17 +3,15 @@ import { Accordion } from '@/components/ui/accordion';
 import { InwestycjaSection } from '@/features/inwestycja/components/inwestycja-section';
 import './app.css';
 import RaportForm from '@/features/raport/components/raport-form';
-import { useSubmissionStore } from '@/store/submission-store';
+// import { useSubmissionStore } from '@/store/submission-store';
 import { KalkulatorSection } from '@/features/kalkulator/components/kalkulator-section';
 import Introduction from './introduction';
+import { useKalkulatorStore } from '@/features/kalkulator/stores/kalkulator-store';
+import { useInwestycjaStore } from '@/features/inwestycja/stores/inwestycja-store';
 
 function App() {
-  const {
-    isInwestycjaSubmitted,
-    isKalkulatorSubmitted,
-    submitInwestycja,
-    submitKalkulator,
-  } = useSubmissionStore();
+  const { isInwestycjaSubmitted, submitInwestycja } = useInwestycjaStore();
+  const { isKalkulatorSubmitted, submitKalkulator } = useKalkulatorStore();
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
     isKalkulatorSubmitted ? 'kalkulator-section' : undefined,
   );

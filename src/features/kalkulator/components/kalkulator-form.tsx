@@ -3,13 +3,13 @@ import FormCollapsible from '@/components/shared/form-collapsible';
 import InfoBox from '@/components/shared/info-box';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useKalkulatorStore } from '@/store/kalkulator-store';
 import { resetAllStores } from '@/store/app-store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { KalkulatorFormSchema, type KalkulatorModel } from '../schemas';
 import KalkulatorInput from './kalkulator-form-input';
 import KalkulatorSumDisplay from './kalkulator-sum-display';
+import { useKalkulatorStore } from '../stores/kalkulator-store';
 
 interface KalkulatorFormProps {
   onFormSubmit: () => void;
