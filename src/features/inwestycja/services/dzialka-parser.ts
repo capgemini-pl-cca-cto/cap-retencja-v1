@@ -7,6 +7,7 @@ proj4.defs(
   '+proj=tmerc +lat_0=0 +lon_0=19 +k=0.9993 +x_0=500000 +y_0=-5300000 +ellps=GRS80 +units=m +no_defs',
 );
 
+//transforms WKT string into an array of pairs of (polish) coordinates with parseWktPolygon
 function parseWktPolygon(wkt: string): number[][] {
   try {
     // Clean the WKT string: remove SRID prefix, POLYGON wrapper, and any trailing whitespace/newlines
@@ -50,6 +51,7 @@ function parseWktPolygon(wkt: string): number[][] {
   }
 }
 
+//accepts the API response, removes unnecessary 0s and splits it by | to extract needed info and return it as object
 function parseDzialkaResponse(response: string): DzialkaResponse | null {
   // Remove any leading "0\n" from the response
   const cleanResponse = response.replace(/^0\n/, '');
@@ -68,6 +70,10 @@ function parseDzialkaResponse(response: string): DzialkaResponse | null {
   };
 }
 
+//accepts the WKT Polygon string in polish coordinate system
+//transforms WKT string into an array of pairs of coordinates with parseWktPolygon
+//from this array creates a polygon and calculates its center point coordinates with turf
+//converts the center point coordinates to normal lat/lng with proj4
 function getDzialkaCenterCoordinates(wktGeometry: string): Coordinates {
   // Parse WKT to get coordinates
   const coordinates = parseWktPolygon(wktGeometry);
@@ -96,6 +102,7 @@ function getDzialkaCenterCoordinates(wktGeometry: string): Coordinates {
   return { lat, lng };
 }
 
+//the final function, does the API call, transforms the data with parseDzialkaResponse, gets the center point coords with getDzialkaCenterCoordinates and returns the whole data
 export async function fetchDzialkaData(
   identyfikatorDzialki: string,
 ): Promise<DzialkaData> {
@@ -114,7 +121,9 @@ export async function fetchDzialkaData(
 
   const parcelData = parseDzialkaResponse(text);
   if (!parcelData) {
-    throw new Error(`Działka o podanym identyfikatorze nie istnieje!`);
+    throw new Error(
+      `Działka o takim identyfikatorze nie istnieje. Sprawdź poprawność numeru identyfikacyjnego działki lub wybierz działkę na mapie!`,
+    );
   }
 
   // Get coordinates of the center point
