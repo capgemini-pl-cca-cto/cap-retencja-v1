@@ -121,52 +121,52 @@ export default async function generatePDFReport({
   // 2. DANE OBLICZENIOWE
   pdf.setFontSize(12);
   pdf.setFont('Roboto', 'bold');
-  pdf.text('2. Dane obliczeniowe [m²]', 20, 150);
+  pdf.text('2. Dane obliczeniowe [m²]', 20, 165);
 
   pdf.setFont('Roboto', 'normal');
 
   pdf.setFontSize(10);
-  pdf.text('P0. Powierzchnia działki inwestycyjnej zgodnie z PZT:', 15, 160);
-  pdf.text(`${powDzialki}`, 130, 160);
+  pdf.text('P0. Powierzchnia działki inwestycyjnej zgodnie z PZT:', 15, 175);
+  pdf.text(`${powDzialki}`, 130, 175);
 
-  pdf.text('P1. Powierzchnia dachów:', 15, 170);
-  pdf.text(`${powDachow}`, 130, 170);
+  pdf.text('P1. Powierzchnia dachów:', 15, 185);
+  pdf.text(`${powDachow}`, 130, 185);
 
-  pdf.text('P2. Powierzchnia dachów/stropów nad halą garażową', 15, 180);
-  pdf.text('zlokalizowaną poza obrysem budynku', 15, 185);
-  pdf.text(`${powDachowPozaObrysem}`, 130, 180);
+  pdf.text('P2. Powierzchnia dachów/stropów nad halą garażową', 15, 195);
+  pdf.text('zlokalizowaną poza obrysem budynku', 15, 200);
+  pdf.text(`${powDachowPozaObrysem}`, 130, 195);
 
-  pdf.text('P3. Powierzchnie uszczelnione zlokalizowane', 15, 195);
-  pdf.text('poza powierzchnią P2', 15, 200);
-  pdf.text(`${powUszczelnione}`, 130, 195);
+  pdf.text('P3. Powierzchnie uszczelnione zlokalizowane', 15, 210);
+  pdf.text('poza powierzchnią P2', 15, 215);
+  pdf.text(`${powUszczelnione}`, 130, 210);
 
-  pdf.text('P4. Powierzchnie przepuszczalne zakwalifikowane', 15, 210);
-  pdf.text('poza powierzchnią P2 i P5', 15, 215);
-  pdf.text(`${powPrzepuszczalne}`, 130, 210);
+  pdf.text('P4. Powierzchnie przepuszczalne zakwalifikowane', 15, 225);
+  pdf.text('poza powierzchnią P2 i P5', 15, 230);
+  pdf.text(`${powPrzepuszczalne}`, 130, 225);
 
   pdf.text(
     'P5. Powierzchnie terenów innych, w tym zieleni nieurządzonej',
     15,
-    225,
+    240,
   );
-  pdf.text(`${powTerenyInne}`, 130, 225);
+  pdf.text(`${powTerenyInne}`, 130, 240);
 
   // DIVIDER
   pdf.setDrawColor(180, 200, 230); // blend between light grey and light blue
-  pdf.line(15, 235, 195, 235);
+  pdf.line(15, 246, 195, 246);
 
   // WYMAGANA OBJECTOŚĆ
   pdf.setFontSize(12);
   pdf.setFont('Roboto', 'bold');
-  pdf.text('Wymagana objętość obiektów BZI:', 15, 250);
-  pdf.text(`${objBZI}`, 130, 250);
+  pdf.text('Wymagana objętość obiektów BZI:', 15, 260);
+  pdf.text(`${objBZI}`, 130, 260);
 
   pdf.setFontSize(10);
-  pdf.text('lub', 15, 257);
+  pdf.text('lub', 15, 267);
 
   pdf.setFontSize(12);
-  pdf.text('Wymagana objętość obiektów detencyjnych:', 15, 264);
-  pdf.text(`${objDetencyjnych}`, 130, 264);
+  pdf.text('Wymagana objętość obiektów detencyjnych:', 15, 274);
+  pdf.text(`${objDetencyjnych}`, 130, 274);
 
   pdf.setFont('Roboto', 'normal');
 
@@ -176,7 +176,7 @@ export default async function generatePDFReport({
   pdf.text(
     'Informacje zawarte w raporcie są poglądowe i nie stanowią podstawy do wydania warunków technicznych przyłączenia do sieci kanalizacji deszczowej.',
     15,
-    280,
+    284,
   );
   pdf.setTextColor(0, 0, 0); // Reset text color to black for any following text
 

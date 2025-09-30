@@ -3,11 +3,11 @@ import { Accordion } from '@/components/ui/accordion';
 import { InwestycjaSection } from '@/features/inwestycja/components/inwestycja-section';
 import './app.css';
 import RaportForm from '@/features/raport/components/raport-form';
-// import { useSubmissionStore } from '@/store/submission-store';
 import { KalkulatorSection } from '@/features/kalkulator/components/kalkulator-section';
 import Introduction from './introduction';
 import { useKalkulatorStore } from '@/features/kalkulator/stores/kalkulator-store';
 import { useInwestycjaStore } from '@/features/inwestycja/stores/inwestycja-store';
+import r2wc from '@r2wc/react-to-web-component';
 
 function App() {
   const { isInwestycjaSubmitted, submitInwestycja } = useInwestycjaStore();
@@ -17,7 +17,7 @@ function App() {
   );
 
   return (
-    <main className="text-primary-blue flex flex-col justify-start gap-8 my-15">
+    <main className="text-primary-blue flex flex-col justify-start gap-8">
       <Introduction />
 
       <div className="w-full flex flex-col justify-center font-medium gap-8">
@@ -64,3 +64,6 @@ function App() {
 }
 
 export default App;
+
+const RetencjaApp = r2wc(App);
+customElements.define('retencja-app', RetencjaApp);
