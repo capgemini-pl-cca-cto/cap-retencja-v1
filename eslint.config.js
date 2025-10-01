@@ -27,6 +27,14 @@ export default tseslint.config([
     plugins: {
       import: pluginImport,
     },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: '.',
+        },
+      },
+    },
     rules: {
       'react-refresh/only-export-components': [
         'warn',
