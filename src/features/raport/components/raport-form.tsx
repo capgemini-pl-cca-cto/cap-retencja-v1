@@ -2,7 +2,7 @@ import InfoBox from '@/components/shared/info-box';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { resetAllStores } from '@/store/app-store';
+import { resetAllStores } from '@/app/app-store';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import findZlewnia from '../services/zlewnia-finder';
