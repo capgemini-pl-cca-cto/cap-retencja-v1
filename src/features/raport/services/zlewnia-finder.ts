@@ -10,7 +10,7 @@ export default async function findZlewnia(coordinates: {
   lng: number;
 }) {
   try {
-    const response = await fetch('zlewnie_kd.geojson');
+    const response = await fetch('assets/zlewnie_kd.geojson');
     const geojsonData = await response.json();
 
     // Transform coordinates from WGS84 to EPSG:2177 using proj4
