@@ -192,6 +192,10 @@ Common issues and solutions:
 
 Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
+## Hosting
+
+The application is designed to be easily deployable on any hosting platforms: [Vite deployment guide](https://vitejs.dev/guide/static-deploy.html). But any web server like Nginx is enough to provide application assets. The build output is located in the `dist` directory. For more details check the [Installation Guide (pl)](INSTALLATION.md).
+
 ## Need Help?
 
 - Check the [React documentation](https://react.dev/)
