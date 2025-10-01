@@ -12,6 +12,7 @@
     "dev": "vite",
     "generate": "plop",
     "build": "tsc -b && vite build",
+    "build:wp": "tsc -b && vite build --base=/wp-content/uploads/retencja-app/dist/",
     "lint": "eslint .",
     "preview": "vite preview"
   },
