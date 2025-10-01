@@ -69,7 +69,7 @@ export default function KalkulatorForm({
             Zastanawiasz się, jak przypisać odpowiednie powierzchnie? <br />
             Sprawdź nasz{' '}
             <a
-              href="załącznikgraficzny.pdf"
+              href="assets/załącznikgraficzny.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >
