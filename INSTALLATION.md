@@ -16,7 +16,7 @@ WordPress.
 ## 2. Umieszczenie plików na serwerze
 
 1.  Zaloguj się do panelu **WordPress → Media → Biblioteka** lub użyj
-    **FTP / cPanel**.\
+    **FTP / cPanel**.
 
 2.  Skopiuj cały folder `dist/` do katalogu:
 
