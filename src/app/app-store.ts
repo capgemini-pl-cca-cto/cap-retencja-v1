@@ -7,7 +7,7 @@ export function resetAllStores() {
   useInwestycjaStore.getState().reset();
 }
 
-export function useDaneReport() {
+export function useDaneRaport() {
   const {
     nazwaInwestycji,
     typZabudowy,

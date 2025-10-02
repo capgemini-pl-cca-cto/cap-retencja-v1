@@ -8,7 +8,7 @@ import Introduction from './introduction';
 import { useKalkulatorStore } from '@/features/kalkulator/stores/kalkulator-store';
 import { useInwestycjaStore } from '@/features/inwestycja/stores/inwestycja-store';
 import r2wc from '@r2wc/react-to-web-component';
-import { resetAllStores, useDaneReport } from './app-store';
+import { resetAllStores, useDaneRaport } from './app-store';
 
 function App() {
   const { isInwestycjaSubmitted, submitInwestycja } = useInwestycjaStore();
@@ -16,7 +16,7 @@ function App() {
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
     isKalkulatorSubmitted ? 'kalkulator-section' : undefined,
   );
-  const daneRaport = useDaneReport();
+  const daneRaport = useDaneRaport();
 
   return (
     <main className="text-primary-blue flex flex-col justify-start gap-8">
