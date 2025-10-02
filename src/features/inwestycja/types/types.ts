@@ -12,16 +12,3 @@ export interface Coordinates {
   lat: number;
   lng: number;
 }
-
-export interface DzialkaData {
-  id: string;
-  voivodeship: string;
-  county: string;
-  commune: string;
-  region: string;
-  parcel: string;
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
-}

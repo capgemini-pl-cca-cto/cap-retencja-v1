@@ -8,6 +8,7 @@ import Introduction from './introduction';
 import { useKalkulatorStore } from '@/features/kalkulator/stores/kalkulator-store';
 import { useInwestycjaStore } from '@/features/inwestycja/stores/inwestycja-store';
 import r2wc from '@r2wc/react-to-web-component';
+import { resetAllStores, useDaneReport } from './app-store';
 
 function App() {
   const { isInwestycjaSubmitted, submitInwestycja } = useInwestycjaStore();
@@ -15,6 +16,7 @@ function App() {
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
     isKalkulatorSubmitted ? 'kalkulator-section' : undefined,
   );
+  const daneRaport = useDaneReport();
 
   return (
     <main className="text-primary-blue flex flex-col justify-start gap-8">
@@ -48,6 +50,7 @@ function App() {
           <KalkulatorSection
             disabled={!isInwestycjaSubmitted}
             onFormSubmit={submitKalkulator}
+            onFormReset={resetAllStores}
             isKalkulatorSubmitted={isKalkulatorSubmitted}
           />
         </Accordion>
@@ -56,6 +59,8 @@ function App() {
         {isKalkulatorSubmitted && (
           <RaportForm
             isKalkulatorAccordionOpen={openAccordion === 'kalkulator-section'}
+            onFormReset={resetAllStores}
+            daneRaport={daneRaport}
           />
         )}
       </div>

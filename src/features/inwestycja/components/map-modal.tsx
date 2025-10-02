@@ -3,9 +3,9 @@ import { LucideCircleAlert, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import DzialkaInput from './dzialka-input';
 import './map-override.css';
-import type { DzialkaData } from '../types/types';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Map from './map';
+import type { DzialkaModel } from '@/types/inwestycja-model';
 
 interface MapModalProps {
   setIdentyfikatorFromMap: (value: string) => void;
@@ -13,7 +13,7 @@ interface MapModalProps {
 
 export default function MapModal({ setIdentyfikatorFromMap }: MapModalProps) {
   const [identyfikatorDzialki, setIdentyfikatorDzialki] = useState('');
-  const [daneDzialki, setDaneDzialki] = useState<DzialkaData | undefined>(
+  const [daneDzialki, setDaneDzialki] = useState<DzialkaModel | undefined>(
     undefined,
   );
   const [error, setError] = useState<string | null>(null);

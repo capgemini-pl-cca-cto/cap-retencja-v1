@@ -1,14 +1,14 @@
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { fetchDzialkaData } from '../services/dzialka-parser';
-import type { DzialkaData } from '../types/types';
 import { useState } from 'react';
 import Spinner from '@/components/shared/spinner';
+import type { DzialkaModel } from '@/types/inwestycja-model';
 
 interface DzialkaInputProps {
   identyfikatorDzialki: string;
   setIdentyfikatorDzialki: (value: string) => void;
-  setDaneDzialki: (value: DzialkaData) => void;
+  setDaneDzialki: (value: DzialkaModel) => void;
   error: string | null;
   setError: (value: string | null) => void;
 }

@@ -6,11 +6,11 @@ import {
   ZoomControl,
 } from 'react-leaflet';
 import CustomPopupContent from './custom-popup-content';
-import type { DzialkaData } from '../types/types';
 import { markerIcon, PLOT_FOUND_ZOOM } from '../constants';
+import type { DzialkaModel } from '@/types/inwestycja-model';
 
 interface PodgladMapProps {
-  daneDzialki: DzialkaData;
+  daneDzialki: DzialkaModel;
 }
 
 export default function PodgladMap({ daneDzialki }: PodgladMapProps) {

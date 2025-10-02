@@ -8,12 +8,14 @@ import KalkulatorForm from './kalkulator-form';
 interface KalkulatorSectionProps {
   disabled: boolean;
   onFormSubmit: () => void;
+  onFormReset: () => void;
   isKalkulatorSubmitted: boolean;
 }
 
 export const KalkulatorSection = ({
   disabled,
   onFormSubmit,
+  onFormReset,
   isKalkulatorSubmitted,
 }: KalkulatorSectionProps) => {
   return (
@@ -29,6 +31,7 @@ export const KalkulatorSection = ({
         {!disabled && (
           <KalkulatorForm
             onFormSubmit={onFormSubmit}
+            onFormReset={onFormReset}
             isKalkulatorSubmitted={isKalkulatorSubmitted}
           />
         )}

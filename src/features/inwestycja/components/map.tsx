@@ -10,7 +10,6 @@ import {
   useMap,
   ZoomControl,
 } from 'react-leaflet';
-import type { DzialkaData } from '../types/types';
 import {
   DEFAULT_POSITION,
   DEFAULT_ZOOM,
@@ -19,6 +18,7 @@ import {
 } from '../constants';
 import CustomPopupContent from './custom-popup-content';
 import './map-override.css';
+import type { DzialkaModel } from '@/types/inwestycja-model';
 
 // NOTE: Examples
 //306401_1.0021.AR_09.58/3
@@ -45,7 +45,7 @@ function ChangeMapView({
 }
 
 interface MapProps {
-  daneDzialki: DzialkaData | undefined;
+  daneDzialki: DzialkaModel | undefined;
   setIdentyfikatorFromMap: (value: string) => void;
 }
 

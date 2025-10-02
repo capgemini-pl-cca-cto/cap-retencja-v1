@@ -1,7 +1,7 @@
-import type { DzialkaData } from '../types/types';
+import type { DzialkaModel } from '@/types/inwestycja-model';
 
 interface CustomPopupContentProps {
-  daneDzialki: DzialkaData;
+  daneDzialki: DzialkaModel;
 }
 
 export default function CustomPopupContent({
