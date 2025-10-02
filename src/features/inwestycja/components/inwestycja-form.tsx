@@ -4,13 +4,14 @@ import { Form } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { InwestycjaFormSchema, type InwestycjaModel } from '../schemas';
+import { InwestycjaFormSchema } from '../schemas';
 import { fetchDzialkaData } from '../services/dzialka-parser';
 import FormInput from './form-input';
 import KanalizacjaDeszczowa from './kanalizacja-deszczowa';
 import PodgladLokalizacji from './podglad-lokalizacji';
 import TypZabudowy from './typ-zabudowy';
 import { useInwestycjaStore } from '../stores/inwestycja-store';
+import type { InwestycjaModel } from '@/types/inwestycja-model';
 
 interface InwestycjaFormProps {
   isInwestycjaSubmitted: boolean;

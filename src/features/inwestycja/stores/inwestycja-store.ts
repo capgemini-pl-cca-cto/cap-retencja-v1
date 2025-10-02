@@ -1,13 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { InwestycjaModel } from '@/features/inwestycja/schemas';
-import type { DzialkaData } from '../types/types';
+import type { DzialkaModel, InwestycjaModel } from '@/types/inwestycja-model';
 
 interface InwestycjaStore extends InwestycjaModel {
   setForm: (data: InwestycjaModel) => void;
   reset: () => void;
-  daneDzialki: DzialkaData | undefined;
-  setDaneDzialki: (data: DzialkaData | undefined) => void;
+  daneDzialki: DzialkaModel | undefined;
+  setDaneDzialki: (data: DzialkaModel | undefined) => void;
   mapScreenshot: string | undefined;
   setMapScreenshot: (screenshot: string | undefined) => void;
   isInwestycjaSubmitted: boolean;

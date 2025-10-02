@@ -10,8 +10,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import type { Control } from 'react-hook-form';
-import type { InwestycjaModel } from '../schemas';
 import MapModal from './map-modal';
+import type { InwestycjaModel } from '@/types/inwestycja-model';
 
 interface FormInputProps {
   control: Control<InwestycjaModel>;

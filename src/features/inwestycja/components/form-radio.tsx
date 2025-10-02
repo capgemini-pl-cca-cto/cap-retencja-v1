@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/form';
 import type { Control } from 'react-hook-form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import type { InwestycjaModel } from '../schemas';
+import type { InwestycjaModel } from '@/types/inwestycja-model';
 
 interface FormRadioProps {
   control: Control<InwestycjaModel>;

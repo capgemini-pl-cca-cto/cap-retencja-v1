@@ -1,6 +1,7 @@
 import proj4 from 'proj4';
-import type { Coordinates, DzialkaData, DzialkaResponse } from '../types/types';
+import type { Coordinates, DzialkaResponse } from '../types/types';
 import * as turf from '@turf/turf';
+import type { DzialkaModel } from '@/types/inwestycja-model';
 
 proj4.defs(
   'EPSG:2180',
@@ -105,7 +106,7 @@ function getDzialkaCenterCoordinates(wktGeometry: string): Coordinates {
 //the final function, does the API call, transforms the data with parseDzialkaResponse, gets the center point coords with getDzialkaCenterCoordinates and returns the whole data
 export async function fetchDzialkaData(
   identyfikatorDzialki: string,
-): Promise<DzialkaData> {
+): Promise<DzialkaModel> {
   if (!identyfikatorDzialki.trim()) {
     throw new Error('Identyfikator działki nie może być pusty');
   }

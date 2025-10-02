@@ -1,10 +1,10 @@
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useState } from 'react';
-import type { DzialkaData } from '../types/types';
 import PodgladMapModal from './podglad-map-modal';
+import type { DzialkaModel } from '@/types/inwestycja-model';
 
 interface PodgladLokalizacjiProps {
-  daneDzialki: DzialkaData;
+  daneDzialki: DzialkaModel;
 }
 
 export default function PodgladLokalizacji({

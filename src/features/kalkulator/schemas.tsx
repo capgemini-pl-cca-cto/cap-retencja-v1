@@ -28,5 +28,3 @@ export const KalkulatorFormSchema = z
       path: [],
     },
   );
-
-export type KalkulatorModel = z.infer<typeof KalkulatorFormSchema>;

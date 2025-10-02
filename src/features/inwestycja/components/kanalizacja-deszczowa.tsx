@@ -1,7 +1,7 @@
 import type { Control } from 'react-hook-form';
-import type { InwestycjaModel } from '../schemas';
 import InfoBox from '@/components/shared/info-box';
 import FormRadio from './form-radio';
+import type { InwestycjaModel } from '@/types/inwestycja-model';
 
 interface KanalizacjaDeszczowaProps {
   isInwestycjaSubmitted: boolean;

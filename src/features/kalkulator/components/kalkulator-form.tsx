@@ -3,21 +3,23 @@ import FormCollapsible from '@/components/shared/form-collapsible';
 import InfoBox from '@/components/shared/info-box';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { resetAllStores } from '@/app/app-store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { KalkulatorFormSchema, type KalkulatorModel } from '../schemas';
+import { KalkulatorFormSchema } from '../schemas';
 import KalkulatorInput from './kalkulator-form-input';
 import KalkulatorSumDisplay from './kalkulator-sum-display';
 import { useKalkulatorStore } from '../stores/kalkulator-store';
+import type { KalkulatorModel } from '@/types/kalkulator-model';
 
 interface KalkulatorFormProps {
   onFormSubmit: () => void;
+  onFormReset: () => void;
   isKalkulatorSubmitted: boolean;
 }
 
 export default function KalkulatorForm({
   onFormSubmit,
+  onFormReset,
   isKalkulatorSubmitted,
 }: KalkulatorFormProps) {
   const {
@@ -187,7 +189,7 @@ export default function KalkulatorForm({
               variant="secondary"
               onClick={() => {
                 form.reset();
-                resetAllStores();
+                onFormReset();
               }}
             >
               Zmień działkę

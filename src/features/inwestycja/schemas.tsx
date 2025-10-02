@@ -8,5 +8,3 @@ export const InwestycjaFormSchema = z.object({
   typZabudowy: z.enum(['jednorodzinna', 'wielorodzinna']),
   isPodłączony: z.enum(['tak', 'nie']),
 });
-
-export type InwestycjaModel = z.infer<typeof InwestycjaFormSchema>;

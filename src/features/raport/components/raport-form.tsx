@@ -2,13 +2,11 @@ import InfoBox from '@/components/shared/info-box';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { resetAllStores } from '@/app/app-store';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import findZlewnia from '../services/zlewnia-finder';
 import generatePDFReport from '../services/generate-PDF-report';
-import { useInwestycjaStore } from '@/features/inwestycja/stores/inwestycja-store';
-import { useKalkulatorStore } from '@/features/kalkulator/stores/kalkulator-store';
+import type { RaportModel } from '@/types/raport-model';
 
 type RaportFormModel = {
   pole1: number;
@@ -17,40 +15,32 @@ type RaportFormModel = {
 
 interface RaportFormProps {
   isKalkulatorAccordionOpen: boolean;
+  daneRaport: RaportModel;
+  onFormReset: () => void;
 }
 
 export default function RaportForm({
   isKalkulatorAccordionOpen,
+  onFormReset,
+  daneRaport,
 }: RaportFormProps) {
-  const {
-    nazwaInwestycji,
-    typZabudowy,
-    isPodłączony,
-    daneDzialki,
-    identyfikatorInwestycji,
-    mapScreenshot,
-  } = useInwestycjaStore();
-  const {
-    powDzialki,
-    powDachow,
-    powDachowPozaObrysem,
-    powUszczelnione,
-    powPrzepuszczalne,
-    powTerenyInne,
-  } = useKalkulatorStore();
   const sumaPowierzchni =
-    powDachow + powDachowPozaObrysem + powUszczelnione + powPrzepuszczalne;
+    daneRaport.daneKalkulator.powDachow +
+    daneRaport.daneKalkulator.powDachowPozaObrysem +
+    daneRaport.daneKalkulator.powUszczelnione +
+    daneRaport.daneKalkulator.powPrzepuszczalne;
+
   const [isPrzeciazona, setIsPrzeciazona] = useState(false);
   const [nazwaZlewni, setNazwaZlewni] = useState('-');
 
   // Calculate values only after isPrzeciazona state is determined
   const { objBZI, objDetencyjnych } = useMemo(() => {
     function calculateObjBZI(isPrzeciazona: boolean): number {
-      if (typZabudowy === 'jednorodzinna') {
+      if (daneRaport.inwestycja.typZabudowy === 'jednorodzinna') {
         return sumaPowierzchni * 0.06;
       }
 
-      if (isPodłączony === 'nie') {
+      if (daneRaport.inwestycja.isPodłączony === 'nie') {
         return sumaPowierzchni * 0.06;
       }
 
@@ -63,7 +53,12 @@ export default function RaportForm({
       objBZI: bzi,
       objDetencyjnych: bzi * 2,
     };
-  }, [isPrzeciazona, sumaPowierzchni, typZabudowy, isPodłączony]);
+  }, [
+    isPrzeciazona,
+    sumaPowierzchni,
+    daneRaport.inwestycja.typZabudowy,
+    daneRaport.inwestycja.isPodłączony,
+  ]);
 
   const form = useForm<RaportFormModel>({
     defaultValues: {
@@ -74,30 +69,33 @@ export default function RaportForm({
 
   function onSubmit() {
     generatePDFReport({
-      nazwaInwestycji,
-      identyfikatorInwestycji,
+      nazwaInwestycji: daneRaport.inwestycja.nazwaInwestycji,
+      identyfikatorInwestycji: daneRaport.inwestycja.identyfikatorInwestycji,
       nazwaZlewni,
-      powDzialki,
-      powDachow,
-      powDachowPozaObrysem,
-      powUszczelnione,
-      powPrzepuszczalne,
-      powTerenyInne,
+      powDzialki: daneRaport.daneKalkulator.powDzialki,
+      powDachow: daneRaport.daneKalkulator.powDachow,
+      powDachowPozaObrysem: daneRaport.daneKalkulator.powDachowPozaObrysem,
+      powUszczelnione: daneRaport.daneKalkulator.powUszczelnione,
+      powPrzepuszczalne: daneRaport.daneKalkulator.powPrzepuszczalne,
+      powTerenyInne: daneRaport.daneKalkulator.powTerenyInne,
       objBZI,
       objDetencyjnych,
-      mapScreenshot,
+      mapScreenshot: daneRaport.mapScreenshot,
     });
   }
 
   useEffect(() => {
     const findAndLogZlewnia = async function () {
-      if (typZabudowy === 'jednorodzinna' || isPodłączony === 'nie') {
+      if (
+        daneRaport.inwestycja.typZabudowy === 'jednorodzinna' ||
+        daneRaport.inwestycja.isPodłączony === 'nie'
+      ) {
         setIsPrzeciazona(false);
         setNazwaZlewni('-');
         return;
       }
       // Only call API if typZabudowy !== 'jednorodzinna' and isPodłączony === 'tak'
-      const zlewnia = await findZlewnia(daneDzialki!.coordinates);
+      const zlewnia = await findZlewnia(daneRaport.daneDzialki!.coordinates);
       if (zlewnia) {
         setNazwaZlewni(zlewnia.nazwaZlewni);
         if (zlewnia.isPrzeciazona === true) {
@@ -111,7 +109,11 @@ export default function RaportForm({
     };
 
     findAndLogZlewnia();
-  }, [daneDzialki, typZabudowy, isPodłączony]);
+  }, [
+    daneRaport.daneDzialki,
+    daneRaport.inwestycja.typZabudowy,
+    daneRaport.inwestycja.isPodłączony,
+  ]);
 
   return (
     <Form {...form}>
@@ -170,7 +172,7 @@ export default function RaportForm({
             variant="secondary"
             onClick={() => {
               form.reset();
-              resetAllStores();
+              onFormReset();
             }}
           >
             Zacznij od nowa
