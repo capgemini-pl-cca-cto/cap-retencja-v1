@@ -49,6 +49,7 @@ export default function FormInput({
                 {...field}
                 disabled={isInwestycjaSubmitted === true}
                 aria-invalid={!!fieldState.error}
+                className="max-lg:w-full"
               />
               {showMapIcon && isInwestycjaSubmitted === false && (
                 <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
@@ -78,7 +79,7 @@ export default function FormInput({
             </div>
           </FormControl>
           {description && isInwestycjaSubmitted === false && (
-            <FormDescription className="font-light">
+            <FormDescription className="font-light max-sm:hidden">
               {description}
             </FormDescription>
           )}

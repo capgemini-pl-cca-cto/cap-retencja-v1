@@ -20,11 +20,11 @@ export default function KalkulatorSumDisplay({
   };
 
   return (
-    <FormItem className="flex justify-between">
+    <FormItem className="flex justify-between max-sm:flex-col">
       <FormLabel className="font-bold">
         Suma powierzchni P1, P2, P3, P4 [m2]
       </FormLabel>
-      <div className="w-[285px] h-[56px] text-right bg-[#DFF5F5] text-[#0C4F7B] border-transparent px-[16px] py-[12px] text-base flex items-center justify-end font-bold">
+      <div className="w-[285px] max-sm:w-full h-[56px] text-right bg-[#DFF5F5] text-[#0C4F7B] border-transparent px-[16px] py-[12px] text-base flex items-center justify-end font-bold">
         {formatNumber(sum)}
       </div>
     </FormItem>

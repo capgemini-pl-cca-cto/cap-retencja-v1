@@ -2,7 +2,7 @@ import InfoBox from '@/components/shared/info-box';
 
 export default function Introduction() {
   return (
-    <div className="flex flex-col gap-4 w-[825px]">
+    <div className="flex flex-col gap-4 w-[825px] max-lg:w-auto">
       <div className="relative w-[263px] flex justify-center">
         <h2 className="font-black text-[42px] z-10 relative leading-[50px]">
           Kalkulator
@@ -34,7 +34,10 @@ export default function Introduction() {
           Program dotacyjny UM "Mała retencja"
         </a>
       </div>
-      <InfoBox label='Niniejsze obliczenia i wynik "wymaganej pojemności wodnej" są szacunkowe. W celu ustalenia szczegółów np. lokalizacji nieruchomości w danej zlewni, zgłoś się z wnioskiem do Aquanet Retencja.' />
+      <InfoBox
+        label='Niniejsze obliczenia i wynik "wymaganej pojemności wodnej" są szacunkowe. W celu ustalenia szczegółów np. lokalizacji nieruchomości w danej zlewni, zgłoś się z wnioskiem do Aquanet Retencja.'
+        className="max-lg:w-[85%]"
+      />
     </div>
   );
 }

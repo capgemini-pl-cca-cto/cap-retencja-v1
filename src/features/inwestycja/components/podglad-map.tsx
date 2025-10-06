@@ -31,7 +31,7 @@ export default function PodgladMap({ daneDzialki }: PodgladMapProps) {
         icon={markerIcon}
       >
         <Popup closeButton={false} className="custom-popup">
-          <div className="bg-white w-[417px] p-4 shadow-[0px_0px_8px_0px_#0c4f7bcc] flex flex-col gap-4 text-primary-blue">
+          <div className="bg-white w-[417px] max-sm:w-[300px] p-4 shadow-[0px_0px_8px_0px_#0c4f7bcc] flex flex-col gap-4 text-primary-blue">
             <CustomPopupContent daneDzialki={daneDzialki} />
           </div>
         </Popup>

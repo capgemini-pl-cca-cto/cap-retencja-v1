@@ -120,28 +120,29 @@ export default function RaportForm({
       {isKalkulatorAccordionOpen && (
         <div
           style={{ height: '1px', backgroundColor: 'var(--primary-blue)' }}
-          className="w-[794px] mx-auto"
+          className="w-[794px] max-sm:w-full max-lg:w-[90%] mx-auto"
         />
       )}
       <form
-        className="w-[794px] space-y-6 mx-auto"
+        className="w-[794px] max-sm:w-full max-lg:w-[90%] space-y-6 mx-auto"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <FormItem className="flex justify-between gap-13">
+        <FormItem className="flex max-sm:flex-col justify-between max-sm:gap-2 gap-13">
           <FormLabel className="font-bold">
-            Wymagana objętość obiektów błękitno-zielonej <br />
+            Wymagana objętość obiektów błękitno-zielonej{' '}
+            <br className="hidden sm:inline" />
             infrastruktury BZI [m3]
           </FormLabel>
           <FormControl>
             <Input
               disabled
               value={objBZI.toFixed(2)}
-              className="font-bold text-right w-[285px]"
+              className="font-bold text-right w-[285px] max-sm:w-full"
             />
           </FormControl>
         </FormItem>
         <p className="font-light w-full mx-auto text-center">LUB</p>
-        <FormItem className="flex justify-between gap-13">
+        <FormItem className="flex max-sm:flex-col justify-between max-sm:gap-2 gap-13">
           <FormLabel className="font-bold">
             Wymagana objętość obiektów detencyjnych [m3]
           </FormLabel>
@@ -149,7 +150,7 @@ export default function RaportForm({
             <Input
               disabled
               value={objDetencyjnych.toFixed(2)}
-              className="font-bold text-right w-[285px]"
+              className="font-bold text-right w-[285px] max-sm:w-full"
             />
           </FormControl>
         </FormItem>
@@ -166,7 +167,7 @@ export default function RaportForm({
             katalogi metod zagospodarowania wód opadowych.
           </a>
         </p>
-        <div className="flex justify-end gap-4 mt-8">
+        <div className="flex justify-end gap-4 mt-8 max-sm:flex-col max-sm:justify-center max-sm:gap-2">
           <Button
             type="button"
             variant="secondary"

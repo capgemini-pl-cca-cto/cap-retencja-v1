@@ -80,15 +80,21 @@ export default function Map({
       {daneDzialki && (
         <Marker position={position} icon={markerIcon}>
           <Popup closeButton={false} className="custom-popup">
-            <div className="bg-white w-[417px] h-[256px] p-4 shadow-[0px_0px_8px_0px_#0c4f7bcc] flex flex-col gap-4 text-primary-blue">
+            <div className="bg-white w-[417px] max-sm:w-[300px] sm:h-[256px] p-4 max-sm:py-2 shadow-[0px_0px_8px_0px_#0c4f7bcc] flex flex-col gap-4 text-primary-blue">
               <CustomPopupContent daneDzialki={daneDzialki} />
-              <div className="flex justify-end gap-4">
+              <div className="flex max-sm:flex-col justify-end gap-4 max-sm:gap-2">
                 <DialogClose asChild>
-                  <Button variant="secondary">Zamknij</Button>
+                  <Button
+                    variant="secondary"
+                    className="max-sm:h-8 max-sm:px-3 max-sm:text-base"
+                  >
+                    Zamknij
+                  </Button>
                 </DialogClose>
                 <DialogClose asChild>
                   <Button
                     onClick={() => setIdentyfikatorFromMap(daneDzialki.id)}
+                    className="max-sm:h-8 max-sm:px-3 max-sm:text-base"
                   >
                     Wybierz
                   </Button>

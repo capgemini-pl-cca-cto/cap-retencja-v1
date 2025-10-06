@@ -4,6 +4,20 @@ main {
   padding: 2rem 0;
 }
 
+@media (max-width: 640px) {
+  main {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  main {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
 /* in case we want the content not to be shifted to the left when the scrollbar appears
 /* html {
   scrollbar-gutter: stable;

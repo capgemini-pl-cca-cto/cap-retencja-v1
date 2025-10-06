@@ -21,7 +21,7 @@ export const KalkulatorSection = ({
   return (
     <AccordionItem value="kalkulator-section" disabled={disabled}>
       <AccordionTrigger
-        className={`text-2xl justify-normal items-center gap-4 border-2 border-primary-blue text-primary-blue ${
+        className={`text-2xl max-sm:text-xl justify-normal items-center gap-4 border-2 border-primary-blue text-primary-blue ${
           disabled ? 'opacity-50 cursor-not-allowed' : ''
         }`}
       >

@@ -1,8 +1,15 @@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
-export default function InfoBox({ label }: { label: string }) {
+interface InfoBoxProps {
+  label: string;
+  className?: string;
+}
+
+export default function InfoBox({ label, className = '' }: InfoBoxProps) {
   return (
-    <Alert className="border-primary-blue pl-[16px] pr-[24px] py-[16px] bg-background [&>svg]:text-primary-blue [&>svg]:translate-y-0.5 items-start shadow-[0px_4px_5px_1px_#00000026]">
+    <Alert
+      className={`max-sm:hidden border-primary-blue pl-[16px] pr-[24px] py-[16px] bg-background [&>svg]:text-primary-blue [&>svg]:translate-y-0.5 items-start shadow-[0px_4px_5px_1px_#00000026] ${className}`}
+    >
       <svg
         className="text-primary-blue !w-5 !h-5"
         viewBox="0 0 80 80"
