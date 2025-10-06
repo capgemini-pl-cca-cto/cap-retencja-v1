@@ -15,7 +15,7 @@ export default function PodgladLokalizacji({
   return (
     <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
       <DialogTrigger asChild>
-        <p className="font-bold text-primary-blue text-xl uppercase px-4 py-[14px] hover:text-[#3a5ca0] transition-colors hover:cursor-pointer">
+        <p className="font-bold text-primary-blue max-sm:text-lg text-xl uppercase px-4 py-[14px] hover:text-[#3a5ca0] transition-colors hover:cursor-pointer">
           Podgląd lokalizacji na mapie
         </p>
       </DialogTrigger>

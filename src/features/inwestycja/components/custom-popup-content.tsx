@@ -8,7 +8,7 @@ export default function CustomPopupContent({
   daneDzialki,
 }: CustomPopupContentProps) {
   return (
-    <div className="flex flex-col gap-2 text-base">
+    <div className="flex flex-col gap-2 text-base max-sm:text-xs">
       <div className="flex">
         <p className="font-light w-[170px]">Identyfikator działki</p>
         <p className="font-medium">{daneDzialki.id}</p>

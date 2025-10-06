@@ -36,7 +36,7 @@ export default function DzialkaInput({
   }
 
   return (
-    <div className="absolute top-4 left-4 z-[9999] w-[332px] h-[80px] p-4 bg-white shadow-lg flex items-center justify-center">
+    <div className="absolute top-4 max-sm:top-2 sm:left-4 max-sm:mx-auto z-[9999] w-[332px] h-[80px] p-4 bg-white shadow-lg flex items-center justify-center">
       <div className="relative">
         <Input
           placeholder="Wpisz identyfikator działki"

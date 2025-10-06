@@ -61,13 +61,13 @@ export default function KalkulatorForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-[794px] space-y-8"
+        className="w-[794px] max-sm:w-full max-lg:w-[90%] space-y-8"
       >
-        <div className="space-y-6">
+        <div className="space-y-6 max-sm:flex max-sm:flex-col max-sm:justify-center">
           {!isKalkulatorSubmitted && (
             <InfoBox label="Wpisz powierzchnie z dokładnością do dwóch miejsc po przecinku, np. 1200,60 m2." />
           )}
-          <p className="font-light">
+          <p className="font-light max-sm:text-xs max-sm:text-center">
             Zastanawiasz się, jak przypisać odpowiednie powierzchnie? <br />
             Sprawdź nasz{' '}
             <a
@@ -111,28 +111,30 @@ export default function KalkulatorForm({
               hasGlobalError={!!globalError}
               isKalkulatorSubmitted={isKalkulatorSubmitted}
             />
-            <FormCollapsible
-              title="Co zalicza się do "
-              titleBold="powierzchni uszczelnionych"
-            >
-              <ul className="list-disc pl-4 font-light">
-                <li className="[&::marker]:text-xs ml-2 pl-1">
-                  powierzchnie dachów (w tym tarasów, balkonów)
-                </li>
-                <li className="[&::marker]:text-xs ml-2 pl-1">
-                  powierzchnie szczelne dróg, placów i chodników, w
-                  szczególności powierzchnie betonowe, asfaltowe
-                </li>
-                <li className="[&::marker]:text-xs ml-2 pl-1">
-                  powierzchnie częściowo przepuszczalne placów i chodników z
-                  kostki brukowej lub płytek chodnikowych jeżeli wody opadowe i
-                  roztopowe z tych powierzchni są odprowadzane bezpośrednio (za
-                  pośrednictwem przyłącza) lub pośrednio (spływ do sieci
-                  kanalizacyjnej odprowadzającej wodę z jezdni) do sieci
-                  kanalizacyjnej odprowadzającej te wody.
-                </li>
-              </ul>
-            </FormCollapsible>
+            <div className="max-sm:text-sm">
+              <FormCollapsible
+                title="Co zalicza się do "
+                titleBold="powierzchni uszczelnionych"
+              >
+                <ul className="list-disc pl-4 font-light">
+                  <li className="[&::marker]:text-xs ml-2 pl-1">
+                    powierzchnie dachów (w tym tarasów, balkonów)
+                  </li>
+                  <li className="[&::marker]:text-xs ml-2 pl-1">
+                    powierzchnie szczelne dróg, placów i chodników, w
+                    szczególności powierzchnie betonowe, asfaltowe
+                  </li>
+                  <li className="[&::marker]:text-xs ml-2 pl-1">
+                    powierzchnie częściowo przepuszczalne placów i chodników z
+                    kostki brukowej lub płytek chodnikowych jeżeli wody opadowe
+                    i roztopowe z tych powierzchni są odprowadzane bezpośrednio
+                    (za pośrednictwem przyłącza) lub pośrednio (spływ do sieci
+                    kanalizacyjnej odprowadzającej wodę z jezdni) do sieci
+                    kanalizacyjnej odprowadzającej te wody.
+                  </li>
+                </ul>
+              </FormCollapsible>
+            </div>
           </div>
           <div className="flex flex-col gap-4">
             <KalkulatorInput
@@ -142,17 +144,19 @@ export default function KalkulatorForm({
               hasGlobalError={!!globalError}
               isKalkulatorSubmitted={isKalkulatorSubmitted}
             />
-            <FormCollapsible
-              title="Czym są "
-              titleBold="powierzchnie przepuszczalne"
-            >
-              <p>
-                Powierzchnie przepuszczalne to nawierzchnie wodoprzepuszczalne
-                posadowione na gruncie rodzimym np. płyty ażurowe, kostki
-                betonowe typu: „eko-kostki”, ekologiczne nawierzchnie
-                wodoprzepuszczalne, kora lub żwir.
-              </p>
-            </FormCollapsible>
+            <div className="max-sm:text-sm">
+              <FormCollapsible
+                title="Czym są "
+                titleBold="powierzchnie przepuszczalne"
+              >
+                <p>
+                  Powierzchnie przepuszczalne to nawierzchnie wodoprzepuszczalne
+                  posadowione na gruncie rodzimym np. płyty ażurowe, kostki
+                  betonowe typu: „eko-kostki”, ekologiczne nawierzchnie
+                  wodoprzepuszczalne, kora lub żwir.
+                </p>
+              </FormCollapsible>
+            </div>
           </div>
 
           <div className="flex flex-col gap-4">
@@ -163,27 +167,31 @@ export default function KalkulatorForm({
               hasGlobalError={!!globalError}
               isKalkulatorSubmitted={isKalkulatorSubmitted}
             />
-            <FormCollapsible
-              title="Czym są "
-              titleBold="tereny inne, w tym zieleń nieurządzona"
-            >
-              <p>
-                Powierzchnie terenów innych, w tym zieleni nieurządzonej, są to
-                pozostałe tereny tzw. dziewicze, niezabudowane i nieurządzone,
-                posiadające naturalne zagłębienia terenu, nieregularny kształt.
-                Tereny te są zazwyczaj porośnięte zielenią (dzikie drzewa,
-                krzewy i trawy). Takie tereny posiadają często tzw. neutralność
-                hydrologiczną, czyli woda opadowa i roztopowa, która spadnie na
-                taki teren, jest na nim w 100% zagospodarowana: wykorzystana
-                przez roślinność, wyparowuje do atmosfery oraz przenika w głąb
-                profilu glebowego zasilając wody przypowierzchniowe i gruntowe.
-              </p>
-            </FormCollapsible>
+            <div className="max-sm:text-sm">
+              <FormCollapsible
+                title="Czym są "
+                titleBold="tereny inne"
+                titleBoldHiddenOnSmall=", w tym zieleń nieurządzona"
+              >
+                <p>
+                  Powierzchnie terenów innych, w tym zieleni nieurządzonej, są
+                  to pozostałe tereny tzw. dziewicze, niezabudowane i
+                  nieurządzone, posiadające naturalne zagłębienia terenu,
+                  nieregularny kształt. Tereny te są zazwyczaj porośnięte
+                  zielenią (dzikie drzewa, krzewy i trawy). Takie tereny
+                  posiadają często tzw. neutralność hydrologiczną, czyli woda
+                  opadowa i roztopowa, która spadnie na taki teren, jest na nim
+                  w 100% zagospodarowana: wykorzystana przez roślinność,
+                  wyparowuje do atmosfery oraz przenika w głąb profilu glebowego
+                  zasilając wody przypowierzchniowe i gruntowe.
+                </p>
+              </FormCollapsible>
+            </div>
           </div>
           {globalError && <ErrorInfoBox label={globalError} />}
         </div>
         {!isKalkulatorSubmitted && (
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-4 max-sm:flex-col max-sm:justify-center max-sm:gap-2">
             <Button
               type="button"
               variant="secondary"

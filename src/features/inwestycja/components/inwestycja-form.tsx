@@ -93,7 +93,7 @@ export function InwestycjaForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-[794px] space-y-6"
+          className="w-[794px] max-sm:w-full max-lg:w-[90%] space-y-6"
         >
           <FormInput
             control={form.control}
@@ -171,7 +171,7 @@ export function InwestycjaForm({
             isPodłączony={watchedIsPodłączony}
           />
           {isInwestycjaSubmitted === false && (
-            <div className="flex justify-end gap-4 mt-8">
+            <div className="flex max-sm:flex-col max-sm:justify-center justify-end gap-4 max-sm:gap-2 mt-8">
               <Button
                 type="button"
                 variant="secondary"

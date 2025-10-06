@@ -88,9 +88,9 @@ export default function KalkulatorInput({
         }
 
         return (
-          <FormItem className="flex justify-between gap-13">
+          <FormItem className="flex max-sm:flex-col justify-between max-sm:gap-2 gap-13">
             <FormLabel
-              className={`data-[error=true]:text-current ${subLabel && 'flex flex-col items-start gap-1'}`}
+              className={`data-[error=true]:text-current max-sm:text-sm  ${subLabel && 'flex flex-col items-start gap-1'}`}
             >
               {label}
               {subLabel && <span className="font-light">{subLabel}</span>}
@@ -98,7 +98,7 @@ export default function KalkulatorInput({
             <FormControl>
               <div className="relative">
                 <Input
-                  className="w-[285px] text-right"
+                  className="w-[285px] max-sm:w-full text-right"
                   value={displayValue}
                   onChange={(e) => handleInputChange(e, field.onChange)}
                   onBlur={() => handleBlur(field)}
