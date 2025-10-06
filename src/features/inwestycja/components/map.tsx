@@ -20,11 +20,6 @@ import CustomPopupContent from './custom-popup-content';
 import './map-override.css';
 import type { DzialkaModel } from '@/types/inwestycja-model';
 
-// NOTE: Examples
-//306401_1.0021.AR_09.58/3
-//306401_1.0005.AR_02.95
-//306401_1.0006.AR_11.16/1
-
 //helper component to change the map positon view
 function ChangeMapView({
   center,
