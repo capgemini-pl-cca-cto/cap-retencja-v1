@@ -19,6 +19,23 @@ interface RaportData {
 
 const currentDate = new Date().toLocaleDateString('pl-PL');
 
+// Helper function to get actual image dimensions and determine if it's from mobile
+async function getImageDimensions(
+  base64Data: string,
+): Promise<{ width: number; height: number; isMobile: boolean }> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const width = img.width;
+      const height = img.height;
+      // Consider mobile if width is less than 768px (typical mobile breakpoint)
+      const isMobile = width < 768;
+      resolve({ width, height, isMobile });
+    };
+    img.src = base64Data;
+  });
+}
+
 export default async function generatePDFReport({
   nazwaInwestycji,
   identyfikatorInwestycji,
@@ -89,84 +106,173 @@ export default async function generatePDFReport({
   pdf.text(`Identyfikator działki: ${identyfikatorInwestycji}`, 120, 67);
   pdf.text(`Zlewnia: ${nazwaZlewni}`, 120, 77);
 
+  // Get actual image dimensions to determine device type and aspect ratio
+  let isMobile = false;
+  let mapImageWidth = 0;
+  let mapImageHeight = 0;
+  let mapImageX = 0;
+  let mapImageY = 0;
+
   if (mapScreenshot) {
-    // Calculate proper aspect ratio based on typical viewport dimensions
-    // Assuming 95vw x 86vh translates to roughly 16:9 aspect ratio or wider
-    const targetAspectRatio = 16 / 9; // Approximate aspect ratio of the captured div
+    const {
+      width,
+      height,
+      isMobile: deviceIsMobile,
+    } = await getImageDimensions(mapScreenshot);
+    isMobile = deviceIsMobile;
+    const actualAspectRatio = width / height;
 
-    // Set maximum dimensions and maintain aspect ratio
-    const maxWidth = 140; // Maximum width in mm
-    const maxHeight = 100; // Maximum height in mm
+    // Set maximum dimensions and maintain actual aspect ratio
+    const maxWidth = 140; // Same width for both mobile and desktop
+    const maxHeight = 100; // Same height for both mobile and desktop
 
-    let mapImageWidth = maxWidth;
-    let mapImageHeight = maxWidth / targetAspectRatio;
+    if (!isMobile) {
+      // Tablet/desktop screens (md and higher) - use EXACTLY the same logic as before
+      const targetAspectRatio = 16 / 9; // Original desktop assumption
 
-    // If calculated height exceeds max, scale down based on height
-    if (mapImageHeight > maxHeight) {
-      mapImageHeight = maxHeight;
-      mapImageWidth = maxHeight * targetAspectRatio;
+      mapImageWidth = maxWidth;
+      mapImageHeight = maxWidth / targetAspectRatio;
+
+      // If calculated height exceeds max, scale down based on height (original logic)
+      if (mapImageHeight > maxHeight) {
+        mapImageHeight = maxHeight;
+        mapImageWidth = maxHeight * targetAspectRatio;
+      }
+
+      mapImageX = (pageWidth - mapImageWidth) / 2; // Center the image
+      mapImageY = 80; // Original position above "Dane obliczeniowe"
+    } else {
+      // Mobile screens - place image on the right side of "Dane obliczeniowe"
+      if (actualAspectRatio > maxWidth / maxHeight) {
+        // Image is wider - constrain by width
+        mapImageWidth = maxWidth;
+        mapImageHeight = maxWidth / actualAspectRatio;
+      } else {
+        // Image is taller - constrain by height
+        mapImageHeight = maxHeight;
+        mapImageWidth = maxHeight * actualAspectRatio;
+      }
+
+      mapImageX = pageWidth - mapImageWidth - 15; // Position on the right side with 15mm margin
+      mapImageY = 100; // Move down a bit for better positioning
     }
 
-    const mapImageX = (pageWidth - mapImageWidth) / 2; // Center the image
-    pdf.addImage(
-      mapScreenshot,
-      'PNG',
-      mapImageX,
-      80,
-      mapImageWidth,
-      mapImageHeight,
-    );
+    // Add the image (will be repositioned for mobile layout)
+    if (!isMobile) {
+      pdf.addImage(
+        mapScreenshot,
+        'PNG',
+        mapImageX,
+        mapImageY,
+        mapImageWidth,
+        mapImageHeight,
+      );
+    }
   }
 
   // 2. DANE OBLICZENIOWE
   pdf.setFontSize(12);
   pdf.setFont('Roboto', 'bold');
-  pdf.text('2. Dane obliczeniowe [m²]', 20, 165);
+  const daneObliczenioweY = isMobile ? 95 : 165; // Move up for mobile to eliminate empty space
+  pdf.text('2. Dane obliczeniowe [m²]', 20, daneObliczenioweY);
+
+  // Add mobile image after the section header but before content
+  if (mapScreenshot && isMobile) {
+    pdf.addImage(
+      mapScreenshot,
+      'PNG',
+      mapImageX,
+      mapImageY,
+      mapImageWidth,
+      mapImageHeight,
+    );
+  }
 
   pdf.setFont('Roboto', 'normal');
 
   pdf.setFontSize(10);
-  pdf.text('P0. Powierzchnia działki inwestycyjnej zgodnie z PZT:', 15, 175);
-  pdf.text(`${powDzialki}`, 130, 175);
+  const textStartY = isMobile ? 105 : 175; // Move text up for mobile
+  const lineHeight = 10;
 
-  pdf.text('P1. Powierzchnia dachów:', 15, 185);
-  pdf.text(`${powDachow}`, 130, 185);
+  pdf.text(
+    'P0. Powierzchnia działki inwestycyjnej zgodnie z PZT:',
+    15,
+    textStartY,
+  );
+  pdf.text(`${powDzialki}`, isMobile ? 125 : 130, textStartY);
 
-  pdf.text('P2. Powierzchnia dachów/stropów nad halą garażową', 15, 195);
-  pdf.text('zlokalizowaną poza obrysem budynku', 15, 200);
-  pdf.text(`${powDachowPozaObrysem}`, 130, 195);
+  pdf.text('P1. Powierzchnia dachów:', 15, textStartY + lineHeight);
+  pdf.text(`${powDachow}`, isMobile ? 125 : 130, textStartY + lineHeight);
 
-  pdf.text('P3. Powierzchnie uszczelnione zlokalizowane', 15, 210);
-  pdf.text('poza powierzchnią P2', 15, 215);
-  pdf.text(`${powUszczelnione}`, 130, 210);
+  pdf.text(
+    'P2. Powierzchnia dachów/stropów nad halą garażową',
+    15,
+    textStartY + lineHeight * 2,
+  );
+  pdf.text(
+    'zlokalizowaną poza obrysem budynku',
+    15,
+    textStartY + lineHeight * 2 + 5,
+  );
+  pdf.text(
+    `${powDachowPozaObrysem}`,
+    isMobile ? 125 : 130,
+    textStartY + lineHeight * 2,
+  );
 
-  pdf.text('P4. Powierzchnie przepuszczalne zakwalifikowane', 15, 225);
-  pdf.text('poza powierzchnią P2 i P5', 15, 230);
-  pdf.text(`${powPrzepuszczalne}`, 130, 225);
+  pdf.text(
+    'P3. Powierzchnie uszczelnione zlokalizowane',
+    15,
+    textStartY + lineHeight * 3 + 5,
+  );
+  pdf.text('poza powierzchnią P2', 15, textStartY + lineHeight * 3 + 10);
+  pdf.text(
+    `${powUszczelnione}`,
+    isMobile ? 125 : 130,
+    textStartY + lineHeight * 3 + 5,
+  );
+
+  pdf.text(
+    'P4. Powierzchnie przepuszczalne zakwalifikowane',
+    15,
+    textStartY + lineHeight * 4 + 10,
+  );
+  pdf.text('poza powierzchnią P2 i P5', 15, textStartY + lineHeight * 4 + 15);
+  pdf.text(
+    `${powPrzepuszczalne}`,
+    isMobile ? 125 : 130,
+    textStartY + lineHeight * 4 + 10,
+  );
 
   pdf.text(
     'P5. Powierzchnie terenów innych, w tym zieleni nieurządzonej',
     15,
-    240,
+    textStartY + lineHeight * 5 + 15,
   );
-  pdf.text(`${powTerenyInne}`, 130, 240);
+  pdf.text(
+    `${powTerenyInne}`,
+    isMobile ? 125 : 130,
+    textStartY + lineHeight * 5 + 15,
+  );
 
   // DIVIDER
   pdf.setDrawColor(180, 200, 230); // blend between light grey and light blue
-  pdf.line(15, 246, 195, 246);
+  const dividerY = textStartY + lineHeight * 5 + 21;
+  pdf.line(15, dividerY, isMobile ? mapImageX - 10 : 195, dividerY); // Extend almost to image with 10mm gap
 
   // WYMAGANA OBJECTOŚĆ
   pdf.setFontSize(12);
   pdf.setFont('Roboto', 'bold');
-  pdf.text('Wymagana objętość obiektów BZI:', 15, 260);
-  pdf.text(`${objBZI}`, 130, 260);
+  const wymaganaObjY = dividerY + 14;
+  pdf.text('Wymagana objętość obiektów BZI:', 15, wymaganaObjY);
+  pdf.text(`${objBZI}`, isMobile ? 125 : 130, wymaganaObjY);
 
   pdf.setFontSize(10);
-  pdf.text('lub', 15, 267);
+  pdf.text('lub', 15, wymaganaObjY + 7);
 
   pdf.setFontSize(12);
-  pdf.text('Wymagana objętość obiektów detencyjnych:', 15, 274);
-  pdf.text(`${objDetencyjnych}`, 130, 274);
+  pdf.text('Wymagana objętość obiektów detencyjnych:', 15, wymaganaObjY + 14);
+  pdf.text(`${objDetencyjnych}`, isMobile ? 125 : 130, wymaganaObjY + 14);
 
   pdf.setFont('Roboto', 'normal');
 
