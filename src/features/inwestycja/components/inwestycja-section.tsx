@@ -16,7 +16,7 @@ export const InwestycjaSection = ({
 }: InwestycjaSectionProps) => {
   return (
     <AccordionItem value="inwestycja-section">
-      <AccordionTrigger className="text-2xl justify-normal items-center gap-4 border-2 border-primary-blue text-primary-blue">
+      <AccordionTrigger className="text-2xl max-sm:text-xl justify-normal items-center gap-4 border-2 border-primary-blue text-primary-blue">
         1. Szczegóły inwestycji
       </AccordionTrigger>
       <AccordionContent className="flex flex-col text-balance items-center">
