@@ -28,7 +28,8 @@ export default function KanalizacjaDeszczowa({
         <FormRadio
           control={control}
           name="isPodłączony"
-          mainLabel="Czy chcesz podłączyć się do sieci kanalizacji deszczowej lub, gdy masz już przyłącze, chcesz pozostać podłączony?"
+          mainLabel="Czy dana zabudowa ma zostać podłączona do miejskiej sieci
+            kanalizacji deszczowej?"
           values={['tak', 'nie']}
           inputLabels={['tak', 'nie']}
         />
@@ -36,8 +37,8 @@ export default function KanalizacjaDeszczowa({
       {isInwestycjaSubmitted && typZabudowy === 'wielorodzinna' && (
         <div>
           <p className="font-light">
-            Czy chcesz podłączyć się do sieci kanalizacji deszczowej lub, gdy
-            masz już przyłącze, chcesz pozostać podłączony?
+            Czy dana zabudowa ma zostać podłączona do miejskiej sieci
+            kanalizacji deszczowej?
           </p>
           <p>{isPodłączony === 'tak' ? 'tak' : 'nie'}</p>
         </div>

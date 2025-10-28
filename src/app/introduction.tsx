@@ -10,7 +10,8 @@ export default function Introduction() {
         <div className="absolute left-0 top-[77%] -translate-y-1/2 w-[264px] h-[11px] bg-[#A2D089] z-0"></div>
       </div>
       <p className="font-bold">
-        Sprawdź, ile deszczu gromadzisz na terenie swojej nieruchomości.
+        Sprawdź, ile deszczu powinieneś retencjonować / detencjonować na terenie
+        swojej nieruchomości.
       </p>
       <div className="flex flex-col gap-2">
         <span className="font-light">
@@ -18,12 +19,14 @@ export default function Introduction() {
           linkami:
         </span>
         <a
-          href="https://www.aquanet-retencja.pl/wp-content/uploads/2024/10/Standardy-Retencji-dla-Miasta-Poznania.pdf"
+          href="https://www.aquanet-retencja.pl/wp-content/uploads/2024/07/WYTYCZNE-DO-PROJEKTOWANIA-Wymagania-Ogolne.pdf"
           className="font-medium underline"
           target="_blank"
           rel="noreferrer noopener"
         >
-          Standard Retencji dla Miasta Poznania
+          Wytyczne do projektowania: PROJEKTOWANIE, WYKONAWSTWO ZAGOSPODAROWANIA
+          WÓD OPADOWYCH I ROZTOPOWYCH ZA POMOCĄ BŁĘKITNO-ZIELONEJ INFRASTRUKTURY
+          (BZI) ORAZ SIECI I PRZYŁĄCZY KANALIZACJI DESZCZOWEJ
         </a>
         <a
           href="https://www.poznan.pl/mim/main/-,p,68775.html"
@@ -35,7 +38,7 @@ export default function Introduction() {
         </a>
       </div>
       <InfoBox
-        label='Niniejsze obliczenia i wynik "wymaganej pojemności wodnej" są szacunkowe. W celu ustalenia szczegółów np. lokalizacji nieruchomości w danej zlewni, zgłoś się z wnioskiem do Aquanet Retencja.'
+        label='Niniejsze obliczenia i wynik "wymaganej pojemności retencyjnej / detencyjnej" są szacunkowe. Ostateczne parametry obliczeniowe będą wynikały z warunków technicznych / informacji o które może wystąpić klient. Kalkulator odnosi się jedynie do pól inwestycyjnych bez układów drogowych.'
         className="max-lg:w-[85%]"
       />
     </div>
