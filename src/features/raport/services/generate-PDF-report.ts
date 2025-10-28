@@ -123,41 +123,36 @@ export default async function generatePDFReport({
     const actualAspectRatio = width / height;
 
     // Set maximum dimensions and maintain actual aspect ratio
-    const maxWidth = 140; // Same width for both mobile and desktop
-    const maxHeight = 100; // Same height for both mobile and desktop
+    const maxWidth = 140;
+    const maxHeight = 100;
 
     if (!isMobile) {
-      // Tablet/desktop screens (md and higher) - use EXACTLY the same logic as before
-      const targetAspectRatio = 16 / 9; // Original desktop assumption
+      const targetAspectRatio = 16 / 9;
 
       mapImageWidth = maxWidth;
       mapImageHeight = maxWidth / targetAspectRatio;
 
-      // If calculated height exceeds max, scale down based on height (original logic)
+      // If calculated height exceeds max, scale down based on height
       if (mapImageHeight > maxHeight) {
         mapImageHeight = maxHeight;
         mapImageWidth = maxHeight * targetAspectRatio;
       }
 
       mapImageX = (pageWidth - mapImageWidth) / 2; // Center the image
-      mapImageY = 80; // Original position above "Dane obliczeniowe"
+      mapImageY = 80;
     } else {
-      // Mobile screens - place image on the right side of "Dane obliczeniowe"
       if (actualAspectRatio > maxWidth / maxHeight) {
-        // Image is wider - constrain by width
         mapImageWidth = maxWidth;
         mapImageHeight = maxWidth / actualAspectRatio;
       } else {
-        // Image is taller - constrain by height
         mapImageHeight = maxHeight;
         mapImageWidth = maxHeight * actualAspectRatio;
       }
 
-      mapImageX = pageWidth - mapImageWidth - 15; // Position on the right side with 15mm margin
-      mapImageY = 100; // Move down a bit for better positioning
+      mapImageX = pageWidth - mapImageWidth - 15; // Position on the right side
+      mapImageY = 100;
     }
 
-    // Add the image (will be repositioned for mobile layout)
     if (!isMobile) {
       pdf.addImage(
         mapScreenshot,
@@ -173,10 +168,9 @@ export default async function generatePDFReport({
   // 2. DANE OBLICZENIOWE
   pdf.setFontSize(12);
   pdf.setFont('Roboto', 'bold');
-  const daneObliczenioweY = isMobile ? 95 : 165; // Move up for mobile to eliminate empty space
+  const daneObliczenioweY = isMobile ? 95 : 165;
   pdf.text('2. Dane obliczeniowe [m²]', 20, daneObliczenioweY);
 
-  // Add mobile image after the section header but before content
   if (mapScreenshot && isMobile) {
     pdf.addImage(
       mapScreenshot,
@@ -191,7 +185,7 @@ export default async function generatePDFReport({
   pdf.setFont('Roboto', 'normal');
 
   pdf.setFontSize(10);
-  const textStartY = isMobile ? 105 : 175; // Move text up for mobile
+  const textStartY = isMobile ? 105 : 175;
   const lineHeight = 10;
 
   pdf.text(
@@ -258,7 +252,7 @@ export default async function generatePDFReport({
   // DIVIDER
   pdf.setDrawColor(180, 200, 230); // blend between light grey and light blue
   const dividerY = textStartY + lineHeight * 5 + 21;
-  pdf.line(15, dividerY, isMobile ? mapImageX - 10 : 195, dividerY); // Extend almost to image with 10mm gap
+  pdf.line(15, dividerY, isMobile ? mapImageX - 10 : 195, dividerY);
 
   // WYMAGANA OBJECTOŚĆ
   pdf.setFontSize(12);
@@ -278,13 +272,12 @@ export default async function generatePDFReport({
 
   // KLAUZULA
   pdf.setFontSize(7);
-  pdf.setTextColor(128, 128, 128); // Set text color to grey
+  pdf.setTextColor(128, 128, 128);
   pdf.text(
     'Informacje zawarte w raporcie są poglądowe i nie stanowią podstawy do wydania warunków technicznych przyłączenia do sieci kanalizacji deszczowej.',
     15,
     284,
   );
-  pdf.setTextColor(0, 0, 0); // Reset text color to black for any following text
 
   // SAVE PDF
   pdf.save('raport-bilansu.pdf');
