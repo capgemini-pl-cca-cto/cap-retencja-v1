@@ -18,6 +18,11 @@ function App() {
   );
   const daneRaport = useDaneRaport();
 
+  const handleInwestycjaSubmit = () => {
+    submitInwestycja();
+    setOpenAccordion('kalkulator-section');
+  };
+
   return (
     <main className="text-primary-blue flex flex-col justify-start gap-8">
       <Introduction />
@@ -31,7 +36,7 @@ function App() {
           defaultValue="inwestycja-section"
         >
           <InwestycjaSection
-            onFormSubmit={submitInwestycja}
+            onFormSubmit={handleInwestycjaSubmit}
             isInwestycjaSubmitted={isInwestycjaSubmitted}
           />
         </Accordion>
