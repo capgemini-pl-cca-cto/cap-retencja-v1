@@ -95,7 +95,9 @@ export default function RaportForm({
         return;
       }
       // Only call API if typZabudowy !== 'jednorodzinna' and isPodłączony === 'tak'
-      const zlewnia = await findZlewnia(daneRaport.daneDzialki!.coordinates);
+      const zlewnia = await findZlewnia(
+        daneRaport.daneDzialki!.centerCoordinates,
+      );
       if (zlewnia) {
         setNazwaZlewni(zlewnia.nazwaZlewni);
         if (zlewnia.isPrzeciazona === true) {
