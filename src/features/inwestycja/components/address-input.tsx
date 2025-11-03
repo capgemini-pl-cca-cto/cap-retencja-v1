@@ -19,7 +19,7 @@ export default function AddressInput({
   const [isLoading, setIsLoading] = useState(false);
   const [address, setAddress] = useState('');
 
-  //function to look for the entered address in the API,
+  //calls the fetchAddressCoordinates to fetch the address object, sets the state addressSearchResult and clears daneDzialki by calling onAddressFound
   async function clickHandler() {
     setIsLoading(true);
     try {

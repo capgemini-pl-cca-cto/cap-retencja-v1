@@ -13,6 +13,7 @@ import {
   ZoomControl,
 } from 'react-leaflet';
 import {
+  canvasRenderer,
   DEFAULT_POSITION,
   DEFAULT_ZOOM,
   markerIcon,
@@ -58,11 +59,11 @@ function MapClickHandler({
 }
 
 interface MapProps {
-  daneDzialki: DzialkaModel | undefined;
+  daneDzialki?: DzialkaModel | undefined;
   setIdentyfikatorFromMap: (value: string) => void;
   setDaneDzialki: (value: DzialkaModel | undefined) => void;
   setError: (value: string | null) => void;
-  addressSearchResult?: AddressSearchResult | null;
+  daneAdresu?: AddressSearchResult | null;
 }
 
 export default function Map({
@@ -70,7 +71,7 @@ export default function Map({
   setIdentyfikatorFromMap,
   setDaneDzialki,
   setError,
-  addressSearchResult,
+  daneAdresu,
 }: MapProps) {
   const [position, setPosition] = useState<[number, number]>(DEFAULT_POSITION);
   const [zoomLevel, setZoomLevel] = useState<number>(DEFAULT_ZOOM);
@@ -110,12 +111,12 @@ export default function Map({
   //Whenever we find an address by address search, the map moves to its coordinates
   useEffect(
     function () {
-      if (addressSearchResult) {
-        setPosition([addressSearchResult.lat, addressSearchResult.lng]);
+      if (daneAdresu) {
+        setPosition([daneAdresu.lat, daneAdresu.lng]);
         setZoomLevel(PLOT_FOUND_ZOOM);
       }
     },
-    [addressSearchResult],
+    [daneAdresu],
   );
 
   return (
@@ -144,6 +145,7 @@ export default function Map({
               fillOpacity: 0.1,
               fillColor: '#dc2626',
             }}
+            renderer={canvasRenderer}
           />
           <Marker position={position} icon={markerIcon}>
             <Popup closeButton={false} className="custom-popup">
