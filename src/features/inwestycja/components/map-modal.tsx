@@ -2,10 +2,12 @@ import { DialogClose } from '@/components/ui/dialog';
 import { XIcon } from 'lucide-react';
 import { useState } from 'react';
 import DzialkaInput from './dzialka-input';
+import AddressInput from './address-input';
 import './map-override.css';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Map from './map';
 import type { DzialkaModel } from '@/types/inwestycja-model';
+import type { AddressSearchResult } from '../types/addressTypes';
 
 interface MapModalProps {
   setIdentyfikatorFromMap: (value: string) => void;
@@ -16,7 +18,24 @@ export default function MapModal({ setIdentyfikatorFromMap }: MapModalProps) {
   const [daneDzialki, setDaneDzialki] = useState<DzialkaModel | undefined>(
     undefined,
   );
+  const [addressSearchResult, setAddressSearchResult] =
+    useState<AddressSearchResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  //when the entered address is found by the API, clear daneDzialki and set the state
+  function handleAddressFound(result: AddressSearchResult) {
+    setDaneDzialki(undefined);
+    setAddressSearchResult(result);
+    setError(null);
+  }
+
+  //set daneDzialki to the found dzialka and clear the address
+  function handleDzialkaSet(dzialka: DzialkaModel | undefined) {
+    setDaneDzialki(dzialka);
+    if (dzialka) {
+      setAddressSearchResult(null);
+    }
+  }
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-start pt-8">
@@ -38,7 +57,12 @@ export default function MapModal({ setIdentyfikatorFromMap }: MapModalProps) {
         <DzialkaInput
           identyfikatorDzialki={identyfikatorDzialki}
           setIdentyfikatorDzialki={setIdentyfikatorDzialki}
-          setDaneDzialki={setDaneDzialki}
+          setDaneDzialki={handleDzialkaSet}
+          error={error}
+          setError={setError}
+        />
+        <AddressInput
+          onAddressFound={handleAddressFound}
           error={error}
           setError={setError}
         />
@@ -75,6 +99,9 @@ export default function MapModal({ setIdentyfikatorFromMap }: MapModalProps) {
         <Map
           daneDzialki={daneDzialki}
           setIdentyfikatorFromMap={setIdentyfikatorFromMap}
+          setDaneDzialki={handleDzialkaSet}
+          setError={setError}
+          addressSearchResult={addressSearchResult}
         />
       </div>
     </div>

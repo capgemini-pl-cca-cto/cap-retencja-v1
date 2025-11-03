@@ -1,5 +1,5 @@
 import proj4 from 'proj4';
-import type { Coordinates, DzialkaResponse } from '../types/types';
+import type { Coordinates, DzialkaResponse } from '../types/dzialkaTypes';
 import * as turf from '@turf/turf';
 import type { DzialkaModel } from '@/types/inwestycja-model';
 
@@ -8,7 +8,8 @@ proj4.defs(
   '+proj=tmerc +lat_0=0 +lon_0=19 +k=0.9993 +x_0=500000 +y_0=-5300000 +ellps=GRS80 +units=m +no_defs',
 );
 
-//transforms WKT string into an array of pairs of (polish) coordinates with parseWktPolygon
+//NOTE: Helper function - transforms the received wkt string (like SRID=2180;POLYGON((358855.206308051 506827.929378615,358850.244847873 506814.692656992...)))
+// into an array of pairs of (polish) coordinates
 function parseWktPolygon(wkt: string): number[][] {
   try {
     // Clean the WKT string: remove SRID prefix, POLYGON wrapper, and any trailing whitespace/newlines
@@ -52,7 +53,7 @@ function parseWktPolygon(wkt: string): number[][] {
   }
 }
 
-//accepts the API response, removes unnecessary 0s and splits it by | to extract needed info and return it as object
+//NOTE: Helper function - accepts the string returned from the API, removes unnecessary 0s and splits it by | to extract needed info and returns it as object
 function parseDzialkaResponse(response: string): DzialkaResponse | null {
   // Remove any leading "0\n" from the response
   const cleanResponse = response.replace(/^0\n/, '');
@@ -71,13 +72,11 @@ function parseDzialkaResponse(response: string): DzialkaResponse | null {
   };
 }
 
-//accepts the WKT Polygon string in polish coordinate system
-//transforms WKT string into an array of pairs of coordinates with parseWktPolygon
-//from this array creates a polygon and calculates its center point coordinates with turf
-//converts the center point coordinates to normal lat/lng with proj4
-function getDzialkaCenterCoordinates(wktGeometry: string): Coordinates {
+//NOTE: Helper function to get Center point LatLng - receives the wkt string, calls parseWktPolygon to transform it into array of pairs of coords,
+// creates from it a polygon and calculates its center point coordinates with turf, finally converts them to normal latlng to be displayed on the map
+function getDzialkaCenterCoordinates(wkt: string): Coordinates {
   // Parse WKT to get coordinates
-  const coordinates = parseWktPolygon(wktGeometry);
+  const coordinates = parseWktPolygon(wkt);
 
   // Ensure the polygon is closed (first and last coordinates should be the same)
   if (coordinates.length > 0) {
@@ -103,7 +102,21 @@ function getDzialkaCenterCoordinates(wktGeometry: string): Coordinates {
   return { lat, lng };
 }
 
-//the final function, does the API call, transforms the data with parseDzialkaResponse, gets the center point coords with getDzialkaCenterCoordinates and returns the whole data
+//NOTE: Helper function to convert wkt string to an array of LatLng pairs for Dzialka Outline display
+function getDzialkaPolygonCoordinates(wkt: string): [number, number][] {
+  // Parse WKT string to get array of (polish) coordinates
+  const coordinates = parseWktPolygon(wkt);
+
+  // Convert each coordinate pair from EPSG:2180 to WGS84
+  const wgs84Coordinates = coordinates.map(([x, y]) => {
+    const [lng, lat] = proj4('EPSG:2180', 'WGS84', [x, y]);
+    return [lat, lng] as [number, number];
+  });
+
+  return wgs84Coordinates;
+}
+
+//NOTE: Final function - Fetches dzialka data by the entered identyfikatorDzialki
 export async function fetchDzialkaData(
   identyfikatorDzialki: string,
 ): Promise<DzialkaModel> {
@@ -111,8 +124,8 @@ export async function fetchDzialkaData(
     throw new Error('Identyfikator działki nie może być pusty');
   }
 
+  //Get the response data string
   const url = `https://uldk.gugik.gov.pl/?request=GetParcelById&id=${encodeURIComponent(identyfikatorDzialki)}&result=teryt,voivodeship,county,commune,region,parcel,geom_wkt`;
-
   const response = await fetch(url);
   const text = await response.text();
 
@@ -120,6 +133,7 @@ export async function fetchDzialkaData(
     throw new Error(`Brak działki dla identyfikatora ${identyfikatorDzialki}`);
   }
 
+  //convert the string into a structured object
   const parcelData = parseDzialkaResponse(text);
   if (!parcelData) {
     throw new Error(
@@ -127,8 +141,39 @@ export async function fetchDzialkaData(
     );
   }
 
-  // Get coordinates of the center point
+  // Get LatLng coordinates of the center point and the polygon (as an array of pairs of latlng)
   const { geometry, ...rest } = parcelData;
-  const coordinates = getDzialkaCenterCoordinates(geometry);
-  return { ...rest, coordinates };
+  const centerCoordinates = getDzialkaCenterCoordinates(geometry);
+  const polygonCoordinates = getDzialkaPolygonCoordinates(geometry);
+  return { ...rest, centerCoordinates, polygonCoordinates };
+}
+
+//NOTE: Final function - Fetches dzialka data by coordinates clicked on map
+export async function fetchDzialkaDataByCoordinates(
+  lat: number,
+  lng: number,
+): Promise<DzialkaModel> {
+  // Convert WGS84 coordinates to EPSG:2180 (Polish coordinate system)
+  const [x, y] = proj4('WGS84', 'EPSG:2180', [lng, lat]);
+
+  //Get the response data string
+  const url = `https://uldk.gugik.gov.pl/?request=GetParcelByXY&xy=${x},${y}&result=teryt,voivodeship,county,commune,region,parcel,geom_wkt`;
+  const response = await fetch(url);
+  const text = await response.text();
+
+  if (text === '0') {
+    throw new Error('Brak działki w tym miejscu na mapie');
+  }
+
+  //convert the string into a structured object
+  const parcelData = parseDzialkaResponse(text);
+  if (!parcelData) {
+    throw new Error('Nie znaleziono działki w tym miejscu na mapie');
+  }
+
+  // Get LatLng coordinates of the center point and the polygon (as an array of pairs of latlng)
+  const { geometry, ...rest } = parcelData;
+  const centerCoordinates = getDzialkaCenterCoordinates(geometry);
+  const polygonCoordinates = getDzialkaPolygonCoordinates(geometry);
+  return { ...rest, centerCoordinates, polygonCoordinates };
 }

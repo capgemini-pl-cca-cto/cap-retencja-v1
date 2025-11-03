@@ -1,6 +1,7 @@
 import {
   MapContainer,
   Marker,
+  Polygon,
   Popup,
   TileLayer,
   ZoomControl,
@@ -16,7 +17,10 @@ interface PodgladMapProps {
 export default function PodgladMap({ daneDzialki }: PodgladMapProps) {
   return (
     <MapContainer
-      center={[daneDzialki.coordinates.lat, daneDzialki.coordinates.lng]}
+      center={[
+        daneDzialki.centerCoordinates.lat,
+        daneDzialki.centerCoordinates.lng,
+      ]}
       zoom={PLOT_FOUND_ZOOM}
       scrollWheelZoom={true}
       zoomControl={false}
@@ -26,8 +30,21 @@ export default function PodgladMap({ daneDzialki }: PodgladMapProps) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <Polygon
+        positions={daneDzialki.polygonCoordinates}
+        pathOptions={{
+          color: '#dc2626',
+          weight: 3,
+          opacity: 0.8,
+          fillOpacity: 0.1,
+          fillColor: '#dc2626',
+        }}
+      />
       <Marker
-        position={[daneDzialki.coordinates.lat, daneDzialki.coordinates.lng]}
+        position={[
+          daneDzialki.centerCoordinates.lat,
+          daneDzialki.centerCoordinates.lng,
+        ]}
         icon={markerIcon}
       >
         <Popup closeButton={false} className="custom-popup">
