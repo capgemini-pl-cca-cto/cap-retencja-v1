@@ -8,10 +8,11 @@ export type DzialkaModel = {
   commune: string;
   region: string;
   parcel: string;
-  coordinates: {
+  centerCoordinates: {
     lat: number;
     lng: number;
   };
+  polygonCoordinates: [number, number][];
 };
 
 export type InwestycjaModel = z.infer<typeof InwestycjaFormSchema>;

@@ -1,32 +1,30 @@
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
-import { fetchDzialkaData } from '../services/dzialka-parser';
+import { MapPin } from 'lucide-react';
 import { useState } from 'react';
 import Spinner from '@/components/shared/spinner';
-import type { DzialkaModel } from '@/types/inwestycja-model';
+import { fetchAddressCoordinates } from '../services/address-search';
+import type { AddressSearchResult } from '../types/addressTypes';
 
-interface DzialkaInputProps {
-  identyfikatorDzialki: string;
-  setIdentyfikatorDzialki: (value: string) => void;
-  setDaneDzialki: (value: DzialkaModel) => void;
+interface AddressInputProps {
+  onAddressFound: (result: AddressSearchResult) => void;
   error: string | null;
   setError: (value: string | null) => void;
 }
 
-export default function DzialkaInput({
-  identyfikatorDzialki,
-  setIdentyfikatorDzialki,
-  setDaneDzialki,
+export default function AddressInput({
+  onAddressFound,
   error,
   setError,
-}: DzialkaInputProps) {
+}: AddressInputProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [address, setAddress] = useState('');
 
+  //function to look for the entered address in the API,
   async function clickHandler() {
     setIsLoading(true);
     try {
-      const dzialkaData = await fetchDzialkaData(identyfikatorDzialki);
-      setDaneDzialki(dzialkaData);
+      const addressResult = await fetchAddressCoordinates(address);
+      onAddressFound(addressResult);
       setIsLoading(false);
       setError(null);
     } catch (error) {
@@ -36,22 +34,22 @@ export default function DzialkaInput({
   }
 
   return (
-    <div className="absolute top-4 max-sm:top-2 sm:left-4 max-sm:mx-auto z-[9999] w-[332px] h-[80px] p-4 bg-white shadow-lg flex items-center justify-center">
+    <div className="absolute top-[108px] max-sm:top-[104px] sm:left-4 max-sm:mx-auto z-[9999] w-[332px] h-[80px] p-4 bg-white shadow-lg flex items-center justify-center">
       <div className="relative">
         <Input
-          placeholder="Wpisz identyfikator działki"
+          placeholder="Wpisz adres (np. Poznań, Barańczaka 3J)"
           className={`${error ? 'border-destructive' : 'border-primary-blue'} text-primary-blue w-[300px] h-12 bg-white !bg-opacity-100 text-sm font-medium placeholder:font-light placeholder:text-primary-blue`}
-          value={identyfikatorDzialki}
-          onChange={(e) => setIdentyfikatorDzialki(e.target.value)}
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
         />
         {!isLoading ? (
           <button
             type="button"
-            aria-label="Szukaj działki"
+            aria-label="Szukaj adresu"
             className="absolute right-3 top-1/2 -translate-y-1/2 text-primary-blue w-[24px] h-[24px] flex items-center justify-center bg-transparent border-none cursor-pointer"
             onClick={clickHandler}
           >
-            <Search className="w-[18px] h-[18px]" />
+            <MapPin className="w-[18px] h-[18px]" />
           </button>
         ) : (
           <Spinner />
