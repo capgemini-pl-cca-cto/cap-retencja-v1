@@ -123,6 +123,11 @@ export async function fetchDzialkaData(
   if (!identyfikatorDzialki.trim()) {
     throw new Error('Identyfikator działki nie może być pusty');
   }
+  if (identyfikatorDzialki.length < 21) {
+    throw new Error(
+      'Działka o takim identyfikatorze nie istnieje. Sprawdź poprawność numeru identyfikacyjnego działki lub wybierz działkę na mapie!',
+    );
+  }
 
   //Get the response data string
   const url = `https://uldk.gugik.gov.pl/?request=GetParcelById&id=${encodeURIComponent(identyfikatorDzialki)}&result=teryt,voivodeship,county,commune,region,parcel,geom_wkt`;

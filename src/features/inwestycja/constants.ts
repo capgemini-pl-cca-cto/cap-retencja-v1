@@ -9,3 +9,6 @@ export const markerIcon = new L.Icon({
   iconAnchor: [16, 32],
   popupAnchor: [0, -32],
 });
+
+// Canvas renderer for proper html2canvas screenshot rendering
+export const canvasRenderer = L.canvas();

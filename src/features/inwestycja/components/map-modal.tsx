@@ -1,31 +1,30 @@
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { DialogClose } from '@/components/ui/dialog';
+import type { DzialkaModel } from '@/types/inwestycja-model';
 import { XIcon } from 'lucide-react';
 import { useState } from 'react';
-import DzialkaInput from './dzialka-input';
-import AddressInput from './address-input';
-import './map-override.css';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import Map from './map';
-import type { DzialkaModel } from '@/types/inwestycja-model';
 import type { AddressSearchResult } from '../types/addressTypes';
+import LocationInput from './location-input';
+import Map from './map';
+import './map-override.css';
 
 interface MapModalProps {
   setIdentyfikatorFromMap: (value: string) => void;
 }
 
 export default function MapModal({ setIdentyfikatorFromMap }: MapModalProps) {
-  const [identyfikatorDzialki, setIdentyfikatorDzialki] = useState('');
   const [daneDzialki, setDaneDzialki] = useState<DzialkaModel | undefined>(
     undefined,
   );
-  const [addressSearchResult, setAddressSearchResult] =
-    useState<AddressSearchResult | null>(null);
+  const [daneAdresu, setDaneAdresu] = useState<AddressSearchResult | null>(
+    null,
+  );
   const [error, setError] = useState<string | null>(null);
 
   //when the entered address is found by the API, clear daneDzialki and set the state
   function handleAddressFound(result: AddressSearchResult) {
     setDaneDzialki(undefined);
-    setAddressSearchResult(result);
+    setDaneAdresu(result);
     setError(null);
   }
 
@@ -33,13 +32,13 @@ export default function MapModal({ setIdentyfikatorFromMap }: MapModalProps) {
   function handleDzialkaSet(dzialka: DzialkaModel | undefined) {
     setDaneDzialki(dzialka);
     if (dzialka) {
-      setAddressSearchResult(null);
+      setDaneAdresu(null);
     }
   }
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-start pt-8">
-      <div className="flex items-center justify-between w-[95vw] mb-6">
+      <div className="flex items-center justify-between w-[95vw]">
         <h2 className="text-lg font-bold text-left text-primary-blue">
           Wyszukaj działkę na mapie
         </h2>
@@ -53,15 +52,12 @@ export default function MapModal({ setIdentyfikatorFromMap }: MapModalProps) {
           </button>
         </DialogClose>
       </div>
+      <h3 className="text-sm text-primary-blue mr-auto w-[95vw] mx-auto">
+        Wpisz adres w formie: miasto, ulica numer np. Poznań, Bułgarska 17
+      </h3>
       <div className="w-[95vw] h-[86vh] relative flex justify-center items-center">
-        <DzialkaInput
-          identyfikatorDzialki={identyfikatorDzialki}
-          setIdentyfikatorDzialki={setIdentyfikatorDzialki}
-          setDaneDzialki={handleDzialkaSet}
-          error={error}
-          setError={setError}
-        />
-        <AddressInput
+        <LocationInput
+          onDzialkaFound={handleDzialkaSet}
           onAddressFound={handleAddressFound}
           error={error}
           setError={setError}
@@ -101,7 +97,7 @@ export default function MapModal({ setIdentyfikatorFromMap }: MapModalProps) {
           setIdentyfikatorFromMap={setIdentyfikatorFromMap}
           setDaneDzialki={handleDzialkaSet}
           setError={setError}
-          addressSearchResult={addressSearchResult}
+          daneAdresu={daneAdresu}
         />
       </div>
     </div>

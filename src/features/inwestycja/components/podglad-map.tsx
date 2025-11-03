@@ -7,7 +7,7 @@ import {
   ZoomControl,
 } from 'react-leaflet';
 import CustomPopupContent from './custom-popup-content';
-import { markerIcon, PLOT_FOUND_ZOOM } from '../constants';
+import { canvasRenderer, markerIcon, PLOT_FOUND_ZOOM } from '../constants';
 import type { DzialkaModel } from '@/types/inwestycja-model';
 
 interface PodgladMapProps {
@@ -39,6 +39,7 @@ export default function PodgladMap({ daneDzialki }: PodgladMapProps) {
           fillOpacity: 0.1,
           fillColor: '#dc2626',
         }}
+        renderer={canvasRenderer}
       />
       <Marker
         position={[
