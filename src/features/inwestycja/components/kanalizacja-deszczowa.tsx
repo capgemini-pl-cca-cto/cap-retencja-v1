@@ -8,6 +8,7 @@ interface KanalizacjaDeszczowaProps {
   control: Control<InwestycjaModel>;
   typZabudowy: 'jednorodzinna' | 'wielorodzinna';
   isPodłączony: 'tak' | 'nie';
+  isExistingConnection: 'tak' | 'nie';
 }
 
 export default function KanalizacjaDeszczowa({
@@ -15,6 +16,7 @@ export default function KanalizacjaDeszczowa({
   control,
   typZabudowy,
   isPodłączony,
+  isExistingConnection,
 }: KanalizacjaDeszczowaProps) {
   return (
     <>
@@ -25,23 +27,44 @@ export default function KanalizacjaDeszczowa({
         />
       )}
       {!isInwestycjaSubmitted && typZabudowy === 'wielorodzinna' && (
-        <FormRadio
-          control={control}
-          name="isPodłączony"
-          mainLabel="Czy dana zabudowa ma zostać podłączona do miejskiej sieci
+        <>
+          <FormRadio
+            control={control}
+            name="isPodłączony"
+            mainLabel="Czy dana zabudowa ma zostać podłączona do miejskiej sieci
             kanalizacji deszczowej?"
-          values={['tak', 'nie']}
-          inputLabels={['tak', 'nie']}
-        />
+            values={['tak', 'nie']}
+            inputLabels={['tak', 'nie']}
+          />
+          <div className="mt-4">
+            <FormRadio
+              control={control}
+              name="isExistingConnection"
+              mainLabel="Czy istniejąca zabudowa ma podłączenie do miejskiej sieci
+              kanalizacji deszczowej?"
+              values={['tak', 'nie']}
+              inputLabels={['tak', 'nie']}
+            />
+          </div>
+        </>
       )}
       {isInwestycjaSubmitted && typZabudowy === 'wielorodzinna' && (
-        <div>
-          <p className="font-light">
-            Czy dana zabudowa ma zostać podłączona do miejskiej sieci
-            kanalizacji deszczowej?
-          </p>
-          <p>{isPodłączony === 'tak' ? 'tak' : 'nie'}</p>
-        </div>
+        <>
+          <div className="mb-4">
+            <p className="font-light">
+              Czy dana zabudowa ma zostać podłączona do miejskiej sieci
+              kanalizacji deszczowej?
+            </p>
+            <p>{isPodłączony === 'tak' ? 'tak' : 'nie'}</p>
+          </div>
+          <div>
+            <p className="font-light">
+              Czy istniejąca zabudowa ma podłączenie do miejskiej sieci
+              kanalizacji deszczowej?
+            </p>
+            <p>{isExistingConnection === 'tak' ? 'tak' : 'nie'}</p>
+          </div>
+        </>
       )}
     </>
   );
