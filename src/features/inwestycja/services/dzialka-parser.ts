@@ -16,18 +16,19 @@ function parseWktPolygon(wkt: string): number[][] {
     const coordsString = wkt
       .trim() // Remove any leading/trailing whitespace
       .replace(/^SRID=\d+;POLYGON\(\(/, '') // Remove SRID and opening
-      .replace(/\)\)+\s*$/, ''); // Remove closing parentheses and any trailing whitespace
+      .replace(/\)+\s*$/g, ''); // Remove all closing parentheses and any trailing whitespace
 
     // Split by commas to get coordinate pairs
     const coordPairs = coordsString.split(',');
 
     const coordinates = coordPairs.map((pair) => {
-      const trimmed = pair.trim();
+      // Trim and also remove any stray parentheses that might have remained
+      const trimmed = pair.trim().replace(/[()]/g, '');
 
       const parts = trimmed.split(/\s+/);
       if (parts.length !== 2) {
         throw new Error(
-          `Expected 2 coordinate values, got ${parts.length} in: ${trimmed}`,
+          `Oczekiwano 2 wartości współrzędnych, otrzymano ${parts.length} w: ${trimmed}`,
         );
       }
 
@@ -35,20 +36,20 @@ function parseWktPolygon(wkt: string): number[][] {
 
       // Validate that we have valid numbers
       if (isNaN(x) || isNaN(y)) {
-        throw new Error(`Invalid coordinates: ${trimmed} (x=${x}, y=${y})`);
+        throw new Error(`Niepoprawne współrzędne: ${trimmed} (x=${x}, y=${y})`);
       }
 
       return [x, y];
     });
 
     if (coordinates.length < 3) {
-      throw new Error('Polygon must have at least 3 coordinates');
+      throw new Error('Wielokąt musi mieć conajmniej 3 punkty');
     }
 
     return coordinates;
   } catch (error) {
     throw new Error(
-      `Failed to parse WKT polygon: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Nie udało się przeanalizować wielokąta: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
     );
   }
 }

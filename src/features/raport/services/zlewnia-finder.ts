@@ -25,8 +25,12 @@ export default async function findZlewnia(coordinates: {
     for (const feature of geojsonData.features) {
       // Turf.js for accurate point-in-polygon test
       if (booleanPointInPolygon(testPoint, feature)) {
+        // Remove suffix like [1], [2] etc from the zlewnia name
+        const rawName = feature.properties.nazwa_zlewni;
+        const cleanName = rawName.replace(/\s*\[\d+\]$/, '');
+
         return {
-          nazwaZlewni: feature.properties.nazwa_zlewni,
+          nazwaZlewni: cleanName,
           isPrzeciazona:
             feature.properties.przeciazona === 'TAK' ? true : false,
         };
@@ -35,7 +39,7 @@ export default async function findZlewnia(coordinates: {
 
     return null;
   } catch (error) {
-    console.error('Error finding zlewnia:', error);
+    console.error('Błąd w wyszukiwaniu zlewni:', error);
     return null;
   }
 }

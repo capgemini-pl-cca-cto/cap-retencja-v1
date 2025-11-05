@@ -29,6 +29,7 @@ export function InwestycjaForm({
     identyfikatorInwestycji,
     typZabudowy,
     isPodłączony,
+    isExistingConnection,
     setForm,
     daneDzialki,
     setDaneDzialki,
@@ -44,6 +45,7 @@ export function InwestycjaForm({
       identyfikatorInwestycji,
       typZabudowy,
       isPodłączony,
+      isExistingConnection,
     },
   });
 
@@ -53,6 +55,7 @@ export function InwestycjaForm({
       identyfikatorInwestycji,
       typZabudowy,
       isPodłączony,
+      isExistingConnection,
     });
   }, [
     form,
@@ -60,6 +63,7 @@ export function InwestycjaForm({
     identyfikatorInwestycji,
     typZabudowy,
     isPodłączony,
+    isExistingConnection,
   ]);
 
   // Callback to set identyfikatorInwestycji from Map
@@ -169,6 +173,7 @@ export function InwestycjaForm({
             control={form.control}
             typZabudowy={watchedTypZabudowy}
             isPodłączony={watchedIsPodłączony}
+            isExistingConnection={isExistingConnection}
           />
           {isInwestycjaSubmitted === false && (
             <div className="flex max-sm:flex-col max-sm:justify-center justify-end gap-4 max-sm:gap-2 mt-8">

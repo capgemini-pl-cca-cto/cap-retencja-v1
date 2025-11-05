@@ -22,6 +22,7 @@ const initialInwestycjaState: InwestycjaModel & {
   identyfikatorInwestycji: '',
   typZabudowy: 'jednorodzinna',
   isPodłączony: 'nie',
+  isExistingConnection: 'nie',
   daneDzialki: undefined,
   mapScreenshot: undefined,
   isInwestycjaSubmitted: false,
