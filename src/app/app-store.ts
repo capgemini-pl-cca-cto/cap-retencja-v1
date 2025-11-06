@@ -11,8 +11,8 @@ export function useDaneRaport() {
   const {
     nazwaInwestycji,
     typZabudowy,
-    isPodłączony,
-    isExistingConnection,
+    isPodlaczony,
+    isIstniejacePolaczenie,
     daneDzialki,
     identyfikatorInwestycji,
     mapScreenshot,
@@ -30,8 +30,8 @@ export function useDaneRaport() {
     inwestycja: {
       nazwaInwestycji,
       typZabudowy,
-      isPodłączony,
-      isExistingConnection,
+      isPodlaczony,
+      isIstniejacePolaczenie,
       identyfikatorInwestycji,
     },
     daneDzialki: daneDzialki!,

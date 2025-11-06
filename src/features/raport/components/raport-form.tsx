@@ -40,11 +40,11 @@ export default function RaportForm({
         return sumaPowierzchni * 0.06;
       }
 
-      if (daneRaport.inwestycja.isPodłączony === 'nie') {
+      if (daneRaport.inwestycja.isPodlaczony === 'nie') {
         return sumaPowierzchni * 0.06;
       }
 
-      // isPodłączony === 'tak'
+      // isPodlaczony === 'tak'
       return isPrzeciazona ? sumaPowierzchni * 0.04 : sumaPowierzchni * 0.03;
     }
 
@@ -57,7 +57,7 @@ export default function RaportForm({
     isPrzeciazona,
     sumaPowierzchni,
     daneRaport.inwestycja.typZabudowy,
-    daneRaport.inwestycja.isPodłączony,
+    daneRaport.inwestycja.isPodlaczony,
   ]);
 
   const form = useForm<RaportFormModel>({
@@ -88,13 +88,13 @@ export default function RaportForm({
     const findAndLogZlewnia = async function () {
       if (
         daneRaport.inwestycja.typZabudowy === 'jednorodzinna' ||
-        daneRaport.inwestycja.isPodłączony === 'nie'
+        daneRaport.inwestycja.isPodlaczony === 'nie'
       ) {
         setIsPrzeciazona(false);
         setNazwaZlewni('-');
         return;
       }
-      // Only call API if typZabudowy !== 'jednorodzinna' and isPodłączony === 'tak'
+      // Only call API if typZabudowy !== 'jednorodzinna' and isPodlaczony === 'tak'
       const zlewnia = await findZlewnia(
         daneRaport.daneDzialki!.centerCoordinates,
       );
@@ -114,7 +114,7 @@ export default function RaportForm({
   }, [
     daneRaport.daneDzialki,
     daneRaport.inwestycja.typZabudowy,
-    daneRaport.inwestycja.isPodłączony,
+    daneRaport.inwestycja.isPodlaczony,
   ]);
 
   return (

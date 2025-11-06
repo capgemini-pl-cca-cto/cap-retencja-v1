@@ -1,6 +1,8 @@
 import type { InwestycjaFormSchema } from '@/features/inwestycja/schemas';
 import type z from 'zod';
 
+export type Potwierdzenie = 'tak' | 'nie';
+
 export type DzialkaModel = {
   id: string;
   voivodeship: string;
