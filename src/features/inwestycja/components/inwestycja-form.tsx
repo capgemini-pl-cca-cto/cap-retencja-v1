@@ -28,8 +28,8 @@ export function InwestycjaForm({
     nazwaInwestycji,
     identyfikatorInwestycji,
     typZabudowy,
-    isPodłączony,
-    isExistingConnection,
+    isPodlaczony,
+    isIstniejacePolaczenie,
     setForm,
     daneDzialki,
     setDaneDzialki,
@@ -44,8 +44,8 @@ export function InwestycjaForm({
       nazwaInwestycji,
       identyfikatorInwestycji,
       typZabudowy,
-      isPodłączony,
-      isExistingConnection,
+      isPodlaczony,
+      isIstniejacePolaczenie,
     },
   });
 
@@ -54,16 +54,16 @@ export function InwestycjaForm({
       nazwaInwestycji,
       identyfikatorInwestycji,
       typZabudowy,
-      isPodłączony,
-      isExistingConnection,
+      isPodlaczony,
+      isIstniejacePolaczenie,
     });
   }, [
     form,
     nazwaInwestycji,
     identyfikatorInwestycji,
     typZabudowy,
-    isPodłączony,
-    isExistingConnection,
+    isPodlaczony,
+    isIstniejacePolaczenie,
   ]);
 
   // Callback to set identyfikatorInwestycji from Map
@@ -72,7 +72,7 @@ export function InwestycjaForm({
   }
 
   const watchedTypZabudowy = form.watch('typZabudowy');
-  const watchedIsPodłączony = form.watch('isPodłączony');
+  const watchedIsPodlaczony = form.watch('isPodlaczony');
 
   async function onSubmit(data: InwestycjaModel) {
     setIsLoading(true);
@@ -172,8 +172,8 @@ export function InwestycjaForm({
             isInwestycjaSubmitted={isInwestycjaSubmitted}
             control={form.control}
             typZabudowy={watchedTypZabudowy}
-            isPodłączony={watchedIsPodłączony}
-            isExistingConnection={isExistingConnection}
+            isPodlaczony={watchedIsPodlaczony}
+            isIstniejacePolaczenie={isIstniejacePolaczenie}
           />
           {isInwestycjaSubmitted === false && (
             <div className="flex max-sm:flex-col max-sm:justify-center justify-end gap-4 max-sm:gap-2 mt-8">

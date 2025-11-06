@@ -2,21 +2,22 @@ import type { Control } from 'react-hook-form';
 import InfoBox from '@/components/shared/info-box';
 import FormRadio from './form-radio';
 import type { InwestycjaModel } from '@/types/inwestycja-model';
+import type { Potwierdzenie } from '@/types/inwestycja-model';
 
 interface KanalizacjaDeszczowaProps {
   isInwestycjaSubmitted: boolean;
   control: Control<InwestycjaModel>;
   typZabudowy: 'jednorodzinna' | 'wielorodzinna';
-  isPodłączony: 'tak' | 'nie';
-  isExistingConnection: 'tak' | 'nie';
+  isPodlaczony: Potwierdzenie;
+  isIstniejacePolaczenie: Potwierdzenie;
 }
 
 export default function KanalizacjaDeszczowa({
   isInwestycjaSubmitted,
   control,
   typZabudowy,
-  isPodłączony,
-  isExistingConnection,
+  isPodlaczony,
+  isIstniejacePolaczenie,
 }: KanalizacjaDeszczowaProps) {
   return (
     <>
@@ -30,7 +31,7 @@ export default function KanalizacjaDeszczowa({
         <>
           <FormRadio
             control={control}
-            name="isPodłączony"
+            name="isPodlaczony"
             mainLabel="Czy dana zabudowa ma zostać podłączona do miejskiej sieci
             kanalizacji deszczowej?"
             values={['tak', 'nie']}
@@ -39,7 +40,7 @@ export default function KanalizacjaDeszczowa({
           <div className="mt-4">
             <FormRadio
               control={control}
-              name="isExistingConnection"
+              name="isIstniejacePolaczenie"
               mainLabel="Czy istniejąca zabudowa ma podłączenie do miejskiej sieci
               kanalizacji deszczowej?"
               values={['tak', 'nie']}
@@ -55,14 +56,14 @@ export default function KanalizacjaDeszczowa({
               Czy dana zabudowa ma zostać podłączona do miejskiej sieci
               kanalizacji deszczowej?
             </p>
-            <p>{isPodłączony === 'tak' ? 'tak' : 'nie'}</p>
+            <p>{isPodlaczony === 'tak' ? 'tak' : 'nie'}</p>
           </div>
           <div>
             <p className="font-light">
               Czy istniejąca zabudowa ma podłączenie do miejskiej sieci
               kanalizacji deszczowej?
             </p>
-            <p>{isExistingConnection === 'tak' ? 'tak' : 'nie'}</p>
+            <p>{isIstniejacePolaczenie === 'tak' ? 'tak' : 'nie'}</p>
           </div>
         </>
       )}

@@ -6,6 +6,6 @@ export const InwestycjaFormSchema = z.object({
     .string()
     .min(21, 'Wpisz identyfikator działki lub wybierz działkę z mapy!'),
   typZabudowy: z.enum(['jednorodzinna', 'wielorodzinna']),
-  isPodłączony: z.enum(['tak', 'nie']),
-  isExistingConnection: z.enum(['tak', 'nie']),
+  isPodlaczony: z.enum(['tak', 'nie']),
+  isIstniejacePolaczenie: z.enum(['tak', 'nie']),
 });
