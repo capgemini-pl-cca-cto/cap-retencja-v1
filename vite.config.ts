@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import cp from 'vite-plugin-cp';
@@ -29,5 +30,12 @@ export default defineConfig({
         inlineDynamicImports: true,
       },
     },
+  },
+  test: {
+    // Use jsdom environment so DOM matchers work
+    globals: true,
+    environment: 'jsdom',
+    // Run this file before tests to register jest-dom matchers
+    setupFiles: './src/setupTests.ts',
   },
 });
