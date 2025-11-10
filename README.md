@@ -56,6 +56,7 @@ For the best development experience, install these extensions:
 - Tailwind CSS IntelliSense
 - TypeScript Vue Plugin (Volar)
 - GitLens (optional but recommended)
+- Vitest Explorer
 
 ## Available Scripts
 
@@ -63,6 +64,7 @@ For the best development experience, install these extensions:
 - `pnpm build` - Build the project for production
 - `pnpm preview` - Preview the production build locally
 - `pnpm lint` - Run ESLint to check code quality
+- `pnpm test` - Run unit tests with Vitest
 - `pnpm generate` - Generate new components using plop templates
 
 ## Project Structure
@@ -95,6 +97,20 @@ Follow the prompts to specify the component name and location.
 ### Code Style
 
 This project uses ESLint and Prettier for code formatting. The configuration is already set up in the project. VS Code will automatically format your code on save if you have the recommended extensions installed.
+
+### Testing
+
+#### Unit testing
+
+We use Vitest for integration unit testing. Tests are located alongside the components they test, following the `.test.tsx` naming convention.
+
+#### Integration and E2E testing
+
+For end-to-end testing, we use Playwright. Test files are located in the `/tests` directory. You can run the tests using:
+
+```bash
+pnpm test:e2e
+```
 
 ### Components and Styling
 
