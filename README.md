@@ -55,7 +55,6 @@ For the best development experience, install these extensions:
 - Prettier
 - Tailwind CSS IntelliSense
 - TypeScript Vue Plugin (Volar)
-- GitLens (optional but recommended)
 - Vitest Explorer
 
 ## Available Scripts

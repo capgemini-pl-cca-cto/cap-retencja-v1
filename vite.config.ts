@@ -37,5 +37,6 @@ export default defineConfig({
     environment: 'jsdom',
     // Run this file before tests to register jest-dom matchers
     setupFiles: './src/setupTests.ts',
+    include: ['src/**/*.{test,spec}.tsx'],
   },
 });
