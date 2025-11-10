@@ -1,4 +1,5 @@
 *.hbs
-./.github/workflows/*.yml
+.github/workflows/*.yml
 pnpm-lock.yaml
 pnpm-workspace.yaml
+/coverage

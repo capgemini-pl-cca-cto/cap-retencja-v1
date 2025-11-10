@@ -21,7 +21,7 @@ jobs:
       - name: Setup project
         uses: ./.github/actions/setup-project
         with:
-          node-version: '22'
+          node-version: "22"
       - name: Run Build
         run: pnpm build
       - name: Upload artifact
