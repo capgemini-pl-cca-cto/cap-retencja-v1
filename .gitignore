@@ -24,8 +24,11 @@ dist-ssr
 *.sln
 *.sw?
 
+<<<<<<< HEAD
 coverage/
 
+=======
+>>>>>>> ae168df (Added basic Playwright happy path test)
 # Playwright
 /test-results/
 /playwright-report/
