@@ -15,7 +15,7 @@
     "build:wp": "tsc -b && vite build --base=/wp-content/uploads/retencja-app/dist/",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest --watch",
+    "test": "vitest",
     "test:e2e": "playwright test"
   },
   "dependencies": {
