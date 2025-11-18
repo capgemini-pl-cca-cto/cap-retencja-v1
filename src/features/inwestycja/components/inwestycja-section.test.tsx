@@ -24,4 +24,3 @@ describe('Inwestycja Section component', () => {
     ).toBeInTheDocument();
   });
 });
-
