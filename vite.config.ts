@@ -41,5 +41,7 @@ export default defineConfig({
     coverage: {
       include: ['src/**/*.{ts,tsx}'],
     },
+    // Use threads pool for better MSW compatibility
+    pool: 'threads',
   },
 });

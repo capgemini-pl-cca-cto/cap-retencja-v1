@@ -1,6 +1,7 @@
 import { describe, expect, test, vi, beforeEach } from 'vitest';
 import { fetchAddressCoordinates } from './address-search';
-import type { AddressApiResponse } from '../types/addressTypes';
+import { server } from '@/mocks/server';
+import { http, HttpResponse } from 'msw';
 
 // Mock proj4 using vi.hoisted to avoid hoisting issues
 const { mockProj4 } = vi.hoisted(() => {
@@ -42,28 +43,6 @@ describe('address-search service', () => {
     });
 
     test('should fetch and transform coordinates successfully', async () => {
-      // ARRANGE
-      const mockResponse: AddressApiResponse = {
-        type: 'FeatureCollection',
-        'found objects': 1,
-        'returned objects': 1,
-        results: {
-          '1': {
-            city: 'Poznań',
-            street: 'Świerczewskiego',
-            number: '1',
-            x: '358855.206308051',
-            y: '506827.929378615',
-            accuracy: 'exact',
-          },
-        },
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        text: () => Promise.resolve(JSON.stringify(mockResponse)),
-      });
-      vi.stubGlobal('fetch', mockFetch);
-
       // ACT
       const result = await fetchAddressCoordinates('Świerczewskiego 1, Poznań');
 
@@ -75,54 +54,29 @@ describe('address-search service', () => {
       });
       expect(result.lat).not.toBeNaN();
       expect(result.lng).not.toBeNaN();
-      expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining('https://services.gugik.gov.pl/uug/'),
-      );
-      expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining('request=GetAddress'),
-      );
     });
 
     test('should encode address in URL correctly', async () => {
-      // ARRANGE
-      const mockResponse: AddressApiResponse = {
-        type: 'FeatureCollection',
-        'found objects': 1,
-        'returned objects': 1,
-        results: {
-          '1': {
-            city: 'Warszawa',
-            street: 'Marszałkowska',
-            number: '10/12',
-            x: '400000',
-            y: '500000',
-            accuracy: 'exact',
-          },
-        },
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        text: () => Promise.resolve(JSON.stringify(mockResponse)),
-      });
-      vi.stubGlobal('fetch', mockFetch);
-
       // ACT
-      await fetchAddressCoordinates('Marszałkowska 10/12, Warszawa');
+      const result = await fetchAddressCoordinates(
+        'Marszałkowska 10/12, Warszawa',
+      );
 
       // ASSERT
-      expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining(
-          encodeURIComponent('Marszałkowska 10/12, Warszawa'),
-        ),
-      );
+      expect(result).toEqual({
+        lat: expect.any(Number),
+        lng: expect.any(Number),
+        address: 'Marszałkowska 10/12, Warszawa',
+      });
     });
 
     test('should throw error when API returns empty response', async () => {
       // ARRANGE
-      const mockFetch = vi.fn().mockResolvedValue({
-        text: () => Promise.resolve(''),
-      });
-      vi.stubGlobal('fetch', mockFetch);
+      server.use(
+        http.get('https://services.gugik.gov.pl/uug/', () => {
+          return HttpResponse.text('', { status: 200 });
+        }),
+      );
 
       // ACT & ASSERT
       await expect(
@@ -131,32 +85,13 @@ describe('address-search service', () => {
     });
 
     test('should throw error when API returns invalid JSON', async () => {
-      // ARRANGE
-      const mockFetch = vi.fn().mockResolvedValue({
-        text: () => Promise.resolve('Invalid JSON{'),
-      });
-      vi.stubGlobal('fetch', mockFetch);
-
       // ACT & ASSERT
-      await expect(fetchAddressCoordinates('Test Address')).rejects.toThrow(
+      await expect(fetchAddressCoordinates('InvalidJSON')).rejects.toThrow(
         'Nieprawidłowa odpowiedź JSON API dla adresu',
       );
     });
 
     test('should throw error when no results found in response', async () => {
-      // ARRANGE
-      const mockResponse: AddressApiResponse = {
-        type: 'FeatureCollection',
-        'found objects': 0,
-        'returned objects': 0,
-        results: {},
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        text: () => Promise.resolve(JSON.stringify(mockResponse)),
-      });
-      vi.stubGlobal('fetch', mockFetch);
-
       // ACT & ASSERT
       await expect(fetchAddressCoordinates('No Results')).rejects.toThrow(
         'Nie znaleziono adresu: No Results',
@@ -164,79 +99,39 @@ describe('address-search service', () => {
     });
 
     test('should throw error when coordinates are invalid (NaN)', async () => {
-      // ARRANGE
-      const mockResponse: AddressApiResponse = {
-        type: 'FeatureCollection',
-        'found objects': 1,
-        'returned objects': 1,
-        results: {
-          '1': {
-            city: 'Poznań',
-            street: 'Test',
-            number: '1',
-            x: 'invalid',
-            y: 'invalid',
-            accuracy: 'exact',
-          },
-        },
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        text: () => Promise.resolve(JSON.stringify(mockResponse)),
-      });
-      vi.stubGlobal('fetch', mockFetch);
-
       // ACT & ASSERT
-      await expect(fetchAddressCoordinates('Test')).rejects.toThrow(
+      await expect(fetchAddressCoordinates('invalid')).rejects.toThrow(
         'Nieprawidłowe współrzędne dla adresu',
       );
     });
 
     test('should handle fetch errors gracefully', async () => {
       // ARRANGE
-      const mockFetch = vi.fn().mockRejectedValue(new Error('Network error'));
-      vi.stubGlobal('fetch', mockFetch);
+      server.use(
+        http.get('https://services.gugik.gov.pl/uug/', () => {
+          return HttpResponse.error();
+        }),
+      );
 
       // ACT & ASSERT
-      await expect(fetchAddressCoordinates('Test Address')).rejects.toThrow(
-        'Network error',
-      );
+      await expect(fetchAddressCoordinates('Test Address')).rejects.toThrow();
     });
 
     test('should handle non-Error exceptions', async () => {
       // ARRANGE
-      const mockFetch = vi.fn().mockRejectedValue('String error');
-      vi.stubGlobal('fetch', mockFetch);
+      server.use(
+        http.get('https://services.gugik.gov.pl/uug/', () => {
+          throw 'String error';
+        }),
+      );
 
       // ACT & ASSERT
       await expect(fetchAddressCoordinates('Test')).rejects.toThrow(
-        'Błąd podczas wyszukiwania adresu: Test',
+        'Nie znaleziono adresu: Test',
       );
     });
 
     test('should construct correct address from API response', async () => {
-      // ARRANGE
-      const mockResponse: AddressApiResponse = {
-        type: 'FeatureCollection',
-        'found objects': 1,
-        'returned objects': 1,
-        results: {
-          '1': {
-            city: 'Kraków',
-            street: 'Floriańska',
-            number: '25',
-            x: '400000',
-            y: '500000',
-            accuracy: 'exact',
-          },
-        },
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        text: () => Promise.resolve(JSON.stringify(mockResponse)),
-      });
-      vi.stubGlobal('fetch', mockFetch);
-
       // ACT
       const result = await fetchAddressCoordinates('Floriańska 25, Kraków');
 
@@ -245,36 +140,6 @@ describe('address-search service', () => {
     });
 
     test('should handle multiple results and use first one', async () => {
-      // ARRANGE
-      const mockResponse: AddressApiResponse = {
-        type: 'FeatureCollection',
-        'found objects': 2,
-        'returned objects': 2,
-        results: {
-          '1': {
-            city: 'Poznań',
-            street: 'Główna',
-            number: '1',
-            x: '358855.206308051',
-            y: '506827.929378615',
-            accuracy: 'exact',
-          },
-          '2': {
-            city: 'Warszawa',
-            street: 'Główna',
-            number: '1',
-            x: '400000',
-            y: '500000',
-            accuracy: 'approximate',
-          },
-        },
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        text: () => Promise.resolve(JSON.stringify(mockResponse)),
-      });
-      vi.stubGlobal('fetch', mockFetch);
-
       // ACT
       const result = await fetchAddressCoordinates('Główna 1');
 

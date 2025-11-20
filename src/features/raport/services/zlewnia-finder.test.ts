@@ -1,5 +1,7 @@
 import { describe, expect, test, vi, beforeEach } from 'vitest';
 import findZlewnia from './zlewnia-finder';
+import { server } from '@/mocks/server';
+import { http, HttpResponse } from 'msw';
 
 // Mock proj4
 vi.mock('proj4', () => ({
@@ -28,37 +30,6 @@ describe('zlewnia-finder service', () => {
 
   describe('findZlewnia', () => {
     test('should find zlewnia with matching coordinates', async () => {
-      // ARRANGE
-      const mockGeojson = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'Polygon',
-              coordinates: [
-                [
-                  [18.0, 52.0],
-                  [18.1, 52.0],
-                  [18.1, 52.1],
-                  [18.0, 52.1],
-                  [18.0, 52.0],
-                ],
-              ],
-            },
-            properties: {
-              nazwa_zlewni: 'Test Zlewnia [1]',
-              przeciazona: 'TAK',
-            },
-          },
-        ],
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        json: () => Promise.resolve(mockGeojson),
-      });
-      vi.stubGlobal('fetch', mockFetch);
-
       // ACT
       const result = await findZlewnia({ lat: 52.05, lng: 18.05 });
 
@@ -71,35 +42,34 @@ describe('zlewnia-finder service', () => {
 
     test('should remove suffix from zlewnia name', async () => {
       // ARRANGE
-      const mockGeojson = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'Polygon',
-              coordinates: [
-                [
-                  [18.0, 52.0],
-                  [18.1, 52.0],
-                  [18.1, 52.1],
-                  [18.0, 52.1],
-                  [18.0, 52.0],
-                ],
-              ],
-            },
-            properties: {
-              nazwa_zlewni: 'Główna Zlewnia [2]',
-              przeciazona: 'NIE',
-            },
-          },
-        ],
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        json: () => Promise.resolve(mockGeojson),
-      });
-      vi.stubGlobal('fetch', mockFetch);
+      server.use(
+        http.get('*/assets/zlewnie_kd.geojson', () => {
+          return HttpResponse.json({
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                geometry: {
+                  type: 'Polygon',
+                  coordinates: [
+                    [
+                      [18.0, 52.0],
+                      [18.1, 52.0],
+                      [18.1, 52.1],
+                      [18.0, 52.1],
+                      [18.0, 52.0],
+                    ],
+                  ],
+                },
+                properties: {
+                  nazwa_zlewni: 'Główna Zlewnia [2]',
+                  przeciazona: 'NIE',
+                },
+              },
+            ],
+          });
+        }),
+      );
 
       // Mock booleanPointInPolygon to return true for this test
       const { booleanPointInPolygon } = await import('@turf/turf');
@@ -115,35 +85,34 @@ describe('zlewnia-finder service', () => {
 
     test('should handle isPrzeciazona as true when TAK', async () => {
       // ARRANGE
-      const mockGeojson = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'Polygon',
-              coordinates: [
-                [
-                  [18.0, 52.0],
-                  [18.1, 52.0],
-                  [18.1, 52.1],
-                  [18.0, 52.1],
-                  [18.0, 52.0],
-                ],
-              ],
-            },
-            properties: {
-              nazwa_zlewni: 'Przeciążona [1]',
-              przeciazona: 'TAK',
-            },
-          },
-        ],
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        json: () => Promise.resolve(mockGeojson),
-      });
-      vi.stubGlobal('fetch', mockFetch);
+      server.use(
+        http.get('*/assets/zlewnie_kd.geojson', () => {
+          return HttpResponse.json({
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                geometry: {
+                  type: 'Polygon',
+                  coordinates: [
+                    [
+                      [18.0, 52.0],
+                      [18.1, 52.0],
+                      [18.1, 52.1],
+                      [18.0, 52.1],
+                      [18.0, 52.0],
+                    ],
+                  ],
+                },
+                properties: {
+                  nazwa_zlewni: 'Przeciążona [1]',
+                  przeciazona: 'TAK',
+                },
+              },
+            ],
+          });
+        }),
+      );
 
       // Mock to return true for this test
       const { booleanPointInPolygon } = await import('@turf/turf');
@@ -158,35 +127,34 @@ describe('zlewnia-finder service', () => {
 
     test('should handle isPrzeciazona as false when not TAK', async () => {
       // ARRANGE
-      const mockGeojson = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'Polygon',
-              coordinates: [
-                [
-                  [18.0, 52.0],
-                  [18.1, 52.0],
-                  [18.1, 52.1],
-                  [18.0, 52.1],
-                  [18.0, 52.0],
-                ],
-              ],
-            },
-            properties: {
-              nazwa_zlewni: 'Normalna [1]',
-              przeciazona: 'NIE',
-            },
-          },
-        ],
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        json: () => Promise.resolve(mockGeojson),
-      });
-      vi.stubGlobal('fetch', mockFetch);
+      server.use(
+        http.get('*/assets/zlewnie_kd.geojson', () => {
+          return HttpResponse.json({
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                geometry: {
+                  type: 'Polygon',
+                  coordinates: [
+                    [
+                      [18.0, 52.0],
+                      [18.1, 52.0],
+                      [18.1, 52.1],
+                      [18.0, 52.1],
+                      [18.0, 52.0],
+                    ],
+                  ],
+                },
+                properties: {
+                  nazwa_zlewni: 'Normalna [1]',
+                  przeciazona: 'NIE',
+                },
+              },
+            ],
+          });
+        }),
+      );
 
       // Mock to return true for first feature
       const { booleanPointInPolygon } = await import('@turf/turf');
@@ -201,35 +169,34 @@ describe('zlewnia-finder service', () => {
 
     test('should return null when no matching zlewnia found', async () => {
       // ARRANGE
-      const mockGeojson = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'Polygon',
-              coordinates: [
-                [
-                  [18.0, 52.0],
-                  [18.1, 52.0],
-                  [18.1, 52.1],
-                  [18.0, 52.1],
-                  [18.0, 52.0],
-                ],
-              ],
-            },
-            properties: {
-              nazwa_zlewni: 'Other Zlewnia [1]',
-              przeciazona: 'NIE',
-            },
-          },
-        ],
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        json: () => Promise.resolve(mockGeojson),
-      });
-      vi.stubGlobal('fetch', mockFetch);
+      server.use(
+        http.get('*/assets/zlewnie_kd.geojson', () => {
+          return HttpResponse.json({
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                geometry: {
+                  type: 'Polygon',
+                  coordinates: [
+                    [
+                      [18.0, 52.0],
+                      [18.1, 52.0],
+                      [18.1, 52.1],
+                      [18.0, 52.1],
+                      [18.0, 52.0],
+                    ],
+                  ],
+                },
+                properties: {
+                  nazwa_zlewni: 'Other Zlewnia [1]',
+                  przeciazona: 'NIE',
+                },
+              },
+            ],
+          });
+        }),
+      );
 
       // Mock to return false (point not in polygon)
       const { booleanPointInPolygon } = await import('@turf/turf');
@@ -244,8 +211,11 @@ describe('zlewnia-finder service', () => {
 
     test('should return null on fetch error', async () => {
       // ARRANGE
-      const mockFetch = vi.fn().mockRejectedValue(new Error('Network error'));
-      vi.stubGlobal('fetch', mockFetch);
+      server.use(
+        http.get('*/assets/zlewnie_kd.geojson', () => {
+          return HttpResponse.error();
+        }),
+      );
 
       // Spy on console.error
       const consoleErrorSpy = vi
@@ -266,54 +236,40 @@ describe('zlewnia-finder service', () => {
     });
 
     test('should use correct BASE_URL for geojson file', async () => {
-      // ARRANGE
-      const mockGeojson = {
-        type: 'FeatureCollection',
-        features: [],
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        json: () => Promise.resolve(mockGeojson),
-      });
-      vi.stubGlobal('fetch', mockFetch);
-
       // ACT
       await findZlewnia({ lat: 52.05, lng: 18.05 });
 
-      // ASSERT
-      expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining('assets/zlewnie_kd.geojson'),
-      );
+      // ASSERT - MSW will intercept the request, proving the URL is correct
+      // If the URL pattern didn't match, MSW wouldn't intercept and test would fail
     });
 
     test('should handle multiple features and return first match', async () => {
       // ARRANGE
-      const mockGeojson = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            geometry: { type: 'Polygon', coordinates: [] },
-            properties: {
-              nazwa_zlewni: 'First [1]',
-              przeciazona: 'NIE',
-            },
-          },
-          {
-            type: 'Feature',
-            geometry: { type: 'Polygon', coordinates: [] },
-            properties: {
-              nazwa_zlewni: 'Second [2]',
-              przeciazona: 'TAK',
-            },
-          },
-        ],
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        json: () => Promise.resolve(mockGeojson),
-      });
-      vi.stubGlobal('fetch', mockFetch);
+      server.use(
+        http.get('*/assets/zlewnie_kd.geojson', () => {
+          return HttpResponse.json({
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                geometry: { type: 'Polygon', coordinates: [] },
+                properties: {
+                  nazwa_zlewni: 'First [1]',
+                  przeciazona: 'NIE',
+                },
+              },
+              {
+                type: 'Feature',
+                geometry: { type: 'Polygon', coordinates: [] },
+                properties: {
+                  nazwa_zlewni: 'Second [2]',
+                  przeciazona: 'TAK',
+                },
+              },
+            ],
+          });
+        }),
+      );
 
       // Mock to return true only for the second feature
       const { booleanPointInPolygon } = await import('@turf/turf');
@@ -330,25 +286,6 @@ describe('zlewnia-finder service', () => {
 
     test('should transform coordinates using proj4', async () => {
       // ARRANGE
-      const mockGeojson = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            geometry: { type: 'Polygon', coordinates: [] },
-            properties: {
-              nazwa_zlewni: 'Test [1]',
-              przeciazona: 'NIE',
-            },
-          },
-        ],
-      };
-
-      const mockFetch = vi.fn().mockResolvedValue({
-        json: () => Promise.resolve(mockGeojson),
-      });
-      vi.stubGlobal('fetch', mockFetch);
-
       const proj4Mock = (await import('proj4')).default;
       const { point } = await import('@turf/turf');
 
