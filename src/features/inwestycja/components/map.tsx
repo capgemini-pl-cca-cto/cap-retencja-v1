@@ -174,12 +174,6 @@ export default function Map({
           </Marker>
         </>
       )}
-
-      {/* WMTS layer from geoportal.gov.pl */}
-      {/* <TileLayer
-        url="https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMTS/StandardResolution?layer=ORTOFOTOMAPA&style=default&tilematrixset=EPSG:3857&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/jpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"
-        attribution="&copy; Geoportal.gov.pl"
-      /> */}
     </MapContainer>
   );
 }

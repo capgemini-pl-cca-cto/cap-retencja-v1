@@ -5,11 +5,6 @@
   background: none !important;
 }
 
-/* Hide the Leaflet attribution link */
-.leaflet-control-attribution {
-  display: none !important;
-}
-
 /* Hide default zoom controls that might still appear */
 .leaflet-top.leaflet-left .leaflet-control-zoom {
   display: none !important;
