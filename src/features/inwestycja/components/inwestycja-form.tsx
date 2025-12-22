@@ -109,10 +109,10 @@ export function InwestycjaForm({
             <FormInput
               control={form.control}
               name="identyfikatorInwestycji"
-              label="Identyfikator działki inwestycyjnej"
+              label="Działka inwestycyjna"
+              description="(uzupełnij identyfikator w formacie WWPPGG_R.OOOO.AR_NR.DZ lub wskaż
+                miejsce na mapie)"
               isInwestycjaSubmitted={isInwestycjaSubmitted}
-              description="Wpisz identyfikator w formacie WWPPGG_R.OOOO.AR_NR.DZ lub wskaż
-                miejsce na mapie"
               showMapIcon={true}
               setIdentyfikatorFromMap={setIdentyfikatorFromMap}
             />

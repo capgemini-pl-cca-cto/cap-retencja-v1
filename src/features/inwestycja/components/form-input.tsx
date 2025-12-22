@@ -1,17 +1,16 @@
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import type { InwestycjaModel } from '@/types/inwestycja-model';
 import { useState } from 'react';
 import type { Control } from 'react-hook-form';
 import MapModal from './map-modal';
-import type { InwestycjaModel } from '@/types/inwestycja-model';
 
 interface FormInputProps {
   control: Control<InwestycjaModel>;
@@ -42,6 +41,7 @@ export default function FormInput({
         <FormItem>
           <FormLabel className="data-[error=true]:text-current">
             {label}
+            <span className="text-xs">{description}</span>
           </FormLabel>
           <FormControl>
             <div className="relative">
@@ -78,11 +78,6 @@ export default function FormInput({
               )}
             </div>
           </FormControl>
-          {description && isInwestycjaSubmitted === false && (
-            <FormDescription className="font-light max-sm:hidden">
-              {description}
-            </FormDescription>
-          )}
           <FormMessage />
         </FormItem>
       )}

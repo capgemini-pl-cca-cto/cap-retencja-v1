@@ -24,9 +24,9 @@ export default function Introduction() {
           target="_blank"
           rel="noreferrer noopener"
         >
-          Wytyczne do projektowania: PROJEKTOWANIE, WYKONAWSTWO ZAGOSPODAROWANIA
-          WÓD OPADOWYCH I ROZTOPOWYCH ZA POMOCĄ BŁĘKITNO-ZIELONEJ INFRASTRUKTURY
-          (BZI) ORAZ SIECI I PRZYŁĄCZY KANALIZACJI DESZCZOWEJ
+          Wytyczne do projektowania: Projektowanie, wykonawstwo zagospodarowania
+          wód opadowych i roztopowych za pomocą błękitno-zielonej infrastruktury
+          (BZI) oraz sieci przyłączy kanalizacji deszczowej
         </a>
         <a
           href="https://www.poznan.pl/mim/main/-,p,68775.html"
