@@ -259,14 +259,18 @@ export default async function generatePDFReport({
   pdf.setFont('Roboto', 'bold');
   const wymaganaObjY = dividerY + 14;
   pdf.text('Wymagana objętość obiektów BZI:', 15, wymaganaObjY);
-  pdf.text(`${objBZI}`, isMobile ? 125 : 130, wymaganaObjY);
+  pdf.text(`${objBZI.toFixed(2)}`, isMobile ? 125 : 130, wymaganaObjY);
 
   pdf.setFontSize(10);
   pdf.text('lub', 15, wymaganaObjY + 7);
 
   pdf.setFontSize(12);
   pdf.text('Wymagana objętość obiektów detencyjnych:', 15, wymaganaObjY + 14);
-  pdf.text(`${objDetencyjnych}`, isMobile ? 125 : 130, wymaganaObjY + 14);
+  pdf.text(
+    `${objDetencyjnych.toFixed(2)}`,
+    isMobile ? 125 : 130,
+    wymaganaObjY + 14,
+  );
 
   pdf.setFont('Roboto', 'normal');
 
