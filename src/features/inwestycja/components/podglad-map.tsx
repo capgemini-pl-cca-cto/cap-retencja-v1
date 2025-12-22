@@ -9,12 +9,25 @@ import {
 import CustomPopupContent from './custom-popup-content';
 import { canvasRenderer, markerIcon, PLOT_FOUND_ZOOM } from '../constants';
 import type { DzialkaModel } from '@/types/inwestycja-model';
+import { useEffect, useRef } from 'react';
+import { Marker as LeafletMarker } from 'leaflet';
 
 interface PodgladMapProps {
   daneDzialki: DzialkaModel;
 }
 
 export default function PodgladMap({ daneDzialki }: PodgladMapProps) {
+  const markerRef = useRef<LeafletMarker>(null);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (markerRef.current) {
+        markerRef.current.openPopup();
+      }
+    }, 0);
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <MapContainer
       center={[
@@ -47,6 +60,7 @@ export default function PodgladMap({ daneDzialki }: PodgladMapProps) {
           daneDzialki.centerCoordinates.lng,
         ]}
         icon={markerIcon}
+        ref={markerRef}
       >
         <Popup closeButton={false} className="custom-popup">
           <div className="bg-white w-[417px] max-sm:w-[300px] p-4 shadow-[0px_0px_8px_0px_#0c4f7bcc] flex flex-col gap-4 text-primary-blue">

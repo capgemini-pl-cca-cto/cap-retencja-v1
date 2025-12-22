@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { DialogClose } from '@/components/ui/dialog';
 import 'leaflet/dist/leaflet.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   MapContainer,
   Marker,
@@ -24,6 +24,7 @@ import CustomPopupContent from './custom-popup-content';
 import './map-override.css';
 import type { DzialkaModel } from '@/types/inwestycja-model';
 import type { AddressSearchResult } from '../types/addressTypes';
+import { Marker as LeafletMarker } from 'leaflet';
 
 //helper component to change the map positon view
 function ChangeMapView({
@@ -75,6 +76,7 @@ export default function Map({
 }: MapProps) {
   const [position, setPosition] = useState<[number, number]>(DEFAULT_POSITION);
   const [zoomLevel, setZoomLevel] = useState<number>(DEFAULT_ZOOM);
+  const markerRef = useRef<LeafletMarker>(null);
 
   //This function gets called with the clicked coordinates. It fetches the corresponding Działka with fetchDzialkaDataByCoordinates and sets DaneDzialki to the fetched data
   async function handleMapClick(lat: number, lng: number) {
@@ -91,7 +93,7 @@ export default function Map({
     }
   }
 
-  //Whenever daneDzialki changes, the map moves to its coordinates and the zoom level changes
+  //Whenever daneDzialki changes, the map moves to its coordinates, the zoom level changes and the marker popup opens automatically
   useEffect(
     function () {
       if (daneDzialki) {
@@ -100,6 +102,9 @@ export default function Map({
           daneDzialki.centerCoordinates.lng,
         ]);
         setZoomLevel(PLOT_FOUND_ZOOM);
+        if (markerRef.current) {
+          markerRef.current.openPopup();
+        }
       } else {
         setPosition(DEFAULT_POSITION);
         setZoomLevel(DEFAULT_ZOOM);
@@ -147,7 +152,7 @@ export default function Map({
             }}
             renderer={canvasRenderer}
           />
-          <Marker position={position} icon={markerIcon}>
+          <Marker position={position} icon={markerIcon} ref={markerRef}>
             <Popup closeButton={false} className="custom-popup">
               <div className="bg-white w-[417px] max-sm:w-[300px] sm:h-[256px] p-4 max-sm:py-2 shadow-[0px_0px_8px_0px_#0c4f7bcc] flex flex-col gap-4 text-primary-blue">
                 <CustomPopupContent daneDzialki={daneDzialki} />
