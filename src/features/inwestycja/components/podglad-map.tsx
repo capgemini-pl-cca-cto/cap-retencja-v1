@@ -19,6 +19,7 @@ interface PodgladMapProps {
 export default function PodgladMap({ daneDzialki }: PodgladMapProps) {
   const markerRef = useRef<LeafletMarker>(null);
 
+  //opens the popup automatically as soon as the marker is available (the refs are attached)
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (markerRef.current) {
