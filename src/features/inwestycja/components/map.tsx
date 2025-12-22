@@ -113,12 +113,13 @@ export default function Map({
     [daneDzialki],
   );
 
-  //Whenever we find an address by address search, the map moves to its coordinates
+  //Whenever we find an address by address search, the map moves to its coordinates and fetches the działka at that location
   useEffect(
     function () {
       if (daneAdresu) {
         setPosition([daneAdresu.lat, daneAdresu.lng]);
         setZoomLevel(PLOT_FOUND_ZOOM);
+        handleMapClick(daneAdresu.lat, daneAdresu.lng);
       }
     },
     [daneAdresu],
