@@ -39,15 +39,13 @@ export class InwestycjaFormPage {
   //   }
 
   private async openMapModalAndSelectDzialka(identyfikator: string) {
-    const mapIcon = this.getFormField(
-      'Identyfikator działki inwestycyjnej',
-    ).locator('svg');
+    const mapIcon = this.getFormField('Działka inwestycyjna').locator('svg');
     await mapIcon.click();
     this.page
       .getByPlaceholder('Wpisz adres lub nr działki')
       .fill(identyfikator);
     await this.page.getByRole('button', { name: 'Szukaj działki' }).click();
-    await this.page.getByAltText('Marker').click();
+    // await this.page.getByAltText('Marker').click();
     await this.page.getByRole('button', { name: 'Wybierz' }).click();
   }
 

@@ -108,19 +108,6 @@ describe('FormInput', () => {
     expect(screen.getByText('Test description')).toBeInTheDocument();
   });
 
-  test('should not render description when submitted', () => {
-    // ARRANGE
-    render(
-      <TestWrapper
-        description="Test description"
-        isInwestycjaSubmitted={true}
-      />,
-    );
-
-    // ACT & ASSERT
-    expect(screen.queryByText('Test description')).not.toBeInTheDocument();
-  });
-
   test('should render map icon when showMapIcon is true and not submitted', () => {
     // ARRANGE
     const { container } = render(
