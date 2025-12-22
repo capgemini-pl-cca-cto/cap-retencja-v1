@@ -173,7 +173,7 @@ describe('generate-PDF-report service', () => {
         expect.any(Number),
       );
       expect(mockText).toHaveBeenCalledWith(
-        '100',
+        '100.00',
         expect.any(Number),
         expect.any(Number),
       );
@@ -183,7 +183,7 @@ describe('generate-PDF-report service', () => {
         expect.any(Number),
       );
       expect(mockText).toHaveBeenCalledWith(
-        '150',
+        '150.00',
         expect.any(Number),
         expect.any(Number),
       );
@@ -337,7 +337,7 @@ describe('generate-PDF-report service', () => {
         expect.any(Number),
       );
       expect(mockText).toHaveBeenCalledWith(
-        '1500.5',
+        '1500.50',
         expect.any(Number),
         expect.any(Number),
       );
