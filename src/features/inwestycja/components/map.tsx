@@ -122,6 +122,7 @@ export default function Map({
         handleMapClick(daneAdresu.lat, daneAdresu.lng);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [daneAdresu],
   );
 
