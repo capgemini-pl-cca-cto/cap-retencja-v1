@@ -20,6 +20,7 @@ interface FormInputProps {
   description?: string;
   showMapIcon?: boolean;
   setIdentyfikatorFromMap?: (value: string) => void;
+  watchedIdentyfikator?: string | undefined;
 }
 
 export default function FormInput({
@@ -30,6 +31,7 @@ export default function FormInput({
   description,
   showMapIcon,
   setIdentyfikatorFromMap,
+  watchedIdentyfikator,
 }: FormInputProps) {
   const [isMapOpen, setIsMapOpen] = useState(false);
 
@@ -72,6 +74,7 @@ export default function FormInput({
                   >
                     <MapModal
                       setIdentyfikatorFromMap={setIdentyfikatorFromMap!}
+                      watchedIdentyfikator={watchedIdentyfikator}
                     />
                   </DialogContent>
                 </Dialog>

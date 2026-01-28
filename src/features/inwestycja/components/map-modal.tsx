@@ -2,17 +2,22 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { DialogClose } from '@/components/ui/dialog';
 import type { DzialkaModel } from '@/types/inwestycja-model';
 import { XIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { AddressSearchResult } from '../types/addressTypes';
+import { fetchDzialkaData } from '../services/dzialka-parser';
 import LocationInput from './location-input';
 import Map from './map';
 import './map-override.css';
 
 interface MapModalProps {
   setIdentyfikatorFromMap: (value: string) => void;
+  watchedIdentyfikator: string | undefined;
 }
 
-export default function MapModal({ setIdentyfikatorFromMap }: MapModalProps) {
+export default function MapModal({
+  setIdentyfikatorFromMap,
+  watchedIdentyfikator,
+}: MapModalProps) {
   const [daneDzialki, setDaneDzialki] = useState<DzialkaModel | undefined>(
     undefined,
   );
@@ -20,6 +25,19 @@ export default function MapModal({ setIdentyfikatorFromMap }: MapModalProps) {
     null,
   );
   const [error, setError] = useState<string | null>(null);
+
+  // Load previously selected dzialka when modal opens
+  useEffect(() => {
+    if (watchedIdentyfikator && watchedIdentyfikator.trim() !== '') {
+      fetchDzialkaData(watchedIdentyfikator)
+        .then((data) => {
+          setDaneDzialki(data);
+        })
+        .catch(() => {
+          setDaneDzialki(undefined);
+        });
+    }
+  }, []);
 
   //when the entered address is found by the API, clear daneDzialki and set the state
   function handleAddressFound(result: AddressSearchResult) {

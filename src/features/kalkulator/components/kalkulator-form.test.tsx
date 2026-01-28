@@ -164,6 +164,8 @@ describe('KalkulatorForm', () => {
     expect(czymsaTitles.length).toBeGreaterThan(0);
     expect(screen.getByText(/powierzchni uszczelnionych/)).toBeInTheDocument();
     expect(screen.getByText(/powierzchnie przepuszczalne/)).toBeInTheDocument();
-    expect(screen.getByText(/tereny inne/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/pozostałe pow. biologicznie czynne/),
+    ).toBeInTheDocument();
   });
 });

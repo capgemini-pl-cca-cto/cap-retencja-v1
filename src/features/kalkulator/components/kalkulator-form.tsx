@@ -163,27 +163,25 @@ export default function KalkulatorForm({
             <KalkulatorInput
               control={form.control}
               name="powTerenyInne"
-              label="P5. Powierzchnia terenów innych, w tym zieleni nieurządzonej [m2]"
+              label="Pozostałe powierzchnie biologicznie czynne [m²]"
               hasGlobalError={!!globalError}
               isKalkulatorSubmitted={isKalkulatorSubmitted}
             />
             <div className="max-sm:text-sm">
               <FormCollapsible
                 title="Czym są "
-                titleBold="tereny inne"
-                titleBoldHiddenOnSmall=", w tym zieleń nieurządzona"
+                titleBold="pozostałe powierzchnie biologicznie czynne"
+                titleBoldOnSmall="pozostałe pow. biologicznie czynne"
               >
                 <p>
-                  Powierzchnie terenów innych, w tym zieleni nieurządzonej, są
-                  to pozostałe tereny tzw. dziewicze, niezabudowane i
-                  nieurządzone, posiadające naturalne zagłębienia terenu,
-                  nieregularny kształt. Tereny te są zazwyczaj porośnięte
-                  zielenią (dzikie drzewa, krzewy i trawy). Takie tereny
-                  posiadają często tzw. neutralność hydrologiczną, czyli woda
-                  opadowa i roztopowa, która spadnie na taki teren, jest na nim
-                  w 100% zagospodarowana: wykorzystana przez roślinność,
-                  wyparowuje do atmosfery oraz przenika w głąb profilu glebowego
-                  zasilając wody przypowierzchniowe i gruntowe.
+                  Pozostałe powierzchnie biologicznie czynne, są to inne tereny
+                  zieleni urządzonej i nieurządzonej porośnięte roślinnością
+                  (np. drzewa, krzewy, trawy). Takie tereny posiadają często
+                  tzw. neutralność hydrologiczną, czyli woda opadowa i
+                  roztopowa, która spadnie na taki teren, jest na nim w 100%
+                  zagospodarowana: wykorzystana przez roślinność, wyparowuje do
+                  atmosfery oraz przenika w głąb profilu glebowego zasilając
+                  wody przypowierzchniowe i gruntowe.
                 </p>
               </FormCollapsible>
             </div>

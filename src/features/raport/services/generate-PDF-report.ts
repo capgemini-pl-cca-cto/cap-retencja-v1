@@ -284,5 +284,5 @@ export default async function generatePDFReport({
   );
 
   // SAVE PDF
-  pdf.save('raport-bilansu.pdf');
+  pdf.save(`${identyfikatorInwestycji}.pdf`);
 }
