@@ -105,7 +105,7 @@ describe('generate-PDF-report service', () => {
         expect.any(Number),
         expect.any(Number),
       );
-      expect(mockSave).toHaveBeenCalledWith('raport-bilansu.pdf');
+      expect(mockSave).toHaveBeenCalledWith('30.0001.AR_1.19/1.pdf');
     });
 
     test('should display investment details correctly', async () => {

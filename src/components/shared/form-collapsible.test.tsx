@@ -10,7 +10,7 @@ describe('FormCollapsible', () => {
       <FormCollapsible
         title="What is "
         titleBold="bold text"
-        titleBoldHiddenOnSmall=" extra text"
+        titleBoldOnSmall=" extra text"
       >
         <div>Content</div>
       </FormCollapsible>,
@@ -18,26 +18,22 @@ describe('FormCollapsible', () => {
 
     // ACT
     const svg = container.querySelector('svg');
-    const span = container.querySelector('.max-sm\\:hidden');
+    const strong = container.querySelector('.font-medium');
 
     // ASSERT
     expect(screen.getByText(/What is/)).toBeInTheDocument();
     expect(screen.getByText('bold text')).toBeInTheDocument();
     expect(screen.getByText(/\?$/)).toBeInTheDocument();
     expect(svg).toBeInTheDocument();
-    expect(span).toBeInTheDocument();
-    expect(span?.textContent).toBe(' extra text');
+    expect(strong).toBeInTheDocument();
+    expect(strong?.textContent).toBe(' extra text');
   });
 
   test('should toggle content visibility on trigger click', async () => {
     // ARRANGE
     const user = userEvent.setup();
     const { container } = render(
-      <FormCollapsible
-        title="Title "
-        titleBold="bold"
-        titleBoldHiddenOnSmall=""
-      >
+      <FormCollapsible title="Title " titleBold="bold" titleBoldOnSmall="">
         <div>Collapsible content</div>
       </FormCollapsible>,
     );

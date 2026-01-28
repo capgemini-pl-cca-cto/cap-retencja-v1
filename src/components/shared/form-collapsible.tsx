@@ -9,14 +9,14 @@ import type { ReactNode } from 'react';
 interface FormCollapsibleProps {
   title: string;
   titleBold: string;
-  titleBoldHiddenOnSmall?: string;
+  titleBoldOnSmall?: string;
   children: ReactNode;
 }
 
 export default function FormCollapsible({
   title,
   titleBold,
-  titleBoldHiddenOnSmall,
+  titleBoldOnSmall,
   children,
 }: FormCollapsibleProps) {
   return (
@@ -25,12 +25,18 @@ export default function FormCollapsible({
         <ChevronRight className="transition-transform group-data-[state=open]:rotate-90" />
         <span className="whitespace-nowrap">
           {title}
-          <strong className="font-medium">
-            {titleBold}
-            {titleBoldHiddenOnSmall && (
-              <span className="max-sm:hidden">{titleBoldHiddenOnSmall}</span>
-            )}
-          </strong>
+          {titleBoldOnSmall ? (
+            <>
+              <strong className="font-medium inline sm:hidden">
+                {titleBoldOnSmall}
+              </strong>
+              <strong className="font-medium hidden sm:inline">
+                {titleBold}
+              </strong>
+            </>
+          ) : (
+            <strong className="font-medium">{titleBold}</strong>
+          )}
           ?
         </span>
       </CollapsibleTrigger>

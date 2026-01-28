@@ -73,6 +73,7 @@ export function InwestycjaForm({
 
   const watchedTypZabudowy = form.watch('typZabudowy');
   const watchedIsPodlaczony = form.watch('isPodlaczony');
+  const watchedIdentyfikator = form.watch('identyfikatorInwestycji');
 
   async function onSubmit(data: InwestycjaModel) {
     setIsLoading(true);
@@ -115,6 +116,7 @@ export function InwestycjaForm({
               isInwestycjaSubmitted={isInwestycjaSubmitted}
               showMapIcon={true}
               setIdentyfikatorFromMap={setIdentyfikatorFromMap}
+              watchedIdentyfikator={watchedIdentyfikator}
             />
             <FormCollapsible
               title="Co składa się na "
