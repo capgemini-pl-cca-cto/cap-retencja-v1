@@ -163,7 +163,7 @@ export default function KalkulatorForm({
             <KalkulatorInput
               control={form.control}
               name="powTerenyInne"
-              label="Pozostałe powierzchnie biologicznie czynne [m²]"
+              label="P5. Pozostałe powierzchnie biologicznie czynne [m²]"
               hasGlobalError={!!globalError}
               isKalkulatorSubmitted={isKalkulatorSubmitted}
             />

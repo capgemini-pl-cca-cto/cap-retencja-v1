@@ -151,7 +151,10 @@ describe('MapModal component', () => {
     return render(
       <Dialog open={true}>
         <DialogContent className="max-w-none w-screen h-screen p-0">
-          <MapModal setIdentyfikatorFromMap={mockSetIdentyfikatorFromMap} />
+          <MapModal
+            watchedIdentyfikator={undefined}
+            setIdentyfikatorFromMap={mockSetIdentyfikatorFromMap}
+          />
         </DialogContent>
       </Dialog>,
     );
