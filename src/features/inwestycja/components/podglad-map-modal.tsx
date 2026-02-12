@@ -17,13 +17,11 @@ export default function PodgladMapModal({ daneDzialki }: PodgladMapModalProps) {
 
   async function captureMapScreenshot() {
     try {
-      // Double check the ref is still available and has dimensions
       if (
         !mapRef.current ||
         mapRef.current.offsetWidth === 0 ||
         mapRef.current.offsetHeight === 0
       ) {
-        console.warn('Map container is not properly rendered yet');
         return;
       }
 
@@ -31,9 +29,16 @@ export default function PodgladMapModal({ daneDzialki }: PodgladMapModalProps) {
         useCORS: true,
         allowTaint: true,
         scale: 1,
+        backgroundColor: '#ffffff',
         width: mapRef.current.offsetWidth,
         height: mapRef.current.offsetHeight,
-        logging: false, // Disable html2canvas logging
+        logging: false,
+        onclone: (clonedDoc) => {
+          // Strip box-shadows only in the cloned DOM - real page stays untouched
+          const style = clonedDoc.createElement('style');
+          style.textContent = `* { box-shadow: none !important; }`;
+          clonedDoc.head.appendChild(style);
+        },
       });
 
       const dataUrl = canvas.toDataURL('image/png');
@@ -45,8 +50,8 @@ export default function PodgladMapModal({ daneDzialki }: PodgladMapModalProps) {
 
   useEffect(() => {
     // Capture screenshot after component mounts and map is rendered
-    // Use 2s delay to ensure the map is fully loaded
-    const timer = setTimeout(captureMapScreenshot, 2000);
+    // Use 1s delay to ensure the map is fully loaded
+    const timer = setTimeout(captureMapScreenshot, 1000);
 
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
