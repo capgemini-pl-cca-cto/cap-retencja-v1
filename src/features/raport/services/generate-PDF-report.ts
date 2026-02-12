@@ -103,8 +103,8 @@ export default async function generatePDFReport({
 
   pdf.setFontSize(10);
   pdf.text(`Nazwa inwestycji: ${nazwaInwestycji}`, 15, 67);
-  pdf.text(`Identyfikator działki: ${identyfikatorInwestycji}`, 120, 67);
-  pdf.text(`Zlewnia: ${nazwaZlewni}`, 120, 77);
+  pdf.text(`Identyfikator działki: ${identyfikatorInwestycji}`, 110, 67);
+  pdf.text(`Zlewnia: ${nazwaZlewni}`, 110, 77);
 
   // Get actual image dimensions to determine device type and aspect ratio
   let isMobile = false;
@@ -123,32 +123,23 @@ export default async function generatePDFReport({
     const actualAspectRatio = width / height;
 
     // Set maximum dimensions and maintain actual aspect ratio
-    const maxWidth = 140;
-    const maxHeight = 100;
+    const maxWidth = 180;
+    const maxHeight = 120;
+
+    if (actualAspectRatio > maxWidth / maxHeight) {
+      // Width is the limiting factor
+      mapImageWidth = maxWidth;
+      mapImageHeight = maxWidth / actualAspectRatio;
+    } else {
+      // Height is the limiting factor
+      mapImageHeight = maxHeight;
+      mapImageWidth = maxHeight * actualAspectRatio;
+    }
 
     if (!isMobile) {
-      const targetAspectRatio = 16 / 9;
-
-      mapImageWidth = maxWidth;
-      mapImageHeight = maxWidth / targetAspectRatio;
-
-      // If calculated height exceeds max, scale down based on height
-      if (mapImageHeight > maxHeight) {
-        mapImageHeight = maxHeight;
-        mapImageWidth = maxHeight * targetAspectRatio;
-      }
-
       mapImageX = (pageWidth - mapImageWidth) / 2; // Center the image
       mapImageY = 80;
     } else {
-      if (actualAspectRatio > maxWidth / maxHeight) {
-        mapImageWidth = maxWidth;
-        mapImageHeight = maxWidth / actualAspectRatio;
-      } else {
-        mapImageHeight = maxHeight;
-        mapImageWidth = maxHeight * actualAspectRatio;
-      }
-
       mapImageX = pageWidth - mapImageWidth - 15; // Position on the right side
       mapImageY = 100;
     }

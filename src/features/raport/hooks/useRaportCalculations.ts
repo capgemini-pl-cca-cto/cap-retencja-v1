@@ -12,7 +12,9 @@ export function useRaportCalculations(
   daneRaport: RaportModel,
 ): RaportCalculations {
   const [isPrzeciazona, setIsPrzeciazona] = useState(false);
-  const [nazwaZlewni, setNazwaZlewni] = useState('-');
+  const [nazwaZlewni, setNazwaZlewni] = useState(
+    'Nie wybrano podłączenia do kanalizacji deszczowej',
+  );
 
   const sumaPowierzchni =
     daneRaport.daneKalkulator.powDachow +
@@ -54,7 +56,7 @@ export function useRaportCalculations(
         daneRaport.inwestycja.isPodlaczony === 'nie'
       ) {
         setIsPrzeciazona(false);
-        setNazwaZlewni('-');
+        setNazwaZlewni('Nie wybrano podłączenia do kanalizacji deszczowej');
         return;
       }
       // Only call API if typZabudowy !== 'jednorodzinna' and isPodlaczony === 'tak'

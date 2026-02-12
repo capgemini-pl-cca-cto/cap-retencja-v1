@@ -60,12 +60,14 @@ describe('useRaportCalculations', () => {
       expect(result.current.objDetencyjnych).toBe(96); // 48 * 2
     });
 
-    test('sets nazwaZlewni to "-" for jednorodzinna', async () => {
+    test('sets nazwaZlewni to "Nie wybrano podłączenia do kanalizacji deszczowej" for jednorodzinna', async () => {
       const mockData = { ...baseMockData };
       const { result } = renderHook(() => useRaportCalculations(mockData));
 
       await waitFor(() => {
-        expect(result.current.nazwaZlewni).toBe('-');
+        expect(result.current.nazwaZlewni).toBe(
+          'Nie wybrano podłączenia do kanalizacji deszczowej',
+        );
       });
     });
 
