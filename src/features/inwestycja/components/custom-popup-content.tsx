@@ -1,11 +1,16 @@
 import type { DzialkaModel } from '@/types/inwestycja-model';
+import { Button } from '@/components/ui/button';
 
 interface CustomPopupContentProps {
   daneDzialki: DzialkaModel;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
 export default function CustomPopupContent({
   daneDzialki,
+  onConfirm,
+  onCancel,
 }: CustomPopupContentProps) {
   return (
     <div className="flex flex-col gap-2 text-base max-sm:text-xs">
@@ -29,6 +34,16 @@ export default function CustomPopupContent({
         <p className="font-light w-[170px]">Numer działki</p>
         <p className="font-medium">{daneDzialki.parcel}</p>
       </div>
+      {onConfirm && onCancel && (
+        <div className="flex gap-2 justify-end mt-2">
+          <Button type="button" variant="secondary" onClick={onCancel}>
+            Anuluj
+          </Button>
+          <Button type="button" onClick={onConfirm}>
+            Zatwierdź
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

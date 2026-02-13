@@ -1,6 +1,6 @@
 import { DialogClose } from '@/components/ui/dialog';
 import { XIcon } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useRef, useState } from 'react';
 import html2canvas from 'html2canvas-pro';
 import './map-override.css';
 import PodgladMap from './podglad-map';
@@ -9,11 +9,18 @@ import type { DzialkaModel } from '@/types/inwestycja-model';
 
 interface PodgladMapModalProps {
   daneDzialki: DzialkaModel;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
-export default function PodgladMapModal({ daneDzialki }: PodgladMapModalProps) {
+export default function PodgladMapModal({
+  daneDzialki,
+  onConfirm,
+  onCancel,
+}: PodgladMapModalProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const { setMapScreenshot } = useInwestycjaStore();
+  const [closePopupTrigger, setClosePopupTrigger] = useState(0);
 
   async function captureMapScreenshot() {
     try {
@@ -48,14 +55,16 @@ export default function PodgladMapModal({ daneDzialki }: PodgladMapModalProps) {
     }
   }
 
-  useEffect(() => {
-    // Capture screenshot after component mounts and map is rendered
-    // Use 1s delay to ensure the map is fully loaded
-    const timer = setTimeout(captureMapScreenshot, 1000);
-
-    return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  async function handleConfirmWithScreenshot() {
+    // Close the popup first
+    setClosePopupTrigger((prev) => prev + 1);
+    //wait 0,5s
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    await captureMapScreenshot();
+    if (onConfirm) {
+      onConfirm();
+    }
+  }
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-start pt-8">
@@ -77,7 +86,12 @@ export default function PodgladMapModal({ daneDzialki }: PodgladMapModalProps) {
         ref={mapRef}
         className="w-[95vw] h-[86vh] relative flex justify-center items-center"
       >
-        <PodgladMap daneDzialki={daneDzialki} />
+        <PodgladMap
+          daneDzialki={daneDzialki}
+          onConfirm={handleConfirmWithScreenshot}
+          onCancel={onCancel && onCancel}
+          closePopupTrigger={closePopupTrigger}
+        />
       </div>
     </div>
   );

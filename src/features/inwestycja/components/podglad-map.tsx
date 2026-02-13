@@ -14,9 +14,17 @@ import { Marker as LeafletMarker } from 'leaflet';
 
 interface PodgladMapProps {
   daneDzialki: DzialkaModel;
+  onConfirm: () => void;
+  onCancel?: () => void;
+  closePopupTrigger?: number;
 }
 
-export default function PodgladMap({ daneDzialki }: PodgladMapProps) {
+export default function PodgladMap({
+  daneDzialki,
+  onConfirm,
+  onCancel,
+  closePopupTrigger = 0,
+}: PodgladMapProps) {
   const markerRef = useRef<LeafletMarker>(null);
 
   //opens the popup automatically as soon as the marker is available (the refs are attached)
@@ -28,6 +36,13 @@ export default function PodgladMap({ daneDzialki }: PodgladMapProps) {
     }, 0);
     return () => clearTimeout(timeout);
   }, []);
+
+  // Close popup when triggered
+  useEffect(() => {
+    if (closePopupTrigger > 0 && markerRef.current) {
+      markerRef.current.closePopup();
+    }
+  }, [closePopupTrigger]);
 
   return (
     <MapContainer
@@ -64,8 +79,12 @@ export default function PodgladMap({ daneDzialki }: PodgladMapProps) {
         ref={markerRef}
       >
         <Popup closeButton={false} className="custom-popup">
-          <div className="bg-white w-[417px] max-sm:w-[300px] p-4 shadow-[0px_0px_8px_0px_#0c4f7bcc] flex flex-col gap-4 text-primary-blue">
-            <CustomPopupContent daneDzialki={daneDzialki} />
+          <div className="bg-white w-[417px] max-sm:w-[300px] p-4 max-sm:py-2 shadow-[0px_0px_8px_0px_#0c4f7bcc] flex flex-col gap-4 text-primary-blue">
+            <CustomPopupContent
+              daneDzialki={daneDzialki}
+              onConfirm={onConfirm}
+              onCancel={onCancel}
+            />
           </div>
         </Popup>
       </Marker>

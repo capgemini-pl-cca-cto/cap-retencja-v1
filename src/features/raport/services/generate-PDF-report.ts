@@ -140,7 +140,7 @@ export default async function generatePDFReport({
       mapImageX = (pageWidth - mapImageWidth) / 2; // Center the image
       mapImageY = 80;
     } else {
-      mapImageX = pageWidth - mapImageWidth - 15; // Position on the right side
+      mapImageX = pageWidth - mapImageWidth - 10; // Position on the right side
       mapImageY = 100;
     }
 

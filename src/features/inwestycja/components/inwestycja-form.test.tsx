@@ -17,7 +17,9 @@ vi.mock('react-leaflet', () => ({
   ),
   TileLayer: () => <div data-testid="mock-tile-layer" />,
   Polygon: () => <div data-testid="mock-polygon" />,
-  Marker: () => <div data-testid="mock-marker" />,
+  Marker: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="mock-marker">{children}</div>
+  ),
   Popup: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="mock-popup">{children}</div>
   ),
@@ -205,6 +207,20 @@ describe('InwestycjaForm component', () => {
       expect(mockFetchDzialkaData).toHaveBeenCalledWith(
         '123456_1.0001.1_1.0001',
       );
+    });
+
+    // Wait for modal to open and click confirm button in popup
+    await waitFor(() => {
+      expect(screen.getByText(/podgląd działki/i)).toBeInTheDocument();
+    });
+
+    const confirmButton = screen.getAllByRole('button', {
+      name: /zatwierdź/i,
+    })[0];
+    await user.click(confirmButton);
+
+    // Verify form was submitted
+    await waitFor(() => {
       expect(mockOnFormSubmit).toHaveBeenCalled();
     });
   });
@@ -244,6 +260,17 @@ describe('InwestycjaForm component', () => {
       screen.getByRole('button', { name: /wyszukiwanie działki/i }),
     ).toBeInTheDocument();
 
+    // Wait for modal to open and click confirm button
+    await waitFor(() => {
+      expect(screen.getByText(/podgląd działki/i)).toBeInTheDocument();
+    });
+
+    const confirmButton = screen.getAllByRole('button', {
+      name: /zatwierdź/i,
+    })[0];
+    await user.click(confirmButton);
+
+    // Verify form was submitted
     await waitFor(() => {
       expect(mockOnFormSubmit).toHaveBeenCalled();
     });
