@@ -77,8 +77,8 @@ export class InwestycjaFormPage {
   }
 
   private async closeMapModal() {
-    await this.page.getByAltText('Marker').click();
-    await this.page.getByRole('button', { name: 'Zamknij mapę' }).click();
+    // await this.page.getByAltText('Marker').click();
+    await this.page.getByRole('button', { name: 'Zatwierdź' }).click();
   }
 
   async fillCompleteForm(data: {

@@ -64,7 +64,7 @@ describe('PodgladMap component', () => {
 
   test('should render map container with basic elements', () => {
     // ARRANGE & ACT
-    render(<PodgladMap daneDzialki={mockDzialka} />);
+    render(<PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT
     expect(screen.getByTestId('mock-map-container')).toBeInTheDocument();
@@ -74,7 +74,7 @@ describe('PodgladMap component', () => {
 
   test('should render polygon with dzialka coordinates', () => {
     // ARRANGE & ACT
-    render(<PodgladMap daneDzialki={mockDzialka} />);
+    render(<PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT
     const polygon = screen.getByTestId('mock-polygon');
@@ -88,7 +88,7 @@ describe('PodgladMap component', () => {
 
   test('should render marker at dzialka center coordinates', () => {
     // ARRANGE & ACT
-    render(<PodgladMap daneDzialki={mockDzialka} />);
+    render(<PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT
     const marker = screen.getByTestId('mock-marker');
@@ -105,7 +105,7 @@ describe('PodgladMap component', () => {
 
   test('should display dzialka information in popup', () => {
     // ARRANGE & ACT
-    render(<PodgladMap daneDzialki={mockDzialka} />);
+    render(<PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT
     expect(screen.getByText('30.0001.AR_1.19/1')).toBeInTheDocument();
@@ -117,7 +117,7 @@ describe('PodgladMap component', () => {
 
   test('should center map on dzialka coordinates', () => {
     // ARRANGE & ACT
-    render(<PodgladMap daneDzialki={mockDzialka} />);
+    render(<PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT
     const mapContainer = screen.getByTestId('mock-map-container');
@@ -131,7 +131,7 @@ describe('PodgladMap component', () => {
 
   test('should use correct zoom level', () => {
     // ARRANGE & ACT
-    render(<PodgladMap daneDzialki={mockDzialka} />);
+    render(<PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT
     const mapContainer = screen.getByTestId('mock-map-container');
@@ -143,7 +143,7 @@ describe('PodgladMap component', () => {
 
   test('should render popup without close button', () => {
     // ARRANGE & ACT
-    render(<PodgladMap daneDzialki={mockDzialka} />);
+    render(<PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT
     const popup = screen.getByTestId('mock-popup');
@@ -160,7 +160,7 @@ describe('PodgladMap component', () => {
 
   test('should display all required dzialka fields', () => {
     // ARRANGE & ACT
-    render(<PodgladMap daneDzialki={mockDzialka} />);
+    render(<PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT - Check all labels are present
     expect(screen.getByText('Identyfikator działki')).toBeInTheDocument();
@@ -187,7 +187,7 @@ describe('PodgladMap component', () => {
     };
 
     // ACT
-    render(<PodgladMap daneDzialki={differentDzialka} />);
+    render(<PodgladMap daneDzialki={differentDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT
     expect(screen.getByText('14.0003.MZ_2.50/2')).toBeInTheDocument();
@@ -208,7 +208,7 @@ describe('PodgladMap component', () => {
 
   test('should render region in uppercase', () => {
     // ARRANGE & ACT
-    render(<PodgladMap daneDzialki={mockDzialka} />);
+    render(<PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT
     const regionElement = screen.getByText('Jeżyce');
@@ -217,7 +217,9 @@ describe('PodgladMap component', () => {
 
   test('should have proper styling classes on popup container', () => {
     // ARRANGE & ACT
-    const { container } = render(<PodgladMap daneDzialki={mockDzialka} />);
+    const { container } = render(
+      <PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />,
+    );
 
     // ASSERT
     const popupContent = container.querySelector('.bg-white');
@@ -232,7 +234,9 @@ describe('PodgladMap component', () => {
 
   test('should update when dzialka data changes', () => {
     // ARRANGE
-    const { rerender } = render(<PodgladMap daneDzialki={mockDzialka} />);
+    const { rerender } = render(
+      <PodgladMap daneDzialki={mockDzialka} onConfirm={vi.fn()} />,
+    );
 
     expect(screen.getByText('19/1')).toBeInTheDocument();
 
@@ -244,7 +248,7 @@ describe('PodgladMap component', () => {
     };
 
     // ACT
-    rerender(<PodgladMap daneDzialki={updatedDzialka} />);
+    rerender(<PodgladMap daneDzialki={updatedDzialka} onConfirm={vi.fn()} />);
 
     // ASSERT
     expect(screen.getByText('20/1')).toBeInTheDocument();

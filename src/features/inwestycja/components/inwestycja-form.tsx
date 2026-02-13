@@ -81,7 +81,6 @@ export function InwestycjaForm({
       const fetchedData = await fetchDzialkaData(data.identyfikatorInwestycji);
       setDaneDzialki(fetchedData);
       setForm(data);
-      onFormSubmit();
       setIsLoading(false);
       setIsPodgladMapOpen(true);
     } catch (error) {
@@ -91,6 +90,15 @@ export function InwestycjaForm({
       });
       setIsLoading(false);
     }
+  }
+
+  function handleFormConfirm() {
+    onFormSubmit();
+    setIsPodgladMapOpen(false);
+  }
+
+  function handleFormCancel() {
+    setIsPodgladMapOpen(false);
   }
 
   return (
@@ -201,7 +209,11 @@ export function InwestycjaForm({
           showCloseButton={false}
           className="!fixed !inset-0 !w-screen !h-screen !max-w-none !max-h-none !p-0 !m-0 !border-0 !rounded-none !top-0 !left-0 !translate-x-0 !translate-y-0 !grid-cols-1"
         >
-          <PodgladMapModal daneDzialki={daneDzialki!} />
+          <PodgladMapModal
+            daneDzialki={daneDzialki!}
+            onConfirm={handleFormConfirm}
+            onCancel={handleFormCancel}
+          />
         </DialogContent>
       </Dialog>
     </>
