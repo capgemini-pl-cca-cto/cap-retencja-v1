@@ -83,7 +83,7 @@ export default async function generatePDFReport({
 
   // DATA
   pdf.setFontSize(10);
-  pdf.text(`Data: ${currentDate}`, 165, 30);
+  pdf.text(`Data: ${currentDate}`, 167, 30);
 
   // TYTUŁ
   pdf.setFontSize(16);
@@ -103,8 +103,12 @@ export default async function generatePDFReport({
 
   pdf.setFontSize(10);
   pdf.text(`Nazwa inwestycji: ${nazwaInwestycji}`, 15, 67);
-  pdf.text(`Identyfikator działki: ${identyfikatorInwestycji}`, 110, 67);
-  pdf.text(`Zlewnia: ${nazwaZlewni}`, 110, 77);
+  const identyfikatorText = `Identyfikator działki: ${identyfikatorInwestycji}`;
+  const identyfikatorWidth = pdf.getTextWidth(identyfikatorText);
+  pdf.text(identyfikatorText, 194 - identyfikatorWidth, 67);
+  const zlewniaText = `Zlewnia: ${nazwaZlewni}`;
+  const zlewniaWidth = pdf.getTextWidth(zlewniaText);
+  pdf.text(zlewniaText, 194 - zlewniaWidth, 77);
 
   // Get actual image dimensions to determine device type and aspect ratio
   let isMobile = false;

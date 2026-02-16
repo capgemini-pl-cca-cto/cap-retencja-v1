@@ -198,7 +198,7 @@ export function InwestycjaForm({
                 Wyczyść dane
               </Button>
               <Button type="submit">
-                {isLoading ? 'Wyszukiwanie działki...' : 'Zatwierdź'}
+                {isLoading ? 'Wyszukiwanie działki...' : 'Kontynuuj'}
               </Button>
             </div>
           )}

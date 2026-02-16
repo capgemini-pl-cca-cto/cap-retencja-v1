@@ -100,7 +100,7 @@ describe('InwestycjaForm component', () => {
       screen.getByRole('button', { name: /wyczyść dane/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: /zatwierdź/i }),
+      screen.getByRole('button', { name: /kontynuuj/i }),
     ).toBeInTheDocument();
   });
 
@@ -118,7 +118,7 @@ describe('InwestycjaForm component', () => {
       screen.queryByRole('button', { name: /wyczyść dane/i }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole('button', { name: /zatwierdź/i }),
+      screen.queryByRole('button', { name: /kontynuuj/i }),
     ).not.toBeInTheDocument();
   });
 
@@ -134,7 +134,7 @@ describe('InwestycjaForm component', () => {
       />,
     );
 
-    const submitButton = screen.getByRole('button', { name: /zatwierdź/i });
+    const submitButton = screen.getByRole('button', { name: /kontynuuj/i });
     await user.click(submitButton);
 
     // ASSERT
@@ -161,7 +161,7 @@ describe('InwestycjaForm component', () => {
     const identyfikatorInput = container.querySelector(
       'input[name="identyfikatorInwestycji"]',
     )!;
-    const submitButton = screen.getByRole('button', { name: /zatwierdź/i });
+    const submitButton = screen.getByRole('button', { name: /kontynuuj/i });
 
     await user.type(nazwaInput, 'Test Investment');
     await user.type(identyfikatorInput, 'short');
@@ -196,7 +196,7 @@ describe('InwestycjaForm component', () => {
     const identyfikatorInput = container.querySelector(
       'input[name="identyfikatorInwestycji"]',
     )!;
-    const submitButton = screen.getByRole('button', { name: /zatwierdź/i });
+    const submitButton = screen.getByRole('button', { name: /Kontynuuj/i });
 
     await user.type(nazwaInput, 'Test Investment');
     await user.type(identyfikatorInput, '123456_1.0001.1_1.0001');
@@ -215,7 +215,7 @@ describe('InwestycjaForm component', () => {
     });
 
     const confirmButton = screen.getAllByRole('button', {
-      name: /zatwierdź/i,
+      name: /Zatwierdź/i,
     })[0];
     await user.click(confirmButton);
 
@@ -249,7 +249,7 @@ describe('InwestycjaForm component', () => {
     const identyfikatorInput = container.querySelector(
       'input[name="identyfikatorInwestycji"]',
     ) as HTMLInputElement;
-    const submitButton = screen.getByRole('button', { name: /zatwierdź/i });
+    const submitButton = screen.getByRole('button', { name: /Kontynuuj/i });
 
     await user.type(nazwaInput, 'Test Investment');
     await user.type(identyfikatorInput, '123456_1.0001.1_1.0001');
@@ -266,7 +266,7 @@ describe('InwestycjaForm component', () => {
     });
 
     const confirmButton = screen.getAllByRole('button', {
-      name: /zatwierdź/i,
+      name: /Zatwierdź/i,
     })[0];
     await user.click(confirmButton);
 
@@ -296,7 +296,7 @@ describe('InwestycjaForm component', () => {
     const identyfikatorInput = container.querySelector(
       'input[name="identyfikatorInwestycji"]',
     ) as HTMLInputElement;
-    const submitButton = screen.getByRole('button', { name: /zatwierdź/i });
+    const submitButton = screen.getByRole('button', { name: /kontynuuj/i });
 
     await user.type(nazwaInput, 'Test Investment');
     await user.type(identyfikatorInput, '123456_1.0001.1_1.0001');
@@ -365,7 +365,7 @@ describe('InwestycjaForm component', () => {
     const identyfikatorInput = container.querySelector(
       'input[name="identyfikatorInwestycji"]',
     ) as HTMLInputElement;
-    const submitButton = screen.getByRole('button', { name: /zatwierdź/i });
+    const submitButton = screen.getByRole('button', { name: /kontynuuj/i });
 
     await user.type(nazwaInput, 'Test Investment');
     await user.type(identyfikatorInput, '123456_1.0001.1_1.0001');

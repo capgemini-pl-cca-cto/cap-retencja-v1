@@ -19,7 +19,7 @@ export class InwestycjaFormPage {
     this.zatwierdzButton = page
       .locator('[data-slot="accordion"]')
       .filter({ hasText: 'Szczegóły inwestycji' })
-      .getByRole('button', { name: 'Zatwierdź' });
+      .getByRole('button', { name: 'Kontynuuj' });
   }
 
   private getFormField(label: string): Locator {
