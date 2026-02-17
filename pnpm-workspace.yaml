@@ -3,3 +3,5 @@ onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - core-js
   - esbuild
+  - msw
+  - unrs-resolver
